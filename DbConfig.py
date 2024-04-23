@@ -57,6 +57,7 @@ command = ('''CREATE TABLE IF NOT EXISTS AnimalsLoc (
             CityID INTEGER,
             xPos FLOAT(3, 7),
             yPos FLOAT(3, 7),
+            Disabled TINYINT(1),
             FOREIGN KEY(AnimalID) REFERENCES Animal(AnimalID),
             FOREIGN KEY(CityID) REFERENCES City(CityID)
             )''')
@@ -69,6 +70,7 @@ command = ('''CREATE TABLE IF NOT EXISTS PlantsLoc (
             CityID INTEGER,
             xPos FLOAT(3, 7),
             yPos FLOAT(3, 7),
+            Disabled TINYINT(1),
             FOREIGN KEY(PlantsID) REFERENCES Plant(ID),
             FOREIGN KEY(CityID) REFERENCES City(ID)
             )''')
@@ -81,6 +83,7 @@ command = ('''CREATE TABLE IF NOT EXISTS BiomeLoc (
             CityID INTEGER,
             xPos FLOAT(3, 7),
             yPos FLOAT(3, 7),
+            Disabled TINYINT(1),
             FOREIGN KEY(BiomeID) REFERENCES Biome(ID),
             FOREIGN KEY(CityID) REFERENCES City(ID)
             )''')
@@ -93,6 +96,7 @@ command = ('''CREATE TABLE IF NOT EXISTS TouristLoc (
             CityID INTEGER,
             xPos FLOAT(3, 7),
             yPos FLOAT(3, 7),
+            Disabled TINYINT(1),
             FOREIGN KEY(TouristID) REFERENCES Tourist(ID),
             FOREIGN KEY(CityID) REFERENCES City(ID)
             )''')
@@ -110,21 +114,21 @@ c.execute(command)
 
 # c.execute("INSERT INTO Animal VALUES (1, 'Parrot', 'berb', 'a bird', 'picture.png')")
 
-# c.execute("INSERT INTO AnimalsLoc Values (1, 1, 1, 13.7627346, 121.0569921)")
+# c.execute("INSERT INTO AnimalsLoc Values (1, 1, 1, 13.7627346, 121.0569921, 0)")
 
 #c.execute("INSERT INTO PLANT VALUES (1, 'Sunflower', 'araw', 'a flower', 'sunflower.png')")
 
-#c.execute("INSERT INTO PlantsLoc VALUES (1, 1, 1, 13.7647354, 121.0602537)")
+# c.execute("INSERT INTO PlantsLoc VALUES (1, 1, 1, 13.7647354, 121.0602537, 0)")
 
 #c.execute("INSERT INTO Tourist VALUES (1, 'Swimming pool', 'www.youtube.com', 'for swimming', 'pool.png')")
 
-#c.execute("INSERT INTO TouristLoc VALUES (1, 1, 1, 13.7620260, 121.0685793)")
+# c.execute("INSERT INTO TouristLoc VALUES (1, 1, 1, 13.7620260, 121.0685793, 0)")
 
 #c.execute("INSERT INTO Biome VALUES (1, 'River', 'Waterflow', 'river.png')")
 
-# c.execute("INSERT INTO BiomeLoc VALUES (1, 1, 1, 13.7577326, 121.0643736)")
+# c.execute("INSERT INTO BiomeLoc VALUES (1, 1, 1, 13.7577326, 121.0643736, 0)")
 
-# c.execute("SELECT * FROM BiomeLoc")
-# print(c.fetchall())
+c.execute("Select Plant.Name, sciName, desc, img, City.Name, xPos, yPos, Disabled From PlantsLoc, Plant, City WHERE PlantsLoc.PlantsID = Plant.PlantID AND PlantsLoc.CityID = City.CityID")
+print(c.fetchall())
 
 con.commit()
