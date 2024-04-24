@@ -86,9 +86,10 @@ class App(customtkinter.CTk):
         self.left_frame = CTkFrame(self, width=frame_width, height=frame_height)
         self.left_frame.pack(side="left", fill="both", expand=True)
 
-        button_names = ["Button 1", "Button 2", "Button 3", "Button 4", "Button 5"]
+        button_names = ["Button 1", "Button 2", "Button 3", "Button 4"]
+        function_names =[App.animal_button, App.plant_button, App.tourist_button, App.biome_button]
 
-        for i, name in enumerate(button_names):
+        for i, name,  in enumerate(button_names):
             button = CTkButton(self.left_frame, text=name)
             button.grid(row=i, column=0, padx=5, pady=5, sticky="ew")
 
@@ -103,8 +104,6 @@ class App(customtkinter.CTk):
         self.map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga", max_zoom=22)
         self.map_widget.set_zoom(13)
         self.reload_markers()
-
-
 
     def reload_markers(self):
         self.map_widget.delete_all_marker()
@@ -145,18 +144,6 @@ class App(customtkinter.CTk):
         self.touristInfo = []
         self.biomeMarkers = []
         self.biomeInfo = []
-        for item in Animals.all:
-            self.animalMarkers.append(self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.animal_active),)
-            self.animalInfo.append([item.sciName, item.desc, item.img, item.city])
-        for item in Plants.all:
-            self.plantMarkers.append(self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.plant_active),)
-            self.plantInfo.append([item.sciName, item.desc, item.img, item.city])
-        for item in TouristDes.all:
-            self.touristMarkers.append(self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.tourist_active),)
-            self.touristInfo.append([item.link, item.desc, item.img, item.city])
-        for item in Biomes.all:
-            self.biomeMarkers.append(self.map_widget.set_marker(item.xPos,item.yPos, item.Name, command=self.biome_active),)
-            self.biomeInfo.append([item.desc, item.img, item.city])
 
     def animal_active(self, marker):
         sciName = self.animalInfo[self.animalMarkers.index(marker)][0]
@@ -184,6 +171,26 @@ class App(customtkinter.CTk):
         img = self.biomeInfo[self.biomeMarkers.index(marker)][1]
         city = self.biomeInfo[self.biomeMarkers.index(marker)][2]
         print(desc, img, city)
+
+    def animal_button(self): 
+        for item in Animals.all:
+            self.animalMarkers.append(self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.animal_active),)
+            self.animalInfo.append([item.sciName, item.desc, item.img, item.city])
+    
+    def plant_button(self):
+        for item in Plants.all:
+            self.plantMarkers.append(self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.plant_active),)
+            self.plantInfo.append([item.sciName, item.desc, item.img, item.city])            
+
+    def tourist_button(self):
+        for item in TouristDes.all:
+            self.touristMarkers.append(self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.tourist_active),)
+            self.touristInfo.append([item.link, item.desc, item.img, item.city])
+
+    def biome_button(self):
+        for item in Biomes.all:
+            self.biomeMarkers.append(self.map_widget.set_marker(item.xPos,item.yPos, item.Name, command=self.biome_active),)
+            self.biomeInfo.append([item.desc, item.img, item.city])
 
     def start(self):
         self.mainloop()
