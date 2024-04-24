@@ -1,5 +1,6 @@
 import customtkinter
 from customtkinter import *
+from backend import Map
 
 class App(customtkinter.CTk):
     app_name = "Batangas Interactive Map"
@@ -26,7 +27,8 @@ class App(customtkinter.CTk):
             button.grid(row=i, column=0, padx=5, pady=5, sticky="ew")
 
         # right frame
-        self.right_frame = CTkFrame(self, width=frame_width, height=frame_height)
+        test = Map()
+        self.right_frame = test.map_widget
         self.right_frame.pack(side="right", fill="both", expand=True)
 
         self.screen_width = self.winfo_screenwidth()

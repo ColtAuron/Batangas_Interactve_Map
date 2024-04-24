@@ -2,6 +2,8 @@ import tkinter
 import tkintermapview
 import os
 import sqlite3
+import customtkinter
+from customtkinter import *
 
 class Animals:
     all = []
@@ -53,27 +55,56 @@ class Biomes:
         self.city = city
         self.all.append(self)
 
-class App():
+class App(customtkinter.CTk):
+    app_name = "Batangas Interactive Map"
+    width = 800
+    height = 600
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         db_path = os.path.join(BASE_DIR, "bimData.db")
         con = sqlite3.connect(db_path)
-        self.c = con.cursor()
-        self.tk = tkinter.Tk()
-        self.tk.geometry(f"{800}x{600}")  
+        self.c = con.cursor() 
 
         script_directory = os.path.dirname(os.path.abspath(__file__))
         database_path = os.path.join(script_directory, "batangas.db")
+        
+        self.title(App.app_name)
+        frame_width = App.width // 2
+        frame_height = App.height
 
-        self.map_widget = tkintermapview.TkinterMapView(self.tk, width=800, height= 600, database_path=database_path, corner_radius=0)
+        self.screen_width = self.winfo_screenwidth()
+        self.screen_height = self.winfo_screenheight()
+        self.CenterX = int((self.screen_width - App.width) / 2)
+        self.CenterY = int((self.screen_height - App.height) / 2)
+        self.geometry(f"{App.width}x{App.height}+{self.CenterX}+{self.CenterY}")
+        self.minsize(App.width, App.height)
+
+        # left frame
+        self.left_frame = CTkFrame(self, width=frame_width, height=frame_height)
+        self.left_frame.pack(side="left", fill="both", expand=True)
+
+        button_names = ["Button 1", "Button 2", "Button 3", "Button 4", "Button 5"]
+
+        for i, name in enumerate(button_names):
+            button = CTkButton(self.left_frame, text=name)
+            button.grid(row=i, column=0, padx=5, pady=5, sticky="ew")
+
+        # right frame
+        self.right_frame = CTkFrame(self, width=frame_width, height=frame_height)
+        self.right_frame.pack(side="right", fill="both", expand=True)
+
+        self.map_widget = tkintermapview.TkinterMapView(self.right_frame, width=575, height= 700, database_path=database_path, corner_radius=0)
         self.map_widget.place(relx=.5, rely=.5, anchor=tkinter.CENTER)
         #13.8525866, 121.0435568
         self.map_widget.set_position(deg_x=13.7582328,deg_y=121.0726133)
         self.map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga", max_zoom=22)
         self.map_widget.set_zoom(13)
         self.reload_markers()
+
+
 
     def reload_markers(self):
         self.map_widget.delete_all_marker()
@@ -155,9 +186,10 @@ class App():
         print(desc, img, city)
 
     def start(self):
-        self.tk.mainloop()
+        self.mainloop()
 
 #Remove this if Implement to Front
 if __name__ == "__main__":
     app = App()
+    app.resizable(False,False)
     app.start()
