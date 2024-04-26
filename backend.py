@@ -86,9 +86,8 @@ class App(customtkinter.CTk):
         self.left_frame = CTkFrame(self, width=frame_width, height=frame_height)
         self.left_frame.pack(side="left", fill="both", expand=True)
 
-
         button_names = ["Button 1", "Button 2", "Button 3", "Button 4"]
-        function_names =[App.animal_button, App.plant_button, App.tourist_button, App.biome_button]
+        function_names = [self.animal_button, self.plant_button, self.tourist_button, self.biome_button]
 
         for i, name, func in zip(range(len(button_names)), button_names, function_names):
             button = CTkButton(self.left_frame, text=name, command=func)
