@@ -86,6 +86,7 @@ class App(customtkinter.CTk):
         self.left_frame = CTkFrame(self, width=frame_width, height=frame_height)
         self.left_frame.pack(side="left", fill="both", expand=True)
 
+
         button_names = ["Button 1", "Button 2", "Button 3", "Button 4"]
         function_names =[App.animal_button, App.plant_button, App.tourist_button, App.biome_button]
 
@@ -172,15 +173,15 @@ class App(customtkinter.CTk):
         city = self.biomeInfo[self.biomeMarkers.index(marker)][2]
         print(desc, img, city)
 
-    def animal_button(self): 
+    def animal_button(self):
         for item in Animals.all:
             self.animalMarkers.append(self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.animal_active),)
             self.animalInfo.append([item.sciName, item.desc, item.img, item.city])
-    
+
     def plant_button(self):
         for item in Plants.all:
             self.plantMarkers.append(self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.plant_active),)
-            self.plantInfo.append([item.sciName, item.desc, item.img, item.city])            
+            self.plantInfo.append([item.sciName, item.desc, item.img, item.city])
 
     def tourist_button(self):
         for item in TouristDes.all:
