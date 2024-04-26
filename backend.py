@@ -89,8 +89,8 @@ class App(customtkinter.CTk):
         button_names = ["Button 1", "Button 2", "Button 3", "Button 4"]
         function_names =[App.animal_button, App.plant_button, App.tourist_button, App.biome_button]
 
-        for i, name,  in enumerate(button_names):
-            button = CTkButton(self.left_frame, text=name)
+        for i, name, func in zip(range(len(button_names)), button_names, function_names):
+            button = CTkButton(self.left_frame, text=name, command=func)
             button.grid(row=i, column=0, padx=5, pady=5, sticky="ew")
 
         # right frame
