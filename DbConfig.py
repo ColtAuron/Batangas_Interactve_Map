@@ -110,6 +110,11 @@ c.execute(command)
 #           ("Lipa",), ("Ibaan",), ("Sto. Tomas",), ("Padre Garcia",), ("Rosario",), ("Taysan",),
 #           ("Lobo",), ("San Juan",)]
 
+# animals = [
+#     (1, 'Domestic Cat', 'Felis catus', 'It is commonly kept as a house pet and farm cat, but also ranges freely as a feral cat avoiding human contact.', 'car.png'),
+#     (2, 'Domestic Dog', 'Canis familiaris', 'a good boiiiiiiii', 'doggy.png')
+# ]
+
 # c.executemany("INSERT INTO CITY(Name) VALUES(?)", cities)
 
 # c.execute("INSERT INTO Animal VALUES (1, 'Parrot', 'berb', 'a bird', 'picture.png')")
