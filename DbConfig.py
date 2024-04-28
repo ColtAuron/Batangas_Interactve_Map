@@ -115,6 +115,15 @@ c.execute(command)
 #     (2, 'Domestic Dog', 'Canis familiaris', 'a good boiiiiiiii', 'doggy.png')
 # ]
 
+# plants = [
+#     ('1', Common Lantana', 'Lanatana camara', 'A species of flowering plant within the verbena family, Verbenaceae, that is native to the American tropics.', 'lantana.png'),
+#     ()
+# ]
+
+# tourist_spots = [
+#     ('')
+# ]
+
 # c.executemany("INSERT INTO CITY(Name) VALUES(?)", cities)
 
 # c.execute("INSERT INTO Animal VALUES (1, 'Parrot', 'berb', 'a bird', 'picture.png')")
