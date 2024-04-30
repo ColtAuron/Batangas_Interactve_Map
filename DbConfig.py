@@ -6,7 +6,7 @@ con = sqlite3.connect(db_path)
 c = con.cursor()
 
 command = ('''CREATE TABLE IF NOT EXISTS Animal(
-            AnimalID INTEGER PRIMARY KEY,
+            AnimalID varchar(6) PRIMARY KEY,
             Name Varchar(30),
             sciName Varchar(50),
             desc Varchar(500),
@@ -103,6 +103,10 @@ command = ('''CREATE TABLE IF NOT EXISTS TouristLoc (
 
 c.execute(command)
 
+cities = [
+    ()
+]
+
 # cities = [("Nasugbu",),("Lian",), ("Tuy",), ("Calatagan",), ("Balayan",), ("Calaca",), ("Lemery",),
 #           ("Laurel",), ("Agoncillo",), ("Taal",), ("San Luis",), ("Bauan",), ("Mabini",), ("Tingloy",),
 #           ("Sta. Teresita",), ("Talisay",), ("San Nicolas",), ("Alitagtag",), ("San Pascual",),
@@ -111,12 +115,12 @@ c.execute(command)
 #           ("Lobo",), ("San Juan",)]
 
 # animals = [
-#     (1, 'Domestic Cat', 'Felis catus', 'It is commonly kept as a house pet and farm cat, but also ranges freely as a feral cat avoiding human contact.', 'car.png'),
-#     (2, 'Domestic Dog', 'Canis familiaris', 'a good boiiiiiiii', 'doggy.png')
+#     ('AN001', 'Domestic Cat', 'Felis catus', 'It is commonly kept as a house pet and farm cat, but also ranges freely as a feral cat avoiding human contact.', 'car.png'),
+#     ('AN002', 'Domestic Dog', 'Canis familiaris', 'a good boiiiiiiii', 'doggy.png')
 # ]
 
 # plants = [
-#     ('1', Common Lantana', 'Lanatana camara', 'A species of flowering plant within the verbena family, Verbenaceae, that is native to the American tropics.', 'lantana.png'),
+#     ('PL001', Common Lantana', 'Lanatana camara', 'A species of flowering plant within the verbena family, Verbenaceae, that is native to the American tropics.', 'lantana.png'),
 #     ()
 # ]
 
