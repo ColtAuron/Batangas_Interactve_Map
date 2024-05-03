@@ -61,57 +61,12 @@ class HoverMapView(TkinterMapView):
     def __init__(self, left_frame, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.left_frame = left_frame
-        self.hovered_marker = None
-        self.photo_label = None
-        self.bind("<Motion>", self.on_motion)
-        self.bind("<Leave>", self.on_leave)
-
-    def on_motion(self, event):
-        # Get the mouse position
-        mouse_x, mouse_y = event.x, event.y
-
-        # Iterate over the markers and check if the mouse is close to any marker
-        for marker in self.get_markers():
-            marker_x, marker_y = self.get_position(marker)
-            distance = ((marker_x - mouse_x) ** 2 + (marker_y - mouse_y) ** 2) ** 0.5
-            if distance < 10:  # Adjust the threshold as needed
-                if marker != self.hovered_marker:
-                    self.hovered_marker = marker
-                    self.show_photo(marker)
-                return
-
-        # If the mouse is not close to any marker, hide the photo
-        if self.hovered_marker:
-            self.hide_photo()
-            self.hovered_marker = None
-
-    def on_leave(self, event):
-        # Hide the photo when mouse leaves the map
-        self.hide_photo()
-        self.hovered_marker = None
-
-    def show_photo(self, marker):
-        # Display the photo associated with the hovered marker
-        photo_path = "D:\\Batangas_IM\\test.jpg"  # Replace this with the actual path to your photo
-        photo = Image.open(photo_path)
-        photo = CTkImage(photo, size=(26, 26))
-        if self.photo_label:
-            self.photo_label.configure(image=photo)
-        else:
-            self.photo_label = CTkLabel(self.left_frame, image=photo)
-            self.photo_label.grid(row=5, column=0, padx=5, pady=5, sticky="ew")
-        self.photo_label.image = photo  # Keep a reference to the image to prevent it from being garbage collected
-
-    def hide_photo(self):
-        # Hide the photo when mouse leaves the map or marker
-        if self.photo_label:
-            self.photo_label.grid_forget()
-
 
 class App(customtkinter.CTk):
     app_name = "Batangas Interactive Map"
     width = 1280
     height = 800
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -125,7 +80,7 @@ class App(customtkinter.CTk):
         database_path = os.path.join(script_directory, "batangas.db")
 
         self.title(App.app_name)
-        frame_width = App.width // 2
+        frame_width = 1280
         frame_height = App.height
 
         self.screen_width = self.winfo_screenwidth()
@@ -135,6 +90,8 @@ class App(customtkinter.CTk):
         self.geometry(f"{App.width}x{App.height}+{self.CenterX}+{self.CenterY}")
         self.minsize(App.width, App.height)
 
+        window_logo_path = os.path.join(BASE_DIR, "icons", "window_logo.ico")
+        self.iconbitmap(window_logo_path)
 
         self.current_category = None
 
@@ -147,8 +104,8 @@ class App(customtkinter.CTk):
         logo_path = os.path.join(BASE_DIR, "icons", "logo.png")
         logo_image = logo_path
         logo_image = CTkImage(Image.open(logo_image), size=(250,250))
-        logo_label = CTkLabel(self.left_frame, image=logo_image, bg_color="#BEEF9E")
-        logo_label.place(x=95,y=0)
+        logo_label = CTkLabel(self.left_frame, image=logo_image, bg_color="#BEEF9E", text="")
+        logo_label.place(x=0,y=0)
         logo_label.image = logo_image
 
         # right frame
@@ -170,7 +127,8 @@ class App(customtkinter.CTk):
         plant_icon = customtkinter.CTkImage(Image.open(os.path.join(file_path, "icons", "plant.png")))
         tourist_icon = customtkinter.CTkImage(Image.open(os.path.join(file_path, "icons", "tourist.png")))
 
-        button_names = ["Animals", "Plants", "Tourist Spots", "Suggestions"]
+        button_names = ["Animals", "Plants", "Tourist Spots",
+                        "Suggestions"]
         function_names = [self.animal_button, self.plant_button, self.tourist_button, self.biome_button]
         icons = [animal_icon, plant_icon, tourist_icon, None]
 
@@ -178,11 +136,13 @@ class App(customtkinter.CTk):
             if icon is not None:
                 button = CTkButton(self.left_frame, image=icon, compound="left", text=name,
                                    command=lambda f=func, n=name: self.on_click(f, n), text_color="#000000",
-                                   font=('Arial', 14, 'bold'))
+                                   font=('Arial', 14, 'bold'), fg_color="#A6C36F", hover_color="#828C51")
             else:
-                button = CTkButton(self.left_frame, text=name, command=lambda f=func, n=name: self.on_click(f, n))
+                button = CTkButton(self.left_frame, text=name, command=lambda f=func, n=name: self.on_click(f, n),
+                                   text_color="#000000", font=('Arial', 14, 'bold'), fg_color="#A6C36F",
+                                   hover_color="#828C51")
 
-            button.grid(row=i, column=0, padx=(150, 0), pady=(250, 5) if name == "Animals" else 5, sticky="ew")
+            button.grid(row=i, column=0, padx=(50, 50), pady=(250, 5) if name == "Animals" else 5, sticky="ew")
 
     def on_click(self, func, category):
         self.current_category = category
@@ -200,13 +160,13 @@ class App(customtkinter.CTk):
         if Biomes.all:
             Biomes.all.clear()
 
-        if self.current_category == "Button 1":
+        if self.current_category == "Animals":
             self.load_animal_markers()
-        elif self.current_category == "Button 2":
+        elif self.current_category == "Plants":
             self.load_plant_markers()
-        elif self.current_category == "Button 3":
+        elif self.current_category == "Tourist Spots":
             self.load_tourist_markers()
-        elif self.current_category == "Button 4":
+        elif self.current_category == "Suggestions":
             self.load_biome_markers()
 
     def load_animal_markers(self):
