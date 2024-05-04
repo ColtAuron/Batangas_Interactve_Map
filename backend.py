@@ -121,6 +121,15 @@ class App(customtkinter.CTk):
         self.map_widget.set_zoom(13)
         self.reload_markers()
 
+        self.animalMarkers = []
+        self.animalInfo = []
+        self.plantMarkers = []
+        self.plantInfo = []
+        self.touristMarkers = []
+        self.touristInfo = []
+        self.biomeMarkers = []
+        self.biomeInfo = []
+
     def create_button(self):
         file_path = os.path.dirname(os.path.realpath(__file__))
         animal_icon = customtkinter.CTkImage(Image.open(os.path.join(file_path, "icons", "animal.png")))
@@ -129,37 +138,25 @@ class App(customtkinter.CTk):
 
         button_names = ["Animals", "Plants", "Tourist Spots",
                         "Suggestions"]
-        function_names = [self.animal_button, self.plant_button, self.tourist_button, self.biome_button]
         icons = [animal_icon, plant_icon, tourist_icon, None]
 
-        for i, (name, func, icon) in enumerate(zip(button_names, function_names, icons)):
+        for i, (name, icon) in enumerate(zip(button_names, icons)):
             if icon is not None:
                 button = CTkButton(self.left_frame, image=icon, compound="left", text=name,
-                                   command=lambda f=func, n=name: self.on_click(f, n), text_color="#000000",
+                                   command=lambda n=name: self.on_click(n), text_color="#000000",
                                    font=('Arial', 14, 'bold'), fg_color="#A6C36F", hover_color="#828C51")
             else:
-                button = CTkButton(self.left_frame, text=name, command=lambda f=func, n=name: self.on_click(f, n),
+                button = CTkButton(self.left_frame, text=name, command=lambda n=name: self.on_click(n),
                                    text_color="#000000", font=('Arial', 14, 'bold'), fg_color="#A6C36F",
                                    hover_color="#828C51")
 
             button.grid(row=i, column=0, padx=(50, 50), pady=(250, 5) if name == "Animals" else 5, sticky="ew")
 
-    def on_click(self, func, category):
+    def on_click(self, category):
         self.current_category = category
-        func()
         self.reload_markers()
 
-    def reload_markers(self):
-        self.map_widget.delete_all_marker()
-        if Animals.all:
-            Animals.all.clear()
-        if Plants.all:
-            Plants.all.clear()
-        if TouristDes.all:
-            TouristDes.all.clear()
-        if Biomes.all:
-            Biomes.all.clear()
-
+    def reload_markers(self):  
         if self.current_category == "Animals":
             self.load_animal_markers()
         elif self.current_category == "Plants":
@@ -170,60 +167,93 @@ class App(customtkinter.CTk):
             self.load_biome_markers()
 
     def load_animal_markers(self):
-        self.c.execute(
-            "Select Animal.Name, sciName, desc, img, City.Name, xPos, yPos, Disabled From AnimalsLoc, Animal, City WHERE AnimalsLoc.AnimalID = Animal.AnimalID AND AnimalsLoc.CityID = City.CityID")
-        frSql = self.c.fetchall()
-        for items in frSql:
-            if (items[7] == 0):
-                Animals(items[0], items[1], items[2], items[5], items[6], items[3], items[4])
-        self.animalMarkers = []
-        self.animalInfo = []
-        for item in Animals.all:
-            self.animalMarkers.append(
-                self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.animal_active))
-            self.animalInfo.append([item.sciName, item.desc, item.img, item.city])
+        if self.animalMarkers == []:
+            self.c.execute(
+                "Select Animal.Name, sciName, desc, img, City.Name, xPos, yPos, Disabled From AnimalsLoc, Animal, City WHERE AnimalsLoc.AnimalID = Animal.AnimalID AND AnimalsLoc.CityID = City.CityID")
+            frSql = self.c.fetchall()
+            for items in frSql:
+                if (items[7] == 0):
+                    Animals(items[0], items[1], items[2], items[5], items[6], items[3], items[4])
+            for item in Animals.all:
+                self.animalMarkers.append(self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.animal_active))
+                self.animalInfo.append([item.sciName, item.desc, item.img, item.city])
+
+            #
+            # Add button activated func 
+            #
+
+        else:
+            for animal in self.animalMarkers:
+                self.map_widget.delete(animal)
+            self.animalMarkers.clear()
+            Animals.all.clear()
+            self.plantInfo.clear()
+            #
+            # Revert to Normal pre-activated
+            #
 
     def load_plant_markers(self):
-        self.c.execute(
-            "Select Plant.Name, sciName, desc, img, City.Name, xPos, yPos, Disabled From PlantsLoc, Plant, City WHERE PlantsLoc.PlantsID = Plant.PlantID AND PlantsLoc.CityID = City.CityID")
-        frSql = self.c.fetchall()
-        for items in frSql:
-            if (items[7] == 0):
-                Plants(items[0], items[1], items[2], items[5], items[6], items[3], items[4])
-        self.plantMarkers = []
-        self.plantInfo = []
-        for item in Plants.all:
-            self.plantMarkers.append(
-                self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.plant_active))
-            self.plantInfo.append([item.sciName, item.desc, item.img, item.city])
+        if self.plantMarkers == []:
+            self.c.execute(
+                "Select Plant.Name, sciName, desc, img, City.Name, xPos, yPos, Disabled From PlantsLoc, Plant, City WHERE PlantsLoc.PlantsID = Plant.PlantID AND PlantsLoc.CityID = City.CityID")
+            frSql = self.c.fetchall()
+            for items in frSql:
+                if (items[7] == 0):
+                    Plants(items[0], items[1], items[2], items[5], items[6], items[3], items[4])
+            for item in Plants.all:
+                self.plantMarkers.append(
+                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.plant_active))
+                self.plantInfo.append([item.sciName, item.desc, item.img, item.city])
+            #
+            # Add button activated func 
+            #
+        else:
+            for plant in self.plantMarkers:
+                self.map_widget.delete(plant)
+            self.plantMarkers.clear()
+            Plants.all.clear()
+            self.plantInfo.clear()
+            #
+            # Revert to Normal pre-activated
+            #
 
     def load_tourist_markers(self):
-        self.c.execute(
-            "Select Tourist.Name, link, desc, img, City.Name, xPos, yPos, Disabled From TouristLoc, Tourist, City WHERE TouristLoc.TouristID = Tourist.TouristID AND TouristLoc.CityID = City.CityID")
-        frSql = self.c.fetchall()
-        for items in frSql:
-            if (items[7] == 0):
-                TouristDes(items[0], items[1], items[2], items[5], items[6], items[3], items[4])
-        self.touristMarkers = []
-        self.touristInfo = []
-        for item in TouristDes.all:
-            self.touristMarkers.append(
-                self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.tourist_active))
-            self.touristInfo.append([item.link, item.desc, item.img, item.city])
+        if self.touristMarkers == []:
+            self.c.execute(
+                "Select Tourist.Name, link, desc, img, City.Name, xPos, yPos, Disabled From TouristLoc, Tourist, City WHERE TouristLoc.TouristID = Tourist.TouristID AND TouristLoc.CityID = City.CityID")
+            frSql = self.c.fetchall()
+            for items in frSql:
+                if (items[7] == 0):
+                    TouristDes(items[0], items[1], items[2], items[5], items[6], items[3], items[4])
+            for item in TouristDes.all:
+                self.touristMarkers.append(
+                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.tourist_active))
+                self.touristInfo.append([item.link, item.desc, item.img, item.city])
+        else:
+            for tourist in self.touristMarkers:
+                self.map_widget.delete()
+            self.touristMarkers.clear()
+            TouristDes.all.clear()
+            self.touristInfo.clear()
 
     def load_biome_markers(self):
-        self.c.execute(
-            "Select Biome.Name, desc, img, City.Name, xPos, yPos, Disabled From BiomeLoc, Biome, City WHERE BiomeLoc.BiomeID = Biome.BiomeID AND BiomeLoc.CityID = City.CityID")
-        frSql = self.c.fetchall()
-        for items in frSql:
-            if (items[6] == 0):
-                Biomes(items[0], items[1], items[4], items[5], items[2], items[3])
-        self.biomeMarkers = []
-        self.biomeInfo = []
-        for item in Biomes.all:
-            self.biomeMarkers.append(
-                self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.biome_active))
-            self.biomeInfo.append([item.desc, item.img, item.city])
+        if self.biomeMarkers == []:
+            self.c.execute(
+                "Select Biome.Name, desc, img, City.Name, xPos, yPos, Disabled From BiomeLoc, Biome, City WHERE BiomeLoc.BiomeID = Biome.BiomeID AND BiomeLoc.CityID = City.CityID")
+            frSql = self.c.fetchall()
+            for items in frSql:
+                if (items[6] == 0):
+                    Biomes(items[0], items[1], items[4], items[5], items[2], items[3])
+            for item in Biomes.all:
+                self.biomeMarkers.append(
+                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.biome_active))
+                self.biomeInfo.append([item.desc, item.img, item.city])
+        else:
+            for biome in self.biomeMarkers:
+                self.map_widget.delete(biome)
+            self.biomeMarkers.clear()
+            Biomes.all.clear()
+            self.biomeInfo.clear()
 
     def animal_active(self, marker):
         sciName = self.animalInfo[self.animalMarkers.index(marker)][0]
@@ -251,18 +281,6 @@ class App(customtkinter.CTk):
         img = self.biomeInfo[self.biomeMarkers.index(marker)][1]
         city = self.biomeInfo[self.biomeMarkers.index(marker)][2]
         print(desc, img, city)
-
-    def animal_button(self):
-        self.load_animal_markers()
-
-    def plant_button(self):
-        self.load_plant_markers()
-
-    def tourist_button(self):
-        self.load_tourist_markers()
-
-    def biome_button(self):
-        self.load_biome_markers()
 
     def start(self):
         self.mainloop()
