@@ -120,6 +120,11 @@ class App(customtkinter.CTk):
         self.map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga", max_zoom=22)
         self.map_widget.set_zoom(13)
         self.reload_markers()
+        
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        self.animalimg = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "icons", "animalmarker.png")).resize((150, 150)))
+        self.plantimg = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "icons", "plantmarker.png")).resize((150, 150)))
+        self.T_img = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "icons", "touristmarker.png")).resize((150, 150)))
 
         self.animalMarkers = []
         self.animalInfo = []
@@ -175,7 +180,7 @@ class App(customtkinter.CTk):
                 if (items[7] == 0):
                     Animals(items[0], items[1], items[2], items[5], items[6], items[3], items[4])
             for item in Animals.all:
-                self.animalMarkers.append(self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.animal_active))
+                self.animalMarkers.append(self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.animal_active, icon = self.animalimg))
                 self.animalInfo.append([item.sciName, item.desc, item.img, item.city])
 
             #
@@ -202,7 +207,7 @@ class App(customtkinter.CTk):
                     Plants(items[0], items[1], items[2], items[5], items[6], items[3], items[4])
             for item in Plants.all:
                 self.plantMarkers.append(
-                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.plant_active))
+                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.plant_active, icon = self.plantimg))
                 self.plantInfo.append([item.sciName, item.desc, item.img, item.city])
             #
             # Add button activated func 
@@ -227,11 +232,11 @@ class App(customtkinter.CTk):
                     TouristDes(items[0], items[1], items[2], items[5], items[6], items[3], items[4])
             for item in TouristDes.all:
                 self.touristMarkers.append(
-                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.tourist_active))
+                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.tourist_active, icon = self.T_img))
                 self.touristInfo.append([item.link, item.desc, item.img, item.city])
         else:
             for tourist in self.touristMarkers:
-                self.map_widget.delete()
+                self.map_widget.delete(tourist)
             self.touristMarkers.clear()
             TouristDes.all.clear()
             self.touristInfo.clear()
