@@ -67,7 +67,6 @@ class App(customtkinter.CTk):
     width = 1280
     height = 800
 
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -78,6 +77,11 @@ class App(customtkinter.CTk):
 
         script_directory = os.path.dirname(os.path.abspath(__file__))
         database_path = os.path.join(script_directory, "batangas.db")
+
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        self.animalimg = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "icons", "animalmarker.png")).resize((50, 70)))
+        self.plantimg = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "icons", "plantmarker.png")).resize((50, 70)))
+        self.T_img = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "icons", "touristmarker.png")).resize((50, 70)))
 
         self.title(App.app_name)
         frame_width = 1280
@@ -120,11 +124,6 @@ class App(customtkinter.CTk):
         self.map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga", max_zoom=22)
         self.map_widget.set_zoom(13)
         self.reload_markers()
-        
-        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        self.animalimg = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "icons", "animalmarker.png")).resize((150, 150)))
-        self.plantimg = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "icons", "plantmarker.png")).resize((150, 150)))
-        self.T_img = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "icons", "touristmarker.png")).resize((150, 150)))
 
         self.animalMarkers = []
         self.animalInfo = []
@@ -180,7 +179,7 @@ class App(customtkinter.CTk):
                 if (items[7] == 0):
                     Animals(items[0], items[1], items[2], items[5], items[6], items[3], items[4])
             for item in Animals.all:
-                self.animalMarkers.append(self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.animal_active, icon = self.animalimg))
+                self.animalMarkers.append(self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.animal_active, icon = self.animalimg, icon_anchor = "s",text_color = "#d1ae69"))
                 self.animalInfo.append([item.sciName, item.desc, item.img, item.city])
 
             #
@@ -207,7 +206,7 @@ class App(customtkinter.CTk):
                     Plants(items[0], items[1], items[2], items[5], items[6], items[3], items[4])
             for item in Plants.all:
                 self.plantMarkers.append(
-                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.plant_active, icon = self.plantimg))
+                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.plant_active, icon_anchor = "s", icon = self.plantimg, text_color = "#7cd169"))
                 self.plantInfo.append([item.sciName, item.desc, item.img, item.city])
             #
             # Add button activated func 
@@ -232,7 +231,7 @@ class App(customtkinter.CTk):
                     TouristDes(items[0], items[1], items[2], items[5], items[6], items[3], items[4])
             for item in TouristDes.all:
                 self.touristMarkers.append(
-                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.tourist_active, icon = self.T_img))
+                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.tourist_active, icon_anchor = "s", icon = self.T_img, text_color = "#d16a6a"))
                 self.touristInfo.append([item.link, item.desc, item.img, item.city])
         else:
             for tourist in self.touristMarkers:
