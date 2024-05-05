@@ -113,8 +113,12 @@ class App(customtkinter.CTk):
         logo_label.image = logo_image
 
         self.dropdown = customtkinter.CTkOptionMenu(self.left_frame,
-                                                    values=["Please Select One", "Animal", "Plant", "Tourist Spot"],
-                                                    command=self.dropdown_callback)
+                                                    values=["Category", "Animal", "Plant", "Tourist Spot"],
+                                                    command=self.dropdown_callback, fg_color="#828C51",
+                                                    dropdown_fg_color="#A6C36F", dropdown_hover_color="#6B7342", font=
+                                                    ('Arial', 14, 'bold'), dropdown_font=('Arial', 14, 'bold'),
+                                                    button_color="#A6C36F", button_hover_color="#828C51",
+                                                    text_color="#000000", dropdown_text_color="#000000")
         self.colt = False
         self.load_suggestions()
         self.Name = customtkinter.CTkLabel(self.left_frame, text="Name:", text_color="Black")
@@ -125,7 +129,8 @@ class App(customtkinter.CTk):
         self.DescBox = customtkinter.CTkTextbox(self.left_frame, width=140, height=10, corner_radius=1)
         self.Link = customtkinter.CTkLabel(self.left_frame, text="Link:", text_color="Black")
         self.LinkBox = customtkinter.CTkTextbox(self.left_frame, width=140, height=10, corner_radius=1)
-        self.suggest = customtkinter.CTkButton(self.left_frame, width=140, height=10, text="Submit")
+        self.suggest = customtkinter.CTkButton(self.left_frame, width=140, height=10, text="Submit", fg_color="#828C51"
+                                               ,text_color="#000000")
 
         # right frame
         self.right_frame = CTkFrame(self, width=frame_width, height=frame_height)
@@ -296,7 +301,7 @@ class App(customtkinter.CTk):
             self.colt = False
 
     def dropdown_callback(self, choice):
-        if (choice == "Please Select One"):
+        if (choice == "Category"):
             self.forget_everything()
         elif (choice == "Animal" or choice == "Plant"):
             self.forget_everything()
