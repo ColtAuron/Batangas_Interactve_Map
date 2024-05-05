@@ -172,15 +172,15 @@ class App(customtkinter.CTk):
                     if name == "Suggestions":
                         button_states[name] = not button_states[name]
                         if button_states[name]:
-                            buttons[button_names.index(name)].configure(fg_color="#828C51")
-                        else:
                             buttons[button_names.index(name)].configure(fg_color="#A6C36F")
+                        else:
+                            buttons[button_names.index(name)].configure(fg_color="#828C51")
                     else:
                         button_states[name] = not button_states[name]
                         if button_states[name]:
-                            buttons[button_names.index(name)].configure(fg_color="#A6C36F")
-                        else:
                             buttons[button_names.index(name)].configure(fg_color="#828C51")
+                        else:
+                            buttons[button_names.index(name)].configure(fg_color="#A6C36F")
 
                 return on_click
 
