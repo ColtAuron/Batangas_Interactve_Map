@@ -45,18 +45,6 @@ class TouristDes:
         self.type = type
         self.all.append(self)
 
-class Biomes:
-    all=[]
-    def __init__(self, Name, desc, xPos, yPos, img, city, type = 'Biome'):
-        self.Name = Name
-        self.desc = desc
-        self.xPos = xPos
-        self.yPos = yPos
-        self.img = img
-        self.city = city
-        self.all.append(self)
-
-
 class HoverMapView(TkinterMapView):
     def __init__(self, left_frame, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -112,6 +100,20 @@ class App(customtkinter.CTk):
         logo_label.place(x=0,y=0)
         logo_label.image = logo_image
 
+        self.dropdown = customtkinter.CTkOptionMenu(self.left_frame, values=["Please Select One", "Animal", "Plant", "Tourist Spot"], command=self.dropdown_callback)
+        self.colt = False
+        self.load_suggestions()
+        self.Name = customtkinter.CTkLabel(self.left_frame, text="Name:", text_color="Black")
+        self.Namebox = customtkinter.CTkTextbox(self.left_frame, width = 140, height = 10, corner_radius= 1)
+        self.Sci = customtkinter.CTkLabel(self.left_frame, text="Scientific Name:", text_color="Black")
+        self.Scibox = customtkinter.CTkTextbox(self.left_frame, width = 140, height = 10, corner_radius= 1)
+        self.Desc = customtkinter.CTkLabel(self.left_frame, text="Description:", text_color="Black")
+        self.DescBox = customtkinter.CTkTextbox(self.left_frame, width = 140, height = 10, corner_radius= 1)
+        self.Link = customtkinter.CTkLabel(self.left_frame, text="Link:", text_color="Black")
+        self.LinkBox = customtkinter.CTkTextbox(self.left_frame, width = 140, height = 10, corner_radius= 1)
+        self.suggest = customtkinter.CTkButton(self.left_frame, width = 140, height = 10, text = "Submit")
+
+
         # right frame
         self.right_frame = CTkFrame(self, width=frame_width, height=frame_height)
         self.right_frame.pack(side="right", fill="both", expand=True)
@@ -140,9 +142,9 @@ class App(customtkinter.CTk):
         plant_icon = customtkinter.CTkImage(Image.open(os.path.join(file_path, "icons", "plant.png")))
         tourist_icon = customtkinter.CTkImage(Image.open(os.path.join(file_path, "icons", "tourist.png")))
 
-        button_names = ["Animals", "Plants", "Tourist Spots",
+        button_names = ["Animals", "Plants", "Tourist Spots", "Cities",
                         "Suggestions"]
-        icons = [animal_icon, plant_icon, tourist_icon, None]
+        icons = [animal_icon, plant_icon, tourist_icon, None, None]
 
         for i, (name, icon) in enumerate(zip(button_names, icons)):
             if icon is not None:
@@ -167,8 +169,10 @@ class App(customtkinter.CTk):
             self.load_plant_markers()
         elif self.current_category == "Tourist Spots":
             self.load_tourist_markers()
+        elif self.current_category == "Cities":
+            self.load_city_markers()
         elif self.current_category == "Suggestions":
-            self.load_biome_markers()
+            self.load_suggestions()
 
     def load_animal_markers(self):
         if self.animalMarkers == []:
@@ -240,24 +244,53 @@ class App(customtkinter.CTk):
             TouristDes.all.clear()
             self.touristInfo.clear()
 
-    def load_biome_markers(self):
-        if self.biomeMarkers == []:
-            self.c.execute(
-                "Select Biome.Name, desc, img, City.Name, xPos, yPos, Disabled From BiomeLoc, Biome, City WHERE BiomeLoc.BiomeID = Biome.BiomeID AND BiomeLoc.CityID = City.CityID")
-            frSql = self.c.fetchall()
-            for items in frSql:
-                if (items[6] == 0):
-                    Biomes(items[0], items[1], items[4], items[5], items[2], items[3])
-            for item in Biomes.all:
-                self.biomeMarkers.append(
-                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.biome_active))
-                self.biomeInfo.append([item.desc, item.img, item.city])
+    def load_city_markers(self):
+        pass
+
+    def load_suggestions(self):
+        if (self.colt == False):
+            self.dropdown.place(x=50, y=450)
+            self.colt = True
         else:
-            for biome in self.biomeMarkers:
-                self.map_widget.delete(biome)
-            self.biomeMarkers.clear()
-            Biomes.all.clear()
-            self.biomeInfo.clear()
+            self.dropdown.place_forget()
+            self.colt = False
+    
+    def dropdown_callback(self, choice):
+        if(choice == "Please Select One"):
+            self.forget_everything()
+        elif(choice == "Animal" or choice == "Plant"):
+            self.forget_everything()
+            self.Name.place(x=50,y=480)
+            self.Namebox.place(x=50, y=500)
+            self.Sci.place(x=50,y=530)
+            self.Scibox.place(x=50,y=550)
+            self.Desc.place(x=50,y=580)
+            self.DescBox.place(x=50,y=600)
+            self.Link.place(x=50,y=630)
+            self.LinkBox.place(x=50,y=650)
+            self.suggest.place(x=50,y=700)
+        elif(choice == "Tourist Spot"):
+            self.forget_everything()
+            self.Name.place(x=50,y=480)
+            self.Namebox.place(x=50, y=500)
+            self.Desc.place(x=50,y=530)
+            self.DescBox.place(x=50,y=550)
+            self.Link.place(x=50,y=580)
+            self.LinkBox.place(x=50,y=600)
+            self.suggest.place(x=50,y=650)
+
+        
+    def forget_everything(self):
+        self.Name.place_forget()
+        self.Namebox.place_forget()
+        self.Sci.place_forget()
+        self.Scibox.place_forget()
+        self.Desc.place_forget()
+        self.DescBox.place_forget()
+        self.Link.place_forget()
+        self.LinkBox.place_forget()
+        self.suggest.place_forget()
+
 
     def animal_active(self, marker):
         sciName = self.animalInfo[self.animalMarkers.index(marker)][0]
@@ -279,12 +312,6 @@ class App(customtkinter.CTk):
         img = self.touristInfo[self.touristMarkers.index(marker)][2]
         city = self.touristInfo[self.touristMarkers.index(marker)][3]
         print(link, desc, img, city)
-
-    def biome_active(self, marker):
-        desc = self.biomeInfo[self.biomeMarkers.index(marker)][0]
-        img = self.biomeInfo[self.biomeMarkers.index(marker)][1]
-        city = self.biomeInfo[self.biomeMarkers.index(marker)][2]
-        print(desc, img, city)
 
     def start(self):
         self.mainloop()

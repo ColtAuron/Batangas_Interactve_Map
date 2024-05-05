@@ -28,7 +28,6 @@ command = ('''CREATE TABLE IF NOT EXISTS Plant(
 
 c.execute(command)
 
-
 command = ('''CREATE TABLE IF NOT EXISTS Tourist (
             TouristID varchar(6) PRIMARY KEY,
             Name Varchar(30),
