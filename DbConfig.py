@@ -12,7 +12,7 @@ command = ('''CREATE TABLE IF NOT EXISTS Animal(
             Class varchar(50),
             Description Varchar(500),
             Image Varchar(100),
-            Link varchar(200)
+            link varchar(200)
             )''')
 
 c.execute(command)
@@ -23,7 +23,7 @@ command = ('''CREATE TABLE IF NOT EXISTS Plant(
             SciName Varchar(50),
             Description Varchar(500),
             Image Varchar(100),
-            Link varchar(200)
+            link varchar(200)
             )''')
 
 c.execute(command)
@@ -34,7 +34,8 @@ command = ('''CREATE TABLE IF NOT EXISTS Tourist (
             Name Varchar(30),
             link Varchar(50),
             desc Varchar(500),
-            img Varchar(100)
+            img Varchar(100)'
+            link varchar(200)
             )''')
 
 c.execute(command)
@@ -45,7 +46,9 @@ command = ('''CREATE TABLE IF NOT EXISTS City (
             District Varchar(50),
             Population Int(10),
             Width Varchar(10),
-            Description Varchar(500)
+            Description Varchar(500),
+            Image Varchar(100),
+            link varchar(200)
 )''')
 
 c.execute(command)
@@ -99,7 +102,7 @@ command = ('''CREATE TABLE IF NOT EXISTS TouristLoc (
 
 c.execute(command)
 
-cities_data = [
+cities = [
     ('CT01', 'Batangas City', '5th District', 351437, '282.96 sq. km', 'Batangas City is the capital of Batangas Province and is located on the southwestern coast of Luzon Island. It is known for its vibrant port, historic landmarks such as the Basilica of the Immaculate Conception, and bustling urban lifestyle.', 'batangas_city.jpg', 'https://en.wikipedia.org/wiki/Batangas_City'),
     ('CT02', 'Lipa City', '6th District', 372931, '209.40 sq. km', 'Lipa City, situated in Batangas Province, is a highly urbanized city known for its rich history, bustling commercial centers, and culinary delights. It is home to landmarks such as the San Sebastian Cathedral and the Carmelite Monastery.', 'lipa_city.jpg', 'https://en.wikipedia.org/wiki/Lipa,_Batangas'),
     ('CT03', 'Tanauan City', '3rd District', 193936, '107.16  sq. km', 'Tanauan City is located in the heart of Batangas Province and is known for its cultural heritage, vibrant festivals, and thriving economy. It serves as a hub for trade and commerce in the region.', 'tanauan_city.jpg', 'https://en.wikipedia.org/wiki/Tanauan,_Batangas'),
@@ -127,12 +130,12 @@ cities_data = [
     ('CT25', 'Tingloy', '2nd District', 19918, '33.07 sq. km', 'Tingloy is an island municipality in Batangas Province known for its beaches and diving sites. It offers visitors a tranquil escape surrounded by the beauty of nature and the sea.', 'tingloy.jpg', 'https://en.wikipedia.org/wiki/Tingloy,_Batangas'),
     ('CT26', 'San Luis', '2nd District', 36172,'42.56 sq. km','In the Philippine province of Batangas, San Luis—officially known as the Municipality of San Luis, or Bayan ng San Luis in Tagalog—is a fourth-class municipality. It was founded on Saint Louis feast day, which is why it got its name.This municipality has its beaches that you will enjoy travelling with.', 'san_luis.jpg','https://en.wikipedia.org/wiki/San_Luis,_Batangas'),
     ('CT27', 'Santa Teresita', '3rd District',21559,'16.30 sq. km','The name Santa Teresita is taken from the Spanish for Thérèse of Lisieux, often called St. Therese of the Holy Face and the Child Jesus. Among its numerous well-known features is Santa Teresita Parish Church.','santa_teresita.jpg','https://en.wikipedia.org/wiki/Santa_Teresita,_Batangas'),
-    ('CT28','Taysan','4th District', 40146,'93.62 sq. km','Taysan is a municipality that is known for being an Agri-industrial Second Class Municipality in the Province of Batangas advocating for sustainable Agroindustry.','taysan.jpg','https://en.wikipedia.org/wiki/Taysan'),
-    ('CT29','Balayan','1st District', 95913,'108.73 sq.km','The town has an abundance of natural resources, including grain, coconuts, and sugarcane. Notable occasions include the yearly Feast of Immaculate Conception on December 8 and the Parada ng Lechon on June 24. The Bagoong Balayan is one of the region well-known goods.', 'balayan.jpg','https://en.wikipedia.org/wiki/Balayan'),
-    ('CT30','Balete','3rd District', 351437,'282.96 sq. km','Balete is well-known for having a panoramic view of the Taal Volcano from its location on Taal Lake. Barangay Malabanan is home to Marian Orchard, a place of pilgrimage.','balete.jpg','https://en.wikipedia.org/wiki/Balete,_Batangas'),
-    ('CT31','Ibaan','4th District', 58507,'68.99 sq.km','Ibaan is recognized as the origin of the "kulambo" (mosquito net), since its manufacturing and distribution have grown to be among the most lucrative ventures in the area.','ibaan.jpg','https://en.wikipedia.org/wiki/Ibaan'),
-    ('CT32','Calatagan','1st District', 58719,'101.50 sq.km','Between the Balayan Bay and the South China Sea is the Calatagan Peninsula, which makes up the region of Calatagan. Popular destinations for leisure and vacation are the nearby white sand beaches on the peninsula. Banak House Calatagan on Calatagan beach, Ronco Beach Resort in barangay Bagong Silang, Playa Calatagan in barangay Santa Ana, Golden Sunset Resort in barangay Uno, Lago de Oro Resort in barangay Balibago, Villa Agustina in barangay Bagong Silang, and Nacua Sea Park in barangay Quilitisan are just an assortment of the beach resorts. Because of the wealthy families that own estates here, Calatagan was formerly known as the Forbes Park of the South.','calatagan.jpg','https://en.wikipedia.org/wiki/Calatagan'),
-    ('CT33','Lobo','2nd District', 40736,'Lobo boasts white sand beaches, preserved mangrove forests, and fish sanctuaries.','lobo.jpg','https://en.wikipedia.org/wiki/Lobo,_Batangas')
+    ('CT28', 'Taysan','4th District', 40146,'93.62 sq. km','Taysan is a municipality that is known for being an Agri-industrial Second Class Municipality in the Province of Batangas advocating for sustainable Agroindustry.','taysan.jpg','https://en.wikipedia.org/wiki/Taysan'),
+    ('CT29', 'Balayan','1st District', 95913,'108.73 sq.km','The town has an abundance of natural resources, including grain, coconuts, and sugarcane. Notable occasions include the yearly Feast of Immaculate Conception on December 8 and the Parada ng Lechon on June 24. The Bagoong Balayan is one of the region well-known goods.', 'balayan.jpg','https://en.wikipedia.org/wiki/Balayan'),
+    ('CT30', 'Balete','3rd District', 351437,'282.96 sq. km','Balete is well-known for having a panoramic view of the Taal Volcano from its location on Taal Lake. Barangay Malabanan is home to Marian Orchard, a place of pilgrimage.','balete.jpg','https://en.wikipedia.org/wiki/Balete,_Batangas'),
+    ('CT31', 'Ibaan','4th District', 58507,'68.99 sq.km','Ibaan is recognized as the origin of the "kulambo" (mosquito net), since its manufacturing and distribution have grown to be among the most lucrative ventures in the area.','ibaan.jpg','https://en.wikipedia.org/wiki/Ibaan'),
+    ('CT32', 'Calatagan','1st District', 58719,'101.50 sq.km','Between the Balayan Bay and the South China Sea is the Calatagan Peninsula, which makes up the region of Calatagan. Popular destinations for leisure and vacation are the nearby white sand beaches on the peninsula. Banak House Calatagan on Calatagan beach, Ronco Beach Resort in barangay Bagong Silang, Playa Calatagan in barangay Santa Ana, Golden Sunset Resort in barangay Uno, Lago de Oro Resort in barangay Balibago, Villa Agustina in barangay Bagong Silang, and Nacua Sea Park in barangay Quilitisan are just an assortment of the beach resorts. Because of the wealthy families that own estates here, Calatagan was formerly known as the Forbes Park of the South.','calatagan.jpg','https://en.wikipedia.org/wiki/Calatagan'),
+    ('CT33', 'Lobo','2nd District', 40736,'Lobo boasts white sand beaches, preserved mangrove forests, and fish sanctuaries.','lobo.jpg','https://en.wikipedia.org/wiki/Lobo,_Batangas')
 ]
 
 animals = [
@@ -164,6 +167,31 @@ animals = [
     ('AN025','Short-finned Pilot Whale', 'Globicephala macrorhynchus', 'Mammals','It is one of the two species of cetaceans in the genus Globicephala, which it shares with the long-finned pilot whale (G. melas). It is part of the oceanic dolphin family (Delphinidae).','pilot_whale.jpeg','https://en.wikipedia.org/wiki/Short-finned_pilot_whale'),
     
     #REPTILES
+    ('AN0026', 'Hawksbill Sea Turtle', 'Eretmochelys imbricata', 'Reptiles', 'Its hooked beak, which resembles a bird of prey', 'Turtle.png', 'https://en.wikipedia.org/wiki/Hawksbill_sea_turtle#'),
+    ('AN0027', 'Yellow-lipped Sea krait', 'Laticauda colubrina', 'Reptiles', 'This snake comes on land to eat, rest, and breed, but it spends most of its time underwater hunting', 'Laticauda.png', 'https://en.wikipedia.org/wiki/Yellow-lipped_sea_krait'),
+    ('AN0028', 'Tokay Gecko', 'Gekko gecko', 'Reptiles', 'Its vivid blue-grey exterior,orange dots, and load vacolization ', 'Tokay.png', 'https://en.wikipedia.org/wiki/Tokay_gecko'),
+    ('AN0029', 'Marbled water Monitor', 'varanus marmoratus', 'Reptiles', 'Varanus marmoratus can reach a total length (including tail) of 2 m (6.6 ft).','Tokay.png', 'https://en.wikipedia.org/wiki/Marbled_water_monitor'),
+    ('AN0030', 'Philippine Flying dragon', 'Draco spilopterus', 'Reptiles', 'Is a species of agamid lizard', 'Flying Dragon', 'https://en.wikipedia.org/wiki/Draco_spilopterus'),
+    ('AN0031', 'Little File Snake', 'Acrochordus', 'Reptiles', 'Acrochordus granulatus is the smallest of the three members of the family Acrochordidae, and is commonly called the "little file snake"', 'File Snake.jpg', 'https://en.wikipedia.org/wiki/Acrochordus_granulatus'),
+    ('AN0032', 'Emerald Tree Skink', 'lamprolepis', 'Reptiles', 'The emerald tree skink is generally bright lime green in color, with large black eyes rimmed with yellow. However, their rear limbs or the lower half of their body may be medium brown with white speckling', 'Lamprolepis.jpg', 'https://en.wikipedia.org/wiki/Lamprolepis_smaragdina'),
+    ('AN0033', 'Brook House	Gecko', 'Hemidactylus', 'Reptiles', 'Snout somewhat longer than the distance between the eye and the ear-opening, nearly twice the diameter of the orbit; forehead concave; ear-opening small, oval, vertical, about one third the diameter of the eye; on the occiput very small round tubercles', 'Brooks.jpg', 'https://en.wikipedia.org/wiki/Hemidactylus_brookii'),
+    ('AN0034', 'Philippine Cat Snake', 'Boiga', 'Reptiles', 'The white chin extends down the neck to almost half of its body. Body coloration maybe tan, light brown, brown, coffee-color to a pale orange', 'Bioga.jpg', 'https://en.wikipedia.org/wiki/Boiga_philippina'),
+    ('AN0035', 'Common Sun Skink', 'Eutropis', 'Reptiles', 'A many-striped skink in Bali, Indonesia obtuse, Lower eyelid scaly', 'Eutropis.jpg', 'https://en.wikipedia.org/wiki/File:Many-striped-skink-in-bali.jpg'),
+    ('AN0036', 'Green Crested Lizard', 'Bronchocela', 'Reptiles', 'This species is a bright green lizard, sometimes possessing a blue tint on the head. It is able to change colour, turning darker brown when threatened', 'Bronchocela.jpg', 'https://en.wikipedia.org/wiki/File:B.cristatella.jpg'),
+    ('AN0037', 'King Cobra', 'Ophiophagus', 'Reptiles', 'The king cobra skin is olive green with black and white bands on the trunk that converge to the head. The head is covered by 15 drab coloured and black edged shields', 'King Cobra.jpg', 'https://en.wikipedia.org/wiki/King_cobra'),
+    ('AN0038', 'Reddish Rat Snake', 'Coelognathus', 'Reptiles', ' In the east it is yellow or gray, with black-edged red blotches, and is often referred to as the red rat snake', 'Reddish snake', 'https://en.wikipedia.org/wiki/Philippine_rat_snake'),
+    ('AN0039', 'Lake Taal Snake', 'Hydrophis semperi', 'Reptiles', 'This particular species is considered short in comparison to the rest of the family; adult specimens of H. semperi that have been caught have a total length (including tail) of 50 to 70 cm (20 to 28 in)', 'Lake Taal Snake', 'https://en.wikipedia.org/wiki/Hydrophis_semperi'),
+    ('AN0040', 'Oriental Whipsnake', 'Ahaetulla prasina', 'Reptiles', 'The body form is extremely slender with a long, pointed, projecting snout which is rather more than twice as long as the eye. Adult colouration varies from light brown to dull yellow-green and often a startling fluorescent green', 'Oriental Whipsnake.jpg', 'https://en.wikipedia.org/wiki/Ahaetulla_prasina'),
+    ('AN0041', 'Philippine Sailfin Lizard', 'Hydrosaurus', 'Reptiles', 'an excellent swimmer and has flattened toes that enable it to run across water', 'Philippine Sailfin.jpg', 'https://en.wikipedia.org/wiki/Philippine_sailfin_lizard'),
+    ('AN0042', 'Keeled Rat Snake', 'Ptyas carinata', 'Reptiles', 'keeled rat snake, is a species of colubrid snake', 'Keeled Rat Snake', 'https://en.wikipedia.org/wiki/Ptyas_carinata'),
+    ('AN0043', 'Spine-bellied Sea Snake', 'Hydrophis curtus', 'Reptiles', 'This species is characterized by a wide variation in number of ventral scales and degree of parietal scale fragmentation.[2] Both sexes possess spiny scales along their bodies but males have more highly developed spines', 'Spine-bellied Sea Snake.jpg', 'https://en.wikipedia.org/wiki/Hydrophis_curtus'),
+    ('AN0044', 'Cuming Sphenomorphus', 'Otosaurus cumingii', 'Reptiles', 'Otosaurus cumingii, commonly called Cuming sphenomorphus or the Luzon giant forest skink, is a species of skink, a lizard in the family Scincidae', 'Cumings Sphenomorphus.jpg', 'https://en.wikipedia.org/wiki/Otosaurus#Description'),
+    ('AN0045', 'Cuora Philippinesis', 'Cuora', 'Reptiles', 'a small Cuora species. It has fine whitish head stripes. This species distributed on all Philippine Islands but Palawan and the Sulu Archipelago', 'Cuora.jpg', 'https://www.inaturalist.org/taxa/1545829-Cuora-philippinensis'),
+    ('AN0046', 'Jagor sphenomorphus', 'Pinoyscincus', 'Reptiles', 'Dorsally, P. jagori is brown, with darker and lighter variegations.[4] Adults have a snout-to-vent length (SVL) of about 9 cm (3.5 in).[2] The tail length exceeds the SVL', 'Jagors sphenomorphus.jpg', 'https://en.wikipedia.org/wiki/Pinoyscincus_jagori#Description'),
+    ('AN0047', 'Spiny waterside Skink', 'Tropidophorus', 'Reptiles', 'T. grayi has serrated scales (very spiky) which are grey-black in colour, but may also appear in pure black, reddish-brown or wooden-brown colours', 'Tropidophorus.jpg', 'https://en.wikipedia.org/wiki/Tropidophorus_grayi'),
+    ('AN0048', 'Luzon Bronzeback', 'Dendrelaphis', 'Reptiles', 'Dendrelaphis caudolineatus luzonensis Leviton, 1961 Dendrelaphis luzonensis, also known as the Luzon bronzeback treesnake, is a species of snake of the family Colubridae', 'Luzon Bronzeback.jpg', 'https://en.wikipedia.org/wiki/Dendrelaphis_luzonensis'),
+    ('AN0049', 'Philippine common Cobra', 'Naja', 'Reptiles', 'The Philippine cobra is a stocky snake of medium length with long cervical ribs capable of expanding, so when threatened, a hood can be formed. The average length of this species is 1.0 metre (3.3 ft).[4] The species can grow to lengths of 1.6 metres (5.2 ft)', 'Common cobra.jpg', 'https://en.wikipedia.org/wiki/Philippine_cobra'),
+    ('AN0050', 'Mindoro Forest Dragon', 'Gonocephalus', 'Reptiles', 'Gonocephalus semperi (Peters, 1867) Gonocephalus semperi, the Mindoro forest dragon, is a species of agamid lizard. It is found in the Philippines', 'Mindoro Forest Dragon.jpg', 'https://en.wikipedia.org/wiki/Gonocephalus_semperi')
     
     #BIRDS
     ('AL051', 'Yellow-vented Bulbul', 'Pycnonotus goiavier', 'Bird', ' It is found in a wide variety of open habitats, but not deep forest. It is one of the most common birds in cultivated areas. They appear to be nomadic, roaming from place to place regularly.', 'AL051.jpeg', 'https://en.wikipedia.org/wiki/Yellow-vented_bulbul'),
@@ -428,6 +456,7 @@ tourist_spots = [
     ('TS029', 'Casa Villavicencio', 'Historical', 'Casa Villavicencio in Taal, Batangas, is a historic house museum showcasing the lifestyle of affluent Filipino families during the Spanish colonial period. It belonged to Don Eulalio and Gliceria Marella de Villavicencio, prominent figures in the Philippine Revolution. The museum features well-preserved interiors and memorabilia, offering insights into the rich history of Batangas.', 'TS029.jpg', 'https://en.wikipedia.org/wiki/Casa_Villavicencio'),
     ('TS030', 'La Virginia Resort and Hotel', 'Resort', 'La Virginia Resort and Hotel in Mataas na kahoy, Batangas, offers picturesque accommodations surrounded by lush gardens and scenic views. Guests can enjoy swimming, picnics, and adventure activities like zip-lining and horseback riding. It is the perfect getaway for relaxation and outdoor fun.', 'TS030.jpg', ''),
 ]
+
 
 
 
