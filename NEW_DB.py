@@ -1,8 +1,10 @@
 import sqlite3
-# import os
-# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# db_path = os.path.join(BASE_DIR, "bimData.db")
-connection = sqlite3.connect(':memory:')
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR, "bimData.db")
+con = sqlite3.connect(db_path)
+connection = sqlite3.connect('Batangas_IM.db')
+# connection = sqlite3.connect(':memory:')
 c = connection.cursor()
 
 command = ('''CREATE TABLE IF NOT EXISTS City (
@@ -49,6 +51,54 @@ command = ('''CREATE TABLE IF NOT EXISTS Tourist (
             Description Varchar(500),
             Image Varchar(100),
             Link varchar(200)
+            )''')
+
+c.execute(command)
+
+command = ('''CREATE TABLE IF NOT EXISTS Cities_Loc (
+            CityID VARCHAR(6),
+            xPos FLOAT,
+            yPos FLOAT,
+            Disabled TINYINT(1),
+            FOREIGN KEY(CityID) REFERENCES City(CityID)
+            )''')
+
+c.execute(command)
+
+# command = ('''CREATE TABLE IF NOT EXISTS AnimalsLoc (
+#             AnLocID INTEGER PRIMARY KEY AUTOINCREMENT,
+#             AnimalID VARCHAR(6),
+#             CityID VARCHAR(6),
+#             xPos FLOAT,
+#             yPos FLOAT,
+#             Disabled TINYINT(1),
+#             FOREIGN KEY(AnimalID) REFERENCES Animal(AnimalID),
+#             FOREIGN KEY(CityID) REFERENCES City(CityID)
+#             )''')
+
+# c.execute(command)
+
+# command = ('''CREATE TABLE IF NOT EXISTS PlantsLoc (
+#             PlLocID INTEGER PRIMARY KEY AUTOINCREMENT,
+#             PlantID VARCHAR(6),
+#             CityID VARCHAR(6),
+#             xPos FLOAT,
+#             yPos FLOAT,
+#             Disabled TINYINT(1),
+#             FOREIGN KEY(PlantID) REFERENCES Plant(PlantID),
+#             FOREIGN KEY(CityID) REFERENCES City(CityID)
+#             )''')
+
+# c.execute(command)
+
+command = ('''CREATE TABLE IF NOT EXISTS Tourist_Loc (
+            TouristID VARCHAR(6),
+            CityID VARCHAR(6),
+            xPos FLOAT,
+            yPos FLOAT,
+            Disabled TINYINT(1),
+            FOREIGN KEY(TouristID) REFERENCES Tourist(TouristID),
+            FOREIGN KEY(CityID) REFERENCES City(CityID)
             )''')
 
 c.execute(command)
@@ -408,14 +458,90 @@ tourist_spots = [
     ('TS030', 'La Virginia Resort and Hotel', 'Resort', 'La Virginia Resort and Hotel in Mataas na kahoy, Batangas, offers picturesque accommodations surrounded by lush gardens and scenic views. Guests can enjoy swimming, picnics, and adventure activities like zip-lining and horseback riding. It is the perfect getaway for relaxation and outdoor fun.', 'TS030.jpg', ''),
 ]
 
-c.executemany("INSERT INTO City VALUES (?,?,?,?,?,?,?,?)", cities)
 
-c.executemany("INSERT INTO Animal VALUES (?,?,?,?,?,?,?)", animals)
+cities_loc = [
+    
+    ('CT01', '13.7567', '121.0583', 0),
+    ('CT02', '13.9419', '121.1644', 0),
+    ('CT03', '14.083507', '121.147354', 0),
+    ('CT04', '14.1262', '121.1383', 0),
+    ('CT05', '14.0433', '121.1587', 0),
+    ('CT06', '13.7963', '120.9762', 0),
+    ('CT07', '13.9852', '120.6545', 0),
+    ('CT08', '13.8831', '121.0908', 0),
+    ('CT09', '13.8162', '121.2741', 0),
+    ('CT10', '14.0940', '120.6890', 0),
+    ('CT11', '14.0487', '121.0106', 0),
+    ('CT12', '13.9532', '120.8843', 0),
+    ('CT13', '13.7504', '121.3770', 0),
+    ('CT14', '13.9880', '120.9303', 0),
+    ('CT15', '13.8893', '120.9360', 0),
+    ('CT16', '14.0530', '120.9073', 0),
+    ('CT17', '13.9509', '120.8269', 0),
+    ('CT18', '13.9800', '121.0966', 0),
+    ('CT19', '13.8721', '121.0220', 0),
+    ('CT20', '14.0221', '120.7284', 0),
+    ('CT21', '13.8777', '121.2444', 0),
+    ('CT22', '13.9041', '121.0507', 0),
+    ('CT23', '13.7236', '120.9073', 0),
+    ('CT24', '13.8104', '121.0220', 0),
+    ('CT25', '13.6606', '120.8717', 0),
+    ('CT26', '13.8406', '120.9532', 0),
+    ('CT27', '13.8742', '120.9704', 0),
+    ('CT28', '13.7611', '121.2283', 0),
+    ('CT29', '13.9376', '120.7005', 0),
+    ('CT30', '14.0092', '121.1080', 0),
+    ('CT31', '13.8220', '121.1341', 0),
+    ('CT32', '13.8646', '120.6315', 0),
+    ('CT33', '13.6750', '121.2401', 0)
+]
 
-c.executemany("INSERT INTO Plant VALUES (?,?,?,?,?,?)", plants)
+tourist_loc = [
+    ('TS001', 'CT15', '13.8893', '120.9360', 0),
+    ('TS002', 'CT22', '13.9041', '121.0507', 0),
+    ('TS003', 'CT13', '13.7504', '121.3770', 0),
+    ('TS004', 'CT10', '14.0940', '120.6890', 0),
+    ('TS005', 'CT01', '13.7567', '121.0583', 0),
+    ('TS006', 'CT33', '13.6750', '121.2401', 0),
+    ('TS007', 'CT07', '13.9852', '120.6545', 0),
+    ('TS008', '', '13.6372', '121.0071', 0),
+    ('TS009', 'CT12', '13.9532', '120.8843', 0),
+    ('TS010', 'CT02', '13.9419', '121.1644', 0),
+    ('TS011', 'CT10', '14.0940', '120.6890', 0),
+    ('TS012', 'CT09', '13.8162', '121.2741', 0),
+    ('TS013', 'CT10', '14.0940', '120.6890', 0),
+    ('TS014', 'CT16', '14.0530', '120.9073', 0),
+    ('TS015', 'CT13', '13.7504', '121.3770', 0),
+    ('TS016', 'CT10', '14.0940', '120.6890', 0),
+    ('TS017', 'CT10', '14.0940', '120.6890', 0),
+    ('TS018', 'CT04', '14.1262', '121.1383', 0),
+    ('TS019', 'CT25', '13.6606', '120.8717', 0),
+    ('TS020', 'CT10', '14.0940', '120.6890', 0),
+    ('TS021', 'CT23', '13.7236', '120.9073', 0),
+    ('TS022', 'CT02', '13.9419', '121.1644', 0),
+    ('TS023', 'CT15', '13.8893', '120.9360', 0),
+    ('TS024', 'CT13', '13.7504', '121.3770', 0),
+    ('TS025', 'CT11', '14.0487', '121.0106', 0),
+    ('TS026', 'CT01', '13.7567', '121.0583', 0),
+    ('TS027', 'CT07', '13.9852', '120.6545', 0),
+    ('TS028', 'CT33', '13.6750', '121.2401', 0),
+    ('TS029', 'CT15', '13.8893', '120.9360', 0),
+    ('TS030', 'CT18', '13.9800', '121.0966', 0)
+]
 
-c.executemany("INSERT INTO Tourist VALUES (?,?,?,?,?,?)", tourist_spots)
 
+# c.executemany("INSERT INTO City VALUES (?,?,?,?,?,?,?,?)", cities)
+
+# c.executemany("INSERT INTO Animal VALUES (?,?,?,?,?,?,?)", animals)
+
+# c.executemany("INSERT INTO Plant VALUES (?,?,?,?,?,?)", plants)
+
+# c.executemany("INSERT INTO Tourist VALUES (?,?,?,?,?,?)", tourist_spots)
+
+
+c.executemany("INSERT INTO Cities_Loc VALUES (?,?,?,?)", cities_loc)
+
+c.executemany("INSERT INTO Tourist_Loc VALUES (?,?,?,?,?)", tourist_loc)
 
 print('Command executed successfully!!!')
 
