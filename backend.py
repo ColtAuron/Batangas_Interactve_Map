@@ -6,9 +6,12 @@ import sqlite3
 import customtkinter
 from customtkinter import *
 from PIL import Image, ImageTk
+
+
 class Animals:
     all = []
-    def __init__(self, Name, sciName, desc, xPos, yPos, img, city, type = "Animal"):
+
+    def __init__(self, Name, sciName, desc, xPos, yPos, img, city, type="Animal"):
         self.Name = Name
         self.sciName = sciName
         self.desc = desc
@@ -19,9 +22,11 @@ class Animals:
         self.type = type
         Animals.all.append(self)
 
+
 class Plants:
     all = []
-    def __init__(self, Name, sciName, desc, xPos, yPos, img, city, type = "Plant"):
+
+    def __init__(self, Name, sciName, desc, xPos, yPos, img, city, type="Plant"):
         self.Name = Name
         self.sciName = sciName
         self.desc = desc
@@ -32,9 +37,11 @@ class Plants:
         self.type = type
         self.all.append(self)
 
+
 class TouristDes:
     all = []
-    def __init__(self, Name, link, desc, xPos, yPos, img, city, type = "Tourist Destination"):
+
+    def __init__(self, Name, link, desc, xPos, yPos, img, city, type="Tourist Destination"):
         self.Name = Name
         self.link = link
         self.desc = desc
@@ -45,10 +52,12 @@ class TouristDes:
         self.type = type
         self.all.append(self)
 
+
 class HoverMapView(TkinterMapView):
     def __init__(self, left_frame, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.left_frame = left_frame
+
 
 class App(customtkinter.CTk):
     app_name = "Batangas Interactive Map"
@@ -67,9 +76,12 @@ class App(customtkinter.CTk):
         database_path = os.path.join(script_directory, "batangas.db")
 
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        self.animalimg = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "icons", "animalmarker.png")).resize((50, 70)))
-        self.plantimg = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "icons", "plantmarker.png")).resize((50, 70)))
-        self.T_img = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "icons", "touristmarker.png")).resize((50, 70)))
+        self.animalimg = ImageTk.PhotoImage(
+            Image.open(os.path.join(BASE_DIR, "icons", "animalmarker.png")).resize((50, 70)))
+        self.plantimg = ImageTk.PhotoImage(
+            Image.open(os.path.join(BASE_DIR, "icons", "plantmarker.png")).resize((50, 70)))
+        self.T_img = ImageTk.PhotoImage(
+            Image.open(os.path.join(BASE_DIR, "icons", "touristmarker.png")).resize((50, 70)))
 
         self.title(App.app_name)
         frame_width = 1280
@@ -88,31 +100,32 @@ class App(customtkinter.CTk):
         self.current_category = None
 
         # left frame
-        self.left_frame = CTkFrame(self, width=frame_width, height=frame_height,fg_color="#BEEF9E")
+        self.left_frame = CTkFrame(self, width=frame_width, height=frame_height, fg_color="#BEEF9E")
         self.left_frame.pack(side="left", fill="both", expand=True)
 
         self.create_button()
 
         logo_path = os.path.join(BASE_DIR, "icons", "logo.png")
         logo_image = logo_path
-        logo_image = CTkImage(Image.open(logo_image), size=(250,250))
+        logo_image = CTkImage(Image.open(logo_image), size=(250, 250))
         logo_label = CTkLabel(self.left_frame, image=logo_image, bg_color="#BEEF9E", text="")
-        logo_label.place(x=0,y=0)
+        logo_label.place(x=0, y=0)
         logo_label.image = logo_image
 
-        self.dropdown = customtkinter.CTkOptionMenu(self.left_frame, values=["Please Select One", "Animal", "Plant", "Tourist Spot"], command=self.dropdown_callback)
+        self.dropdown = customtkinter.CTkOptionMenu(self.left_frame,
+                                                    values=["Please Select One", "Animal", "Plant", "Tourist Spot"],
+                                                    command=self.dropdown_callback)
         self.colt = False
         self.load_suggestions()
         self.Name = customtkinter.CTkLabel(self.left_frame, text="Name:", text_color="Black")
-        self.Namebox = customtkinter.CTkTextbox(self.left_frame, width = 140, height = 10, corner_radius= 1)
+        self.Namebox = customtkinter.CTkTextbox(self.left_frame, width=140, height=10, corner_radius=1)
         self.Sci = customtkinter.CTkLabel(self.left_frame, text="Scientific Name:", text_color="Black")
-        self.Scibox = customtkinter.CTkTextbox(self.left_frame, width = 140, height = 10, corner_radius= 1)
+        self.Scibox = customtkinter.CTkTextbox(self.left_frame, width=140, height=10, corner_radius=1)
         self.Desc = customtkinter.CTkLabel(self.left_frame, text="Description:", text_color="Black")
-        self.DescBox = customtkinter.CTkTextbox(self.left_frame, width = 140, height = 10, corner_radius= 1)
+        self.DescBox = customtkinter.CTkTextbox(self.left_frame, width=140, height=10, corner_radius=1)
         self.Link = customtkinter.CTkLabel(self.left_frame, text="Link:", text_color="Black")
-        self.LinkBox = customtkinter.CTkTextbox(self.left_frame, width = 140, height = 10, corner_radius= 1)
-        self.suggest = customtkinter.CTkButton(self.left_frame, width = 140, height = 10, text = "Submit")
-
+        self.LinkBox = customtkinter.CTkTextbox(self.left_frame, width=140, height=10, corner_radius=1)
+        self.suggest = customtkinter.CTkButton(self.left_frame, width=140, height=10, text="Submit")
 
         # right frame
         self.right_frame = CTkFrame(self, width=frame_width, height=frame_height)
@@ -141,28 +154,51 @@ class App(customtkinter.CTk):
         animal_icon = customtkinter.CTkImage(Image.open(os.path.join(file_path, "icons", "animal.png")))
         plant_icon = customtkinter.CTkImage(Image.open(os.path.join(file_path, "icons", "plant.png")))
         tourist_icon = customtkinter.CTkImage(Image.open(os.path.join(file_path, "icons", "tourist.png")))
+        cities_icon = customtkinter.CTkImage(Image.open(os.path.join(file_path, "icons", "city.png")))
 
         button_names = ["Animals", "Plants", "Tourist Spots", "Cities",
                         "Suggestions"]
-        icons = [animal_icon, plant_icon, tourist_icon, None, None]
+        icons = [animal_icon, plant_icon, tourist_icon, cities_icon, None]
+
+        buttons = []
+        button_states = {name: False for name in button_names}
 
         for i, (name, icon) in enumerate(zip(button_names, icons)):
+            def click_callback(name):
+                def on_click():
+                    self.on_click(name)
+                    if name == "Suggestions":
+                        button_states[name] = not button_states[name]
+                        if button_states[name]:
+                            buttons[button_names.index(name)].configure(fg_color="#828C51")
+                        else:
+                            buttons[button_names.index(name)].configure(fg_color="#A6C36F")
+                    else:
+                        button_states[name] = not button_states[name]
+                        if button_states[name]:
+                            buttons[button_names.index(name)].configure(fg_color="#A6C36F")
+                        else:
+                            buttons[button_names.index(name)].configure(fg_color="#828C51")
+
+                return on_click
+
             if icon is not None:
                 button = CTkButton(self.left_frame, image=icon, compound="left", text=name,
-                                   command=lambda n=name: self.on_click(n), text_color="#000000",
-                                   font=('Arial', 14, 'bold'), fg_color="#A6C36F", hover_color="#828C51")
+                                   command=click_callback(name), text_color="#000000",
+                                   font=('Arial', 14, 'bold'), fg_color="#828C51", hover_color="#A6C36F")
             else:
-                button = CTkButton(self.left_frame, text=name, command=lambda n=name: self.on_click(n),
-                                   text_color="#000000", font=('Arial', 14, 'bold'), fg_color="#A6C36F",
-                                   hover_color="#828C51")
+                button = CTkButton(self.left_frame, text=name, command=click_callback(name),
+                                   text_color="#000000", font=('Arial', 14, 'bold'),
+                                   fg_color="#828C51", hover_color="#A6C36F")
 
             button.grid(row=i, column=0, padx=(50, 50), pady=(250, 5) if name == "Animals" else 5, sticky="ew")
+            buttons.append(button)
 
     def on_click(self, category):
         self.current_category = category
         self.reload_markers()
 
-    def reload_markers(self):  
+    def reload_markers(self):
         if self.current_category == "Animals":
             self.load_animal_markers()
         elif self.current_category == "Plants":
@@ -183,11 +219,13 @@ class App(customtkinter.CTk):
                 if (items[7] == 0):
                     Animals(items[0], items[1], items[2], items[5], items[6], items[3], items[4])
             for item in Animals.all:
-                self.animalMarkers.append(self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.animal_active, icon = self.animalimg, icon_anchor = "s",text_color = "#d1ae69"))
+                self.animalMarkers.append(
+                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.animal_active,
+                                               icon=self.animalimg, icon_anchor="s", text_color="#d1ae69"))
                 self.animalInfo.append([item.sciName, item.desc, item.img, item.city])
 
             #
-            # Add button activated func 
+            # Add button activated func
             #
 
         else:
@@ -210,10 +248,11 @@ class App(customtkinter.CTk):
                     Plants(items[0], items[1], items[2], items[5], items[6], items[3], items[4])
             for item in Plants.all:
                 self.plantMarkers.append(
-                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.plant_active, icon_anchor = "s", icon = self.plantimg, text_color = "#7cd169"))
+                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.plant_active,
+                                               icon_anchor="s", icon=self.plantimg, text_color="#7cd169"))
                 self.plantInfo.append([item.sciName, item.desc, item.img, item.city])
             #
-            # Add button activated func 
+            # Add button activated func
             #
         else:
             for plant in self.plantMarkers:
@@ -235,7 +274,8 @@ class App(customtkinter.CTk):
                     TouristDes(items[0], items[1], items[2], items[5], items[6], items[3], items[4])
             for item in TouristDes.all:
                 self.touristMarkers.append(
-                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.tourist_active, icon_anchor = "s", icon = self.T_img, text_color = "#d16a6a"))
+                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.tourist_active,
+                                               icon_anchor="s", icon=self.T_img, text_color="#d16a6a"))
                 self.touristInfo.append([item.link, item.desc, item.img, item.city])
         else:
             for tourist in self.touristMarkers:
@@ -254,32 +294,31 @@ class App(customtkinter.CTk):
         else:
             self.dropdown.place_forget()
             self.colt = False
-    
-    def dropdown_callback(self, choice):
-        if(choice == "Please Select One"):
-            self.forget_everything()
-        elif(choice == "Animal" or choice == "Plant"):
-            self.forget_everything()
-            self.Name.place(x=50,y=480)
-            self.Namebox.place(x=50, y=500)
-            self.Sci.place(x=50,y=530)
-            self.Scibox.place(x=50,y=550)
-            self.Desc.place(x=50,y=580)
-            self.DescBox.place(x=50,y=600)
-            self.Link.place(x=50,y=630)
-            self.LinkBox.place(x=50,y=650)
-            self.suggest.place(x=50,y=700)
-        elif(choice == "Tourist Spot"):
-            self.forget_everything()
-            self.Name.place(x=50,y=480)
-            self.Namebox.place(x=50, y=500)
-            self.Desc.place(x=50,y=530)
-            self.DescBox.place(x=50,y=550)
-            self.Link.place(x=50,y=580)
-            self.LinkBox.place(x=50,y=600)
-            self.suggest.place(x=50,y=650)
 
-        
+    def dropdown_callback(self, choice):
+        if (choice == "Please Select One"):
+            self.forget_everything()
+        elif (choice == "Animal" or choice == "Plant"):
+            self.forget_everything()
+            self.Name.place(x=50, y=480)
+            self.Namebox.place(x=50, y=500)
+            self.Sci.place(x=50, y=530)
+            self.Scibox.place(x=50, y=550)
+            self.Desc.place(x=50, y=580)
+            self.DescBox.place(x=50, y=600)
+            self.Link.place(x=50, y=630)
+            self.LinkBox.place(x=50, y=650)
+            self.suggest.place(x=50, y=700)
+        elif (choice == "Tourist Spot"):
+            self.forget_everything()
+            self.Name.place(x=50, y=480)
+            self.Namebox.place(x=50, y=500)
+            self.Desc.place(x=50, y=530)
+            self.DescBox.place(x=50, y=550)
+            self.Link.place(x=50, y=580)
+            self.LinkBox.place(x=50, y=600)
+            self.suggest.place(x=50, y=650)
+
     def forget_everything(self):
         self.Name.place_forget()
         self.Namebox.place_forget()
@@ -290,7 +329,6 @@ class App(customtkinter.CTk):
         self.Link.place_forget()
         self.LinkBox.place_forget()
         self.suggest.place_forget()
-
 
     def animal_active(self, marker):
         sciName = self.animalInfo[self.animalMarkers.index(marker)][0]
@@ -316,8 +354,9 @@ class App(customtkinter.CTk):
     def start(self):
         self.mainloop()
 
-#Remove this if Implement to Front
+
+# Remove this if Implement to Front
 if __name__ == "__main__":
     app = App()
-    app.resizable(False,False)
+    app.resizable(False, False)
     app.start()
