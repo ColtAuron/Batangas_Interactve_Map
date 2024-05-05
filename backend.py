@@ -166,7 +166,7 @@ class App(customtkinter.CTk):
         button_states = {name: False for name in button_names}
 
         for i, (name, icon) in enumerate(zip(button_names, icons)):
-            def click_callback(name):
+            def click_callback(name):   #color activation/deactivation if click
                 def on_click():
                     self.on_click(name)
                     if name == "Suggestions":
