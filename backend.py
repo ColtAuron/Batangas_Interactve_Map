@@ -59,7 +59,7 @@ class App(customtkinter.CTk):
         super().__init__(*args, **kwargs)
 
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(BASE_DIR, "bimData.db")
+        db_path = os.path.join(BASE_DIR, "Batangas_IM.db")
         con = sqlite3.connect(db_path)
         self.c = con.cursor()
 
@@ -228,7 +228,7 @@ class App(customtkinter.CTk):
     def load_tourist_markers(self):
         if self.touristMarkers == []:
             self.c.execute(
-                "Select Tourist.Name, link, desc, img, City.Name, xPos, yPos, Disabled From TouristLoc, Tourist, City WHERE TouristLoc.TouristID = Tourist.TouristID AND TouristLoc.CityID = City.CityID")
+                "Select Tourist.Name, Tourist.Link, Tourist.Description, Tourist.Image, City.Name, xPos, yPos, Disabled From Tourist_Loc, Tourist, City WHERE Tourist_Loc.TouristID = Tourist.TouristID AND Tourist_Loc.CityID = City.CityID")
             frSql = self.c.fetchall()
             for items in frSql:
                 if (items[7] == 0):

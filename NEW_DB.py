@@ -1,11 +1,9 @@
 import sqlite3
 import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-db_path = os.path.join(BASE_DIR, "bimData.db")
+db_path = os.path.join(BASE_DIR, "Batangas_IM.db")
 con = sqlite3.connect(db_path)
-connection = sqlite3.connect('Batangas_IM.db')
-# connection = sqlite3.connect(':memory:')
-c = connection.cursor()
+c = con.cursor()
 
 command = ('''CREATE TABLE IF NOT EXISTS City (
             CityID Varchar(6) PRIMARY KEY,
@@ -538,12 +536,11 @@ tourist_loc = [
 
 # c.executemany("INSERT INTO Tourist VALUES (?,?,?,?,?,?)", tourist_spots)
 
+# c.executemany("INSERT INTO Cities_Loc VALUES (?,?,?,?)", cities_loc)
 
-c.executemany("INSERT INTO Cities_Loc VALUES (?,?,?,?)", cities_loc)
+# c.executemany("INSERT INTO Tourist_Loc VALUES (?,?,?,?,?)", tourist_loc)
 
-c.executemany("INSERT INTO Tourist_Loc VALUES (?,?,?,?,?)", tourist_loc)
-
-print('Command executed successfully!!!')
+# print('Command executed successfully!!!')
 
 # c.execute("SELECT * FROM City")
 # print(c.fetchall())
@@ -557,4 +554,4 @@ print('Command executed successfully!!!')
 # c.execute("SELECT * FROM Tourist")
 print(c.fetchall())
 
-connection.commit()
+con.commit()
