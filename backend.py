@@ -76,12 +76,10 @@ class App(customtkinter.CTk):
         database_path = os.path.join(script_directory, "batangas.db")
 
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        self.animalimg = ImageTk.PhotoImage(
-            Image.open(os.path.join(BASE_DIR, "icons", "animalmarker.png")).resize((50, 70)))
-        self.plantimg = ImageTk.PhotoImage(
-            Image.open(os.path.join(BASE_DIR, "icons", "plantmarker.png")).resize((50, 70)))
-        self.T_img = ImageTk.PhotoImage(
-            Image.open(os.path.join(BASE_DIR, "icons", "touristmarker.png")).resize((50, 70)))
+        self.animalimg = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "icons", "animalmarker.png")).resize((50, 70)))
+        self.plantimg = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "icons", "plantmarker.png")).resize((50, 70)))
+        self.T_img = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "icons", "touristmarker.png")).resize((50, 70)))
+        self.M_img = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "icons", "marker.png")).resize((70, 70)))
 
         self.title(App.app_name)
         frame_width = 1280
@@ -120,7 +118,6 @@ class App(customtkinter.CTk):
                                                     button_color="#A6C36F", button_hover_color="#828C51",
                                                     text_color="#000000", dropdown_text_color="#000000")
         self.colt = False
-        self.load_suggestions()
         self.Name = customtkinter.CTkLabel(self.left_frame, text="Name:", text_color="Black")
         self.Namebox = customtkinter.CTkTextbox(self.left_frame, width=140, height=10, corner_radius=1)
         self.Sci = customtkinter.CTkLabel(self.left_frame, text="Scientific Name:", text_color="Black")
@@ -151,8 +148,8 @@ class App(customtkinter.CTk):
         self.plantInfo = []
         self.touristMarkers = []
         self.touristInfo = []
-        self.biomeMarkers = []
-        self.biomeInfo = []
+        self.cityMarkers = []
+        self.cityInfo = []
 
     def create_button(self):
         file_path = os.path.dirname(os.path.realpath(__file__))
@@ -282,14 +279,39 @@ class App(customtkinter.CTk):
                     self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.tourist_active,
                                                icon_anchor="s", icon=self.T_img, text_color="#d16a6a"))
                 self.touristInfo.append([item.link, item.desc, item.img, item.city])
+            #
+            # Add button activated func 
+            #
         else:
             for tourist in self.touristMarkers:
                 self.map_widget.delete(tourist)
             self.touristMarkers.clear()
             TouristDes.all.clear()
             self.touristInfo.clear()
+            #
+            # Revert to Normal pre-activated
+            #
 
     def load_city_markers(self):
+        if self.cityMarkers == []:
+            #                        0        1        2         3        4          5     6      7     8      9
+            self.c.execute("Select Name, District, Population, Width, Description, Image, Link, xPos, yPos, Disabled From Cities_Loc, City WHERE Cities_Loc.CityID = City.CityID")
+            frSql = self.c.fetchall()
+            for items in frSql:
+                if(items[9] == 0):
+                    self.cityMarkers.append(self.map_widget.set_marker(items[7],items[8],items[0], command = self.cities_active, icon_anchor = "s", icon = self.M_img, text_color = "#6987d1"))
+                    self.cityInfo.append([items[1],items[2],items[3],items[4],items[5],items[6]])
+            #
+            # Add button activated func 
+            #
+        else:
+            for item in self.cityMarkers:
+                self.map_widget.delete(item)
+            self.cityMarkers.clear()
+            self.cityInfo.clear()
+            #
+            # Revert to Normal pre-activated
+            #
         pass
 
     def load_suggestions(self):
@@ -355,6 +377,9 @@ class App(customtkinter.CTk):
         img = self.touristInfo[self.touristMarkers.index(marker)][2]
         city = self.touristInfo[self.touristMarkers.index(marker)][3]
         print(link, desc, img, city)
+
+    def cities_active(self, marker):
+        pass
 
     def start(self):
         self.mainloop()
