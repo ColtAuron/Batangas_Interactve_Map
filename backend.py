@@ -126,8 +126,8 @@ class App(customtkinter.CTk):
         self.DescBox = customtkinter.CTkTextbox(self.left_frame, width=140, height=10, corner_radius=1)
         self.Link = customtkinter.CTkLabel(self.left_frame, text="Link:", text_color="Black")
         self.LinkBox = customtkinter.CTkTextbox(self.left_frame, width=140, height=10, corner_radius=1)
-        self.suggest = customtkinter.CTkButton(self.left_frame, width=140, height=10, text="Submit", fg_color="#828C51"
-                                               ,text_color="#000000")
+        self.suggest = customtkinter.CTkButton(self.left_frame, width=140, height=10, text="Submit", fg_color="#A6C36F"
+                                               ,text_color="#000000", hover_color="#828C51",font=('Arial', 14, 'bold'))
 
         # right frame
         self.right_frame = CTkFrame(self, width=frame_width, height=frame_height)
@@ -172,15 +172,15 @@ class App(customtkinter.CTk):
                     if name == "Suggestions":
                         button_states[name] = not button_states[name]
                         if button_states[name]:
-                            buttons[button_names.index(name)].configure(fg_color="#828C51")
-                        else:
                             buttons[button_names.index(name)].configure(fg_color="#A6C36F")
+                        else:
+                            buttons[button_names.index(name)].configure(fg_color="#828C51")
                     else:
                         button_states[name] = not button_states[name]
                         if button_states[name]:
-                            buttons[button_names.index(name)].configure(fg_color="#A6C36F")
-                        else:
                             buttons[button_names.index(name)].configure(fg_color="#828C51")
+                        else:
+                            buttons[button_names.index(name)].configure(fg_color="#A6C36F")
 
                 return on_click
 
