@@ -63,8 +63,8 @@ class App(customtkinter.CTk):
 
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         db_path = os.path.join(BASE_DIR, "Batangas_IM.db")
-        con = sqlite3.connect(db_path)
-        self.c = con.cursor()
+        self.con = sqlite3.connect(db_path)
+        self.c = self.con.cursor()
 
         script_directory = os.path.dirname(os.path.abspath(__file__))
         database_path = os.path.join(script_directory, "batangas.db")
@@ -113,15 +113,15 @@ class App(customtkinter.CTk):
                                                     text_color="#000000", dropdown_text_color="#000000")
         self.colt = False
         self.Name = customtkinter.CTkLabel(self.left_frame, text="Name:", text_color="Black")
-        self.Namebox = customtkinter.CTkTextbox(self.left_frame, width=140, height=10, corner_radius=1)
+        self.Namebox = customtkinter.CTkEntry(self.left_frame, width=140, height=10, corner_radius=1)
         self.Sci = customtkinter.CTkLabel(self.left_frame, text="Scientific Name:", text_color="Black")
-        self.Scibox = customtkinter.CTkTextbox(self.left_frame, width=140, height=10, corner_radius=1)
+        self.Scibox = customtkinter.CTkEntry(self.left_frame, width=140, height=10, corner_radius=1)
         self.Desc = customtkinter.CTkLabel(self.left_frame, text="Description:", text_color="Black")
-        self.DescBox = customtkinter.CTkTextbox(self.left_frame, width=140, height=10, corner_radius=1)
+        self.DescBox = customtkinter.CTkEntry(self.left_frame, width=140, height=10, corner_radius=1)
         self.Link = customtkinter.CTkLabel(self.left_frame, text="Link:", text_color="Black")
-        self.LinkBox = customtkinter.CTkTextbox(self.left_frame, width=140, height=10, corner_radius=1)
+        self.LinkBox = customtkinter.CTkEntry(self.left_frame, width=140, height=10, corner_radius=1)
         self.suggest = customtkinter.CTkButton(self.left_frame, width=140, height=10, text="Submit", fg_color="#A6C36F"
-                                               ,text_color="#000000", hover_color="#828C51",font=('Arial', 14, 'bold'))
+                                               ,text_color="#000000", hover_color="#828C51",font=('Arial', 14, 'bold'), command=self.suggest_button)
 
         # right frame
         self.right_frame = CTkFrame(self, width=frame_width, height=frame_height)
@@ -148,6 +148,7 @@ class App(customtkinter.CTk):
         self.sgXpoint = None
         self.sgYpoint = None
         self.sgCurMar = None
+        self.choice = None
 
     def create_button(self):
         file_path = os.path.dirname(os.path.realpath(__file__))
@@ -291,7 +292,8 @@ class App(customtkinter.CTk):
             self.dropdown.place(x=50, y=450)
             self.bind('<space>', self.toggle_coords)
             self.colt = True
-            self.drawSGMarker()
+            if self.sgXpoint and self.sgYpoint:
+                self.drawSGMarker()
         else:
             if self.sgCurMar:
                 self.map_widget.delete(self.sgCurMar)
@@ -338,6 +340,11 @@ class App(customtkinter.CTk):
         pass
 
     def dropdown_callback(self, choice):
+        self.choice = choice
+        self.Namebox.delete(0, len(self.Namebox.get()))
+        self.Scibox.delete(0, len(self.Scibox.get()))
+        self.DescBox.delete(0, len(self.DescBox.get()))
+        self.LinkBox.delete(0, len(self.LinkBox.get()))
         if (choice == "Category"):
             self.forget_everything()
         elif (choice == "Animal" or choice == "Plant"):
@@ -360,6 +367,34 @@ class App(customtkinter.CTk):
             self.Link.place(x=50, y=580)
             self.LinkBox.place(x=50, y=600)
             self.suggest.place(x=50, y=650)
+
+    def suggest_button(self):
+        if self.Namebox.get() and self.DescBox.get() and self.LinkBox.get() and (self.choice == 'Tourist Spot' or (self.Scibox.get())):
+            name = self.Namebox.get()
+            sci = self.Scibox.get()
+            desc = self.DescBox.get()
+            link = self.LinkBox.get()
+            if self.sgCurMar:
+                x = self.sgXpoint
+                y = self.sgYpoint
+                print(name,sci,desc,link,x,y)
+                self.Namebox.delete(0, len(self.Namebox.get()))
+                self.Scibox.delete(0, len(self.Scibox.get()))
+                self.DescBox.delete(0, len(self.DescBox.get()))
+                self.LinkBox.delete(0, len(self.LinkBox.get()))
+                self.undo_draw_coords()
+                if sci == "":
+                    sci = "NULL"
+                to_database = tuple((self.choice, name, sci, desc, link, x, y))
+                self.c.execute("INSERT INTO SUGGEST (Category, Name, SciName, Description, Link, xPos, yPos) VALUES (?,?,?,?,?,?,?)", to_database)
+                self.con.commit()
+                print("Submitted Successfully!")
+            else:
+                print("Put out a marker")
+        else:
+            print(self.current_category)
+            print("Fill out")
+            
 
     def forget_everything(self):
         self.Name.place_forget()

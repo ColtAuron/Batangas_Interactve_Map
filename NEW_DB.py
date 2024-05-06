@@ -554,6 +554,9 @@ tourist_loc = [
 
 # c.executemany("INSERT INTO Tourist_Loc VALUES (?,?,?,?,?)", tourist_loc)
 
+c.execute("SELECT * FROM SUGGEST")
+print(c.fetchall())
+
 print('Command executed successfully!!!')
 
 # c.execute("SELECT * FROM City")
