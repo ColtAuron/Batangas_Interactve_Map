@@ -177,9 +177,9 @@ class App(customtkinter.CTk):
                     else:
                         button_states[name] = not button_states[name]
                         if button_states[name]:
-                            buttons[button_names.index(name)].configure(fg_color="#828C51")
-                        else:
                             buttons[button_names.index(name)].configure(fg_color="#A6C36F")
+                        else:
+                            buttons[button_names.index(name)].configure(fg_color="#828C51")
 
                 return on_click
 
