@@ -111,7 +111,7 @@ class App(customtkinter.CTk):
 
         self.usersframe=customtkinter.CTkFrame(master=self.mainframe, width=1000, height=700, corner_radius=20)
         usersvalues = [['CityID', 'Name', 'District', 'Population', 'Width', 'Description', 'Image', 'Link']]
-        self.userstitle=CTkTable(master=self.usersframe, width=88, height=10, values=usersvalues)
+        self.userstitle=CTkTable(master=self.usersframe, width=95, height=10, values=usersvalues)
         self.userstitle.place(relx=.455, rely=.13, anchor=tkinter.CENTER)
         self.userscroll= customtkinter.CTkScrollableFrame(self.usersframe, width=810, height=500)
         self.userscroll.place(relx=.505, rely=.15, anchor=tkinter.N)
@@ -119,9 +119,9 @@ class App(customtkinter.CTk):
 
         #--------- Requests Frame ----------
         self.requestsframe=customtkinter.CTkFrame(master=self.mainframe, width=1000, height=700, corner_radius=20)
-        requestsvalues = [['Route Number', 'Name', 'Color', 'Author']]
-        self.requeststitle=CTkTable(master=self.requestsframe, width=113, height=10, values=requestsvalues)
-        self.requeststitle.place(relx=.328, rely=.13, anchor=tkinter.CENTER)
+        requestsvalues = [['AnimalID', 'Name', 'SciName', 'Class','Description', 'Image', 'Link']]
+        self.requeststitle=CTkTable(master=self.requestsframe, width=105, height=10, values=requestsvalues)
+        self.requeststitle.place(relx=.090, rely=.13, anchor=tkinter.W)
         self.requestscroll= customtkinter.CTkScrollableFrame(self.requestsframe, width=810, height=500)
         self.requestscroll.place(relx=.505, rely=.15, anchor=tkinter.N)
         self.requesttable=CTkTable(master=self.requestscroll, width=200, height=10, values=[[1,2,3,4,5]], command=self.reqtableclick)
@@ -160,7 +160,7 @@ class App(customtkinter.CTk):
         self.todas.configure(state='disabled')
         self.bus.configure(state='disabled')
 
-        self.showusers()
+        self.showrequests()
     
     #----------- OV ------------
 
@@ -198,7 +198,7 @@ class App(customtkinter.CTk):
         for items in table:
             updated_table.append((items[0],items[1],items[2],items[3],items[4],'DESCRIPTION',items[6],'LINK','DELETE'))
         try:
-            self.userstable=CTkTable(master=self.userscroll, width=200, height=10, values=updated_table, command=self.usertableclick) #self.usertableclick returns values rows, colm, args
+            self.userstable=CTkTable(master=self.userscroll, width=150, height=10, values=updated_table, command=self.usertableclick) #self.usertableclick returns values rows, colm, args
             self.userstable.pack()
         except:
             pass
@@ -240,6 +240,7 @@ class App(customtkinter.CTk):
             output = dialog.get_input() 
             if output and output != tochange:
                 self.c.execute("UPDATE City Set {} = ? WHERE CityID = ?".format(typ), (output, id))
+                self.con.commit()
         self.userstable.destroy() #Destroys current table
         self.refreshusers() #Creates and build from the database
     
@@ -264,12 +265,10 @@ class App(customtkinter.CTk):
 
     def refreshrequests(self):
         updated_table = list()
-        self.c.execute("SELECT RouteNum, Name, Color, Author FROM REQUESTROUTE")
+        self.c.execute("SELECT AnimalID, Name, SciName, Class, Image FROM Animal")
         table = self.c.fetchall()
         for items in table:
-            self.c.execute("SELECT User FROM ACCOUNT WHERE ID=?", (items[3],))
-            author = self.c.fetchall()
-            updated_table.append((items[0],items[1],items[2],author,'INSPECT','ACCEPT', 'DELETE'))
+            updated_table.append((items[0],items[1],items[2],items[3],'DESCRIPTION',items[4],'LINK', 'DELETE'))
         try:
             self.requesttable=CTkTable(master=self.requestscroll, width=150, height=10, values=updated_table, command=self.reqtableclick) #self.usertableclick returns values rows, colm, args
             self.requesttable.pack()
@@ -278,72 +277,45 @@ class App(customtkinter.CTk):
         pass
 
     def reqtableclick(self, args):
-        name = self.requesttable.get_row(row=args["row"])[1]
-        id = int(self.requesttable.get_row(row=args["row"])[0])
-        if args["value"] == 'DELETE': 
-            msg = CTkMessagebox(title="Delete?", message=f"Delete Route: {name}, RNum = {id} ?", icon="question", option_1="No", option_3="Yes")
-            response = msg.get()
-            if response=="Yes":
-                self.c.execute("DELETE from REQUESTROUTE WHERE RouteNum=?", (id,)) 
-                self.con.commit()
-                self.c.execute("DELETE FROM REQUESTPOINTS WHERE RouteNum=?", (id,))
-                self.con.commit()
-                CTkMessagebox(title="DELETED!", message="Successfully Deleted") 
-        elif args["value"] == 'ACCEPT':
-            msg = CTkMessagebox(title="ACCEPT?", message=f"Accept Route Name: {name}, \nRNum = {id} ?", icon="question", option_1="No", option_3="Yes")
-            response = msg.get()
-            if response=="Yes":
-                color = self.requesttable.get_row(row=args["row"])[2]
-                self.c.execute("SELECT Point_X, Point_Y FROM REQUESTPOINTS WHERE RouteNum=?", (id,))
-                points = self.c.fetchall()
-                self.c.execute("INSERT INTO ROUTE (Name, Color, Disabled) VALUES (?,?,?)", (name, color, 0))
-                self.con.commit()
-                self.c.execute("SELECT Max(RouteNum) FROM ROUTE")
-                newID = self.c.fetchall()[0][0]
-                for point in points:
-                    self.c.execute("INSERT INTO POINTS (Point_X, Point_Y, RouteNum) VALUES (?,?,?)", (point[0], point[1], newID))
-                    self.con.commit()
-                self.c.execute("DELETE from REQUESTROUTE WHERE RouteNum=?", (id,)) 
-                self.con.commit()
-                self.c.execute("DELETE FROM REQUESTPOINTS WHERE RouteNum=?", (id,))
-                self.con.commit()
-                CTkMessagebox(title="COMMITED!", message="Successfully Added!")
-        elif args["value"] == 'INSPECT':
-            self.c.execute("SELECT Point_X, Point_Y FROM REQUESTPOINTS WHERE RouteNum=?", (id,))
-            points = self.c.fetchall()
-            color = self.requesttable.get_row(row=args["row"])[2]
-            InspectWindow = ColtInspect(points, name, color)
-            InspectWindow.after(100, InspectWindow.lift)
-            InspectWindow.wait_window()
-        elif args["column"] == 0: 
-            CTkMessagebox(title="Error", message="Altering IDs are not allowed", icon="cancel") 
-        elif args["column"] == 3:
-            CTkMessagebox(title="Error", message="Altering Authors are not allowed", icon="cancel") 
+        if args["value"] == 'DELETE': #calls the value with key "value"
+            user = self.requesttable.get_row(row=args["row"])[1] #"Grabs the column 2 which is the username"
+            id = self.requesttable.get_row(row=args["row"])[0] #Grabs the column 0 which is the ID
+            msg = CTkMessagebox(title="Delete?", message=f"Delete Animal: {user} id: {id} ?", icon="question", option_1="No", option_3="Yes") #Asks for confirmation
+            response = msg.get() #Waits and grabs information
+            if response=="Yes": #Self explanatory DUUUHH
+                self.c.execute("DELETE from Animal WHERE AnimalID=?", (id,)) #Delete query
+                self.con.commit() #Commit and save changes
+                CTkMessagebox(title="DELETED!", message="Successfully Deleted") #Alert User
+        elif args["column"] == 0: #Checks if the column is equal to 0 meaning its an ID
+            CTkMessagebox(title="Error", message="Altering IDs are not allowed", icon="cancel") #Alert User
         else:
-            text = "Enter new Route Name" 
-            title = "Route Name Change"
-            if args["column"] == 2: 
-                text = "Change Route Color: (HEX OR VALID COLOR) \n VALID HEX: #rgb #rrggbb #rrrgggbbb \n (EXAMPLE: #F00 = RED)" 
-                title = "Change Color"
-            tochange = args["value"] 
+            text = "Alter: " 
+            title = "Change "
+            id = self.requesttable.get_row(row=args["row"])[0]
+            typ = None
+            if args["value"] == 'DESCRIPTION' or args["value"] == 'LINK':
+                val = args["value"]
+                self.c.execute("SELECT {} FROM Animal WHERE AnimalID = ?".format(val), (id,))
+                tochange = self.c.fetchall()[0][0]
+                typ = val
+            else:
+                tochange = args["value"]
             dialog = ColtInputDialog(text=text, title=title, placeholder_text=tochange) #Prompt user for change
-            output = dialog.get_input()
+            option = {
+                1: "Name",
+                2: "SciName",
+                3: "Class",
+                4: "Width",
+                5: "Image"
+            }
+            if not typ:
+                typ = option.get(args["column"])
+            output = dialog.get_input() 
             if output and output != tochange:
-                if args["column"] == 2: #route color
-                    self.c.execute("UPDATE REQUESTROUTE SET Color = ? WHERE RouteNum=?", (output, id)) #Change Query
-                    self.con.commit()
-                    CTkMessagebox(title="COMMITED!", message="Successfully Changed!")
-                else:
-                    self.c.execute("SELECT Name FROM REQUESTROUTE WHERE Name=?", (output,))
-                    username_table = self.c.fetchall()
-                    if username_table == []:
-                        self.c.execute("UPDATE REQUESTROUTE SET Name = ? WHERE RouteNum=?", (output, id)) #Change Query
-                        self.con.commit()
-                        CTkMessagebox(title="COMMITED!", message="Successfully Changed!")
-                    else:
-                        CTkMessagebox(title="Error", message="Username Already Taken", icon="cancel")
-        self.requesttable.destroy()
-        self.refreshrequests()
+                self.c.execute("UPDATE Animal Set {} = ? WHERE AnimalID = ?".format(typ), (output, id))
+                self.con.commit()
+        self.requesttable.destroy() #Destroys current table
+        self.refreshrequests() #Creates and build from the database
         pass
 
     #--------------- Routes ---------------
