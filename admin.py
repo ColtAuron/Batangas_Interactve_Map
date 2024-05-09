@@ -133,16 +133,16 @@ class App(customtkinter.CTk):
         self.jeeptitle.place(relx=.500, rely=.13, anchor=tkinter.CENTER)
         self.jeepscroll= customtkinter.CTkScrollableFrame(self.jeepframe, width=810, height=500)
         self.jeepscroll.place(relx=.505, rely=.15, anchor=tkinter.N)
-        self.jeeptable=CTkTable(master=self.jeepscroll, width=200, height=10, values=[[1,2,3,4]], command=self.routetableclick)
+        self.jeeptable=CTkTable(master=self.jeepscroll, width=200, height=10, values=[[1,2,3,4,5]], command=self.routetableclick)
 
         #--------- Toda Pins Frame ----------
         self.todaframe=customtkinter.CTkFrame(master=self.mainframe, width=1000, height=700, corner_radius=20)
-        Todavalues = [['TodaID', 'LocationName', 'Disabled']]
-        self.todatitle= CTkTable(master=self.todaframe, width=160, height=10, values=Todavalues)
-        self.todatitle.place(relx=.3375, rely=.13, anchor=tkinter.CENTER)
+        Todavalues = [['TouristID', 'Name', 'Type','Description','Image', 'Link']]
+        self.todatitle= CTkTable(master=self.todaframe, width=135, height=10, values=Todavalues)
+        self.todatitle.place(relx=.5000, rely=.13, anchor=tkinter.CENTER)
         self.todascroll= customtkinter.CTkScrollableFrame(self.todaframe, width=810, height=500)
         self.todascroll.place(relx=.505, rely=.15, anchor=tkinter.N)
-        self.todatable=CTkTable(master=self.todascroll, width=200, height=10, values=[[1,2,3,4,5]], command=self.todatableclick)
+        self.todatable=CTkTable(master=self.todascroll, width=350, height=10, values=[[1,2,3,4,5]], command=self.todatableclick)
 
         #--------- Bus Pins Frame ----------
         self.busframe=customtkinter.CTkFrame(master=self.mainframe, width=1000, height=700, corner_radius=20)
@@ -397,20 +397,21 @@ class App(customtkinter.CTk):
         pass
 
     def todatableclick(self, args):
-        id = int(self.todatable.get_row(row=args["row"])[0])
+        id = self.todatable.get_row(row=args["row"])[0]
         name = self.todatable.get_row(row=args["row"])[1]
         if args["value"] == "INSPECT":
-            self.c.execute("SELECT Point_X, Point_Y FROM TODA WHERE TodaID=?", (id,))
-            point = self.c.fetchall()
-            InspectWindow = ColtInspect(point, name)
+            self.c.execute("SELECT Type, Description FROM Tourist WHERE TouristID=?", (id,))
+            tourist_info = self.c.fetchall()
+            InspectWindow = ColtInspect(tourist_info, name)
             InspectWindow.after(100, InspectWindow.lift)
             InspectWindow.wait_window()
         elif args["value"] == "DELETE":
-            msg = CTkMessagebox(title="Delete?", message=f"Delete Point: {name},\nRNum = {id} ?", icon="question", option_1="No", option_3="Yes")
+            msg = CTkMessagebox(title="Delete?", message=f"Delete Tourist: {name}, ID = {id} ?", icon="question",
+                                option_1="No", option_3="Yes")
             response = msg.get()
-            if response=="Yes":
-                self.c.execute("DELETE from TODA WHERE TodaID=?", (id,)) 
-                self.con.commit() 
+            if response == "Yes":
+                self.c.execute("DELETE from Tourist WHERE TouristID=?", (id,))
+                self.con.commit()
                 CTkMessagebox(title="DELETED!", message="Successfully Deleted")
         elif args["column"] == 0:
             CTkMessagebox(title="Error", message="Altering IDs are not allowed", icon="cancel")
@@ -421,24 +422,25 @@ class App(customtkinter.CTk):
                 text = "Alter: 1 = True, 0 = False"
                 title = "Give Administrator"
             tochange = args["value"]
-            dialog = ColtInputDialog(text=text, title=title, placeholder_text=tochange) #Prompt user for change
+            dialog = ColtInputDialog(text=text, title=title, placeholder_text=tochange)  # Prompt user for change
             output = dialog.get_input()
             if output and output != tochange:
                 if args["column"] == 1:
-                    self.c.execute("SELECT * FROM TODA WHERE locName=?", (output,))
-                    username_table = self.c.fetchall()
-                    if username_table == []:
-                        self.c.execute("UPDATE TODA SET locName = ? WHERE TodaID=?", (output, id)) #Change Query
+                    self.c.execute("SELECT * FROM Tourist WHERE Name=?", (output,))
+                    name_table = self.c.fetchall()
+                    if not name_table:
+                        self.c.execute("UPDATE Tourist SET Name = ? WHERE TouristID=?", (output, id))  # Change Query
                         self.con.commit()
-                        CTkMessagebox(title="COMMITED!", message="Successfully Changed!")
+                        CTkMessagebox(title="COMMITTED!", message="Successfully Changed!")
                     else:
-                        CTkMessagebox(title="Error", message="Location Name Already Taken", icon="cancel")
+                        CTkMessagebox(title="Error", message="Tourist Name Already Taken", icon="cancel")
                 else:
                     output = int(output)
                     if output == 1 or output == 0:
-                        self.c.execute("UPDATE TODA SET Disabled = ? WHERE TodaID=?", (output, id)) #Change Query
+                        self.c.execute("UPDATE Tourist SET Disabled = ? WHERE TouristID=?",
+                                       (output, id))  # Change Query
                         self.con.commit()
-                        CTkMessagebox(title="COMMITED!", message="Successfully Changed!")
+                        CTkMessagebox(title="COMMITTED!", message="Successfully Changed!")
                     else:
                         CTkMessagebox(title="Error", message="Please input 1 or 0", icon="cancel")
         self.todatable.destroy()
@@ -453,11 +455,11 @@ class App(customtkinter.CTk):
 
     def refreshtodas(self):
         updated_table = list()
-        self.c.execute("SELECT * FROM TODA")
+        self.c.execute("SELECT TouristID, Name, Type, Image FROM TOURIST")
         table = self.c.fetchall()
         
         for items in table:
-            updated_table.append((items[0],items[3],items[4],"INSPECT", "DELETE"))
+            updated_table.append((items[0],items[1], items[2], "DESCRIPTION",items[3],"LINK", "DELETE"))
         try:
             self.todatable=CTkTable(master=self.todascroll, width=200, height=10, values=updated_table, command=self.todatableclick)
             self.todatable.pack()
