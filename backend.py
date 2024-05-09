@@ -416,7 +416,8 @@ class App(customtkinter.CTk):
         
         animal_window = customtkinter.CTkToplevel(self)
         animal_window.title("Animals")
-        animal_window.geometry("400x200")
+        animal_window.geometry("800x400")
+        animal_window.resizable(False, False)
 
     def plant_active(self, marker):
         sciName = self.plantInfo[self.plantMarkers.index(marker)][0]
@@ -427,7 +428,8 @@ class App(customtkinter.CTk):
         
         plant_window = customtkinter.CTkToplevel(self)
         plant_window.title("Plants")
-        plant_window.geometry("400x200")
+        plant_window.geometry("800x400")
+        plant_window.resizable(False, False)
 
     def tourist_active(self, marker):
         link = self.touristInfo[self.touristMarkers.index(marker)][0]
@@ -438,7 +440,8 @@ class App(customtkinter.CTk):
         
         tourist_window = customtkinter.CTkToplevel(self)
         tourist_window.title("Tourist")
-        tourist_window.geometry("400x200")
+        tourist_window.geometry("800x400")
+        tourist_window.resizable(False, False)
 
     def cities_active(self, marker):
         district = self.cityInfo[self.cityMarkers.index(marker)][0]
@@ -451,7 +454,8 @@ class App(customtkinter.CTk):
         
         city_window = customtkinter.CTkToplevel(self)
         city_window.title("Cities")
-        city_window.geometry("400x200")
+        city_window.geometry("800x400")
+        city_window.resizable(False, False)
 
     def start(self):
         self.mainloop()
