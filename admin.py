@@ -111,7 +111,7 @@ class App(customtkinter.CTk):
 
         self.usersframe=customtkinter.CTkFrame(master=self.mainframe, width=1000, height=700, corner_radius=20)
         usersvalues = [['CityID', 'Name', 'District', 'Population', 'Width', 'Description', 'Image', 'Link']]
-        self.userstitle=CTkTable(master=self.usersframe, width=95, height=10, values=usersvalues)
+        self.userstitle=CTkTable(master=self.usersframe, width=89, height=10, values=usersvalues)
         self.userstitle.place(relx=.455, rely=.13, anchor=tkinter.CENTER)
         self.userscroll= customtkinter.CTkScrollableFrame(self.usersframe, width=810, height=500)
         self.userscroll.place(relx=.505, rely=.15, anchor=tkinter.N)
@@ -351,7 +351,7 @@ class App(customtkinter.CTk):
             title = "Change "
             id = self.jeeptable.get_row(row=args["row"])[0]
             typ = None
-            if args["value"] == 'Description' or args["value"] == 'Link':
+            if args["value"] == 'DESCRIPTION' or args["value"] == 'LINK':
                 val = args["value"]
                 self.c.execute("SELECT {} FROM Plant WHERE PlantID = ?".format(val), (id,))
                 tochange = self.c.fetchall()[0][0]
@@ -397,52 +397,42 @@ class App(customtkinter.CTk):
         pass
 
     def todatableclick(self, args):
-        id = self.todatable.get_row(row=args["row"])[0]
-        name = self.todatable.get_row(row=args["row"])[1]
-        if args["value"] == "INSPECT":
-            self.c.execute("SELECT Type, Description FROM Tourist WHERE TouristID=?", (id,))
-            tourist_info = self.c.fetchall()
-            InspectWindow = ColtInspect(tourist_info, name)
-            InspectWindow.after(100, InspectWindow.lift)
-            InspectWindow.wait_window()
-        elif args["value"] == "DELETE":
-            msg = CTkMessagebox(title="Delete?", message=f"Delete Tourist: {name}, ID = {id} ?", icon="question",
-                                option_1="No", option_3="Yes")
-            response = msg.get()
-            if response == "Yes":
-                self.c.execute("DELETE from Tourist WHERE TouristID=?", (id,))
-                self.con.commit()
-                CTkMessagebox(title="DELETED!", message="Successfully Deleted")
-        elif args["column"] == 0:
-            CTkMessagebox(title="Error", message="Altering IDs are not allowed", icon="cancel")
+        if args["value"] == 'DELETE':  # calls the value with key "value"
+            name = self.todatable.get_row(row=args["row"])[1]  # "Grabs the column 2 which is the plant name"
+            id = self.todatable.get_row(row=args["row"])[0]  # Grabs the column 0 which is the PlantID
+            msg = CTkMessagebox(title="Delete?", message=f"Delete Tourist: {name} id: {id} ?", icon="question",
+                                option_1="No", option_3="Yes")  # Asks for confirmation
+            response = msg.get()  # Waits and grabs information
+            if response == "Yes":  # Self explanatory
+                self.c.execute("DELETE from Plant WHERE TouristID=?", (id,))  # Delete query
+                self.con.commit()  # Commit and save changes
+                CTkMessagebox(title="DELETED!", message="Successfully Deleted")  # Alert User
+        elif args["column"] == 0:  # Checks if the column is equal to 0 meaning it's the PlantID
+            CTkMessagebox(title="Error", message="Altering IDs is not allowed", icon="cancel")  # Alert User
         else:
-            text = "Enter New Location Name"
-            title = "Location Name Change"
-            if args["column"] == 2:
-                text = "Alter: 1 = True, 0 = False"
-                title = "Give Administrator"
-            tochange = args["value"]
+            text = "Alter: "
+            title = "Change "
+            id = self.todatable.get_row(row=args["row"])[0]
+            typ = None
+            if args["value"] == 'DESCRIPTION' or args["value"] == 'LINK':
+                val = args["value"]
+                self.c.execute("SELECT {} FROM Tourist WHERE TouristID = ?".format(val), (id,))
+                tochange = self.c.fetchall()[0][0]
+                print(tochange)
+                typ = val
+            else:
+                tochange = args["value"]
             dialog = ColtInputDialog(text=text, title=title, placeholder_text=tochange)  # Prompt user for change
+            option = {
+                1: "Name",
+                2: "Type",
+                4: "Image",
+            }
+            if not typ:
+                typ = option.get(args["column"])
             output = dialog.get_input()
             if output and output != tochange:
-                if args["column"] == 1:
-                    self.c.execute("SELECT * FROM Tourist WHERE Name=?", (output,))
-                    name_table = self.c.fetchall()
-                    if not name_table:
-                        self.c.execute("UPDATE Tourist SET Name = ? WHERE TouristID=?", (output, id))  # Change Query
-                        self.con.commit()
-                        CTkMessagebox(title="COMMITTED!", message="Successfully Changed!")
-                    else:
-                        CTkMessagebox(title="Error", message="Tourist Name Already Taken", icon="cancel")
-                else:
-                    output = int(output)
-                    if output == 1 or output == 0:
-                        self.c.execute("UPDATE Tourist SET Disabled = ? WHERE TouristID=?",
-                                       (output, id))  # Change Query
-                        self.con.commit()
-                        CTkMessagebox(title="COMMITTED!", message="Successfully Changed!")
-                    else:
-                        CTkMessagebox(title="Error", message="Please input 1 or 0", icon="cancel")
+                self.c.execute("UPDATE Tourist Set {} = ? WHERE TouristID = ?".format(typ), (output, id))
         self.todatable.destroy()
         self.refreshtodas()
         pass
@@ -457,7 +447,6 @@ class App(customtkinter.CTk):
         updated_table = list()
         self.c.execute("SELECT TouristID, Name, Type, Image FROM TOURIST")
         table = self.c.fetchall()
-        
         for items in table:
             updated_table.append((items[0],items[1], items[2], "DESCRIPTION",items[3],"LINK", "DELETE"))
         try:
