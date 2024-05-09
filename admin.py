@@ -129,8 +129,8 @@ class App(customtkinter.CTk):
         #--------- Jeep Routes Frame ----------
         self.jeepframe=customtkinter.CTkFrame(master=self.mainframe, width=1000, height=700, corner_radius=20)
         Jeepvalues = [['PlantID', 'Name', 'SciName', 'Description', 'Image', 'Link']]
-        self.jeeptitle= CTkTable(master=self.jeepframe, width=135, height=10, values=Jeepvalues)
-        self.jeeptitle.place(relx=.500, rely=.13, anchor=tkinter.CENTER)
+        self.jeeptitle= CTkTable(master=self.jeepframe, width=115, height=10, values=Jeepvalues)
+        self.jeeptitle.place(relx=.090, rely=.13, anchor=tkinter.W)
         self.jeepscroll= customtkinter.CTkScrollableFrame(self.jeepframe, width=810, height=500)
         self.jeepscroll.place(relx=.505, rely=.15, anchor=tkinter.N)
         self.jeeptable=CTkTable(master=self.jeepscroll, width=200, height=10, values=[[1,2,3,4,5]], command=self.routetableclick)
@@ -138,8 +138,8 @@ class App(customtkinter.CTk):
         #--------- Toda Pins Frame ----------
         self.todaframe=customtkinter.CTkFrame(master=self.mainframe, width=1000, height=700, corner_radius=20)
         Todavalues = [['TouristID', 'Name', 'Type','Description','Image', 'Link']]
-        self.todatitle= CTkTable(master=self.todaframe, width=135, height=10, values=Todavalues)
-        self.todatitle.place(relx=.5000, rely=.13, anchor=tkinter.CENTER)
+        self.todatitle= CTkTable(master=self.todaframe, width=116, height=10, values=Todavalues)
+        self.todatitle.place(relx=.090, rely=.13, anchor=tkinter.W)
         self.todascroll= customtkinter.CTkScrollableFrame(self.todaframe, width=810, height=500)
         self.todascroll.place(relx=.505, rely=.15, anchor=tkinter.N)
         self.todatable=CTkTable(master=self.todascroll, width=350, height=10, values=[[1,2,3,4,5]], command=self.todatableclick)
@@ -379,7 +379,7 @@ class App(customtkinter.CTk):
         self.c.execute("SELECT PlantID, Name, SciName, Image  FROM Plant")
         table = self.c.fetchall()
         for items in table:
-            updated_table.append((items[0],items[1],items[2],items[3],'DESCRIPTION', 'LINK', 'DELETE'))
+            updated_table.append((items[0],items[1],items[2],'DESCRIPTION',items[3], 'LINK', 'DELETE'))
         try:
             self.jeeptable=CTkTable(master=self.jeepscroll, width=200, height=10, values=updated_table, command=self.routetableclick)
             self.jeeptable.pack()
