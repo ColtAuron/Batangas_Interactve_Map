@@ -413,6 +413,10 @@ class App(customtkinter.CTk):
         img = self.animalInfo[self.animalMarkers.index(marker)][2]
         city = self.animalInfo[self.animalMarkers.index(marker)][3]
         print(sciName, desc, img, city) #otivs dito ka magfunc ng popout
+        
+        animal_window = customtkinter.CTkToplevel(self)
+        animal_window.title("Animals")
+        animal_window.geometry("400x200")
 
     def plant_active(self, marker):
         sciName = self.plantInfo[self.plantMarkers.index(marker)][0]
@@ -420,6 +424,10 @@ class App(customtkinter.CTk):
         img = self.plantInfo[self.plantMarkers.index(marker)][2]
         city = self.plantInfo[self.plantMarkers.index(marker)][3]
         print(sciName, desc, img, city) #otivs dito ka magfunc ng popout
+        
+        plant_window = customtkinter.CTkToplevel(self)
+        plant_window.title("Plants")
+        plant_window.geometry("400x200")
 
     def tourist_active(self, marker):
         link = self.touristInfo[self.touristMarkers.index(marker)][0]
@@ -427,6 +435,10 @@ class App(customtkinter.CTk):
         img = self.touristInfo[self.touristMarkers.index(marker)][2]
         city = self.touristInfo[self.touristMarkers.index(marker)][3]
         print(link, desc, img, city) #otivs dito ka magfunc ng popout
+        
+        tourist_window = customtkinter.CTkToplevel(self)
+        tourist_window.title("Tourist")
+        tourist_window.geometry("400x200")
 
     def cities_active(self, marker):
         district = self.cityInfo[self.cityMarkers.index(marker)][0]
@@ -436,6 +448,10 @@ class App(customtkinter.CTk):
         image = self.cityInfo[self.cityMarkers.index(marker)][4]
         link = self.cityInfo[self.cityMarkers.index(marker)][5]
         print(district, population, width, description, image, link) #otivs dito ka magfunc ng popout
+        
+        city_window = customtkinter.CTkToplevel(self)
+        city_window.title("Cities")
+        city_window.geometry("400x200")
 
     def start(self):
         self.mainloop()
