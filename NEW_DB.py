@@ -99,6 +99,19 @@ command = ('''CREATE TABLE IF NOT EXISTS Tourist_Loc (
 
 c.execute(command)
 
+command = ('''CREATE TABLE IF NOT EXISTS Suggest (
+            SuggestID INTEGER PRIMARY KEY AUTOINCREMENT,
+            Category Varchar(15),
+            Name Varchar(30),
+            SciName Varchar(50),
+            Description Varchar(500),
+            Link varchar(200),
+            xPos FLOAT,
+            yPos FLOAT
+            )''')
+
+c.execute(command)
+
 cities = [
     ('CT01', 'Batangas City', '5th District', '351437', '282.96 sq. km', 'Batangas City is the capital of Batangas Province and is located on the southwestern coast of Luzon Island. It is known for its vibrant port, historic landmarks such as the Basilica of the Immaculate Conception, and bustling urban lifestyle.', 'batangas_city.jpg', 'https://en.wikipedia.org/wiki/Batangas_City'),
     ('CT02', 'Lipa City', '6th District', '372931', '209.40 sq. km', 'Lipa City, situated in Batangas Province, is a highly urbanized city known for its rich history, bustling commercial centers, and culinary delights. It is home to landmarks such as the San Sebastian Cathedral and the Carmelite Monastery.', 'lipa_city.jpg', 'https://en.wikipedia.org/wiki/Lipa,_Batangas'),
@@ -1592,6 +1605,9 @@ tourist_loc = [
 # c.executemany("INSERT INTO Plants_Loc VALUES (?,?,?,?,?)", plants_loc)
 
 # c.executemany("INSERT INTO Tourist_Loc VALUES (?,?,?,?,?)", tourist_loc)
+
+c.execute("SELECT * FROM SUGGEST")
+print(c.fetchall())
 
 print('Command executed successfully!!!')
 
