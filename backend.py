@@ -130,6 +130,7 @@ class App(customtkinter.CTk):
         self.map_widget = tkintermapview.TkinterMapView(self.right_frame, width=800, height=700,
                                                         database_path=database_path, corner_radius=0)
         self.map_widget.place(relx=.5, rely=.5, anchor=tkinter.CENTER)
+        self.map_widget.canvas.unbind("<Button-3>")
         # 13.8525866, 121.0435568
         self.map_widget.set_position(deg_x=13.7582328, deg_y=121.0726133)
         self.map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga", max_zoom=22)
