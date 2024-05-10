@@ -1606,8 +1606,12 @@ tourist_loc = [
 
 # c.executemany("INSERT INTO Tourist_Loc VALUES (?,?,?,?,?)", tourist_loc)
 
-c.execute("SELECT * FROM Animals_Loc")
+# c.execute("Select * From Animals_Loc, Animal WHERE Animals_Loc.AnimalID = Animal.AnimalID")
+# print(c.fetchall())
+
+c.execute("Select * From Tourist_Loc")
 print(c.fetchall())
+
 
 print('Command executed successfully!!!')
 

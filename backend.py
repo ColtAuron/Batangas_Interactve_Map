@@ -234,7 +234,7 @@ class App(customtkinter.CTk):
     def load_plant_markers(self):
         if self.plantMarkers == []:
             self.c.execute(
-                "Select Plant.Name, sciName, Plant.Description, Plant.img, City.Name, xPos, yPos, Disabled From Plants_Loc, Plant, City WHERE Plants_Loc.PlantsID = Plant.PlantID AND Plants_Loc.CityID = City.CityID")
+                "Select Plant.Name, sciName, Plant.Description, Plant.Image, City.Name, xPos, yPos, Disabled From Plants_Loc, Plant, City WHERE Plants_Loc.PlantID = Plant.PlantID AND Plants_Loc.CityID = City.CityID")
             frSql = self.c.fetchall()
             for items in frSql:
                 if (items[7] == 0):
