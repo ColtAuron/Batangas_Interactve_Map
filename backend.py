@@ -127,7 +127,7 @@ class App(customtkinter.CTk):
         self.right_frame = CTkFrame(self, width=frame_width, height=frame_height)
         self.right_frame.pack(side="right", fill="both", expand=True)
 
-        self.map_widget = tkintermapview.TkinterMapView(self.right_frame, width=800, height=700,
+        self.map_widget = tkintermapview.TkinterMapView(self.right_frame, width=1040, height=800,
                                                         database_path=database_path, corner_radius=0)
         self.map_widget.place(relx=.5, rely=.5, anchor=tkinter.CENTER)
         self.map_widget.canvas.unbind("<Button-3>")
