@@ -413,39 +413,51 @@ class App(customtkinter.CTk):
         desc = self.animalInfo[self.animalMarkers.index(marker)][1]
         img = self.animalInfo[self.animalMarkers.index(marker)][2]
         city = self.animalInfo[self.animalMarkers.index(marker)][3]
-        print(sciName, desc, img, city) #otivs dito ka magfunc ng popout
         
         animal_window = customtkinter.CTkToplevel(self)
         animal_window.title("Animals")
-        animal_window.geometry("800x600+0x0")
+        animal_window.geometry("1000x200+0x0")
         animal_window.resizable(False, False)
         animal_window.attributes("-topmost", True)
+        
+        info_text = f"Scientific Name: {sciName}\n\nDescription: {desc}\n\nImage: {img}\n\nCity: {city}"
+        label = customtkinter.CTkLabel(animal_window, text=info_text)
+        label.configure(justify=CENTER, padx=1, pady=1)
+        label.pack()
 
     def plant_active(self, marker):
         sciName = self.plantInfo[self.plantMarkers.index(marker)][0]
         desc = self.plantInfo[self.plantMarkers.index(marker)][1]
         img = self.plantInfo[self.plantMarkers.index(marker)][2]
         city = self.plantInfo[self.plantMarkers.index(marker)][3]
-        print(sciName, desc, img, city) #otivs dito ka magfunc ng popout
         
         plant_window = customtkinter.CTkToplevel(self)
         plant_window.title("Plants")
-        plant_window.geometry("800x600+0x0")
+        plant_window.geometry("1000x200+0x0")
         plant_window.resizable(False, False)
         plant_window.attributes("-topmost", True)
+        
+        info_text = f"Scientific Name: {sciName}\n\nDescription: {desc}\n\nImage: {img}\n\nCity: {city}"
+        label = customtkinter.CTkLabel(plant_window, text=info_text)
+        label.configure(justify=CENTER, padx=1, pady=1)
+        label.pack()
 
     def tourist_active(self, marker):
         link = self.touristInfo[self.touristMarkers.index(marker)][0]
         desc = self.touristInfo[self.touristMarkers.index(marker)][1]
         img = self.touristInfo[self.touristMarkers.index(marker)][2]
         city = self.touristInfo[self.touristMarkers.index(marker)][3]
-        print(link, desc, img, city) #otivs dito ka magfunc ng popout
         
         tourist_window = customtkinter.CTkToplevel(self)
         tourist_window.title("Tourist")
-        tourist_window.geometry("800x600+0x0")
+        tourist_window.geometry("1500x200+0x0")
         tourist_window.resizable(False, False)
         tourist_window.attributes("-topmost", True)
+        
+        info_text = f"Link: {link}\n\nDescription: {desc}\n\nImage: {img}\n\nCity: {city}"
+        label = customtkinter.CTkLabel(tourist_window, text=info_text)
+        label.configure(justify=CENTER, padx=1, pady=1)
+        label.pack()
 
     def cities_active(self, marker):
         district = self.cityInfo[self.cityMarkers.index(marker)][0]
@@ -454,13 +466,17 @@ class App(customtkinter.CTk):
         description = self.cityInfo[self.cityMarkers.index(marker)][3]
         image = self.cityInfo[self.cityMarkers.index(marker)][4]
         link = self.cityInfo[self.cityMarkers.index(marker)][5]
-        print(district, population, width, description, image, link) #otivs dito ka magfunc ng popout
         
         city_window = customtkinter.CTkToplevel(self)
         city_window.title("Cities")
-        city_window.geometry("800x600+0x0")
-        city_window.resizable(False, False)
+        city_window.geometry("1500x200+0x0")
+        city_window.resizable(False, True)
         city_window.attributes("-topmost", True)
+
+        info_text = f"District: {district}\n\nPopulation: {population}\n\nArea: {width}\n\nDescription: {description}\n\nImage: {image}\n\nLink: {link}"
+        label = customtkinter.CTkLabel(city_window, text=info_text)
+        label.configure(justify=CENTER, padx=1, pady=1)
+        label.pack()
 
     def start(self):
         self.mainloop()
