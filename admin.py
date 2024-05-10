@@ -62,8 +62,16 @@ class App(customtkinter.CTk):
         self.routes.place(relx=0.5, rely=0.41, anchor=tkinter.CENTER)
         self.todas=customtkinter.CTkButton(self.sidebar, font=self.font2, text='Tourists', fg_color="transparent", hover_color="#808080", corner_radius=0, width=270, height=50, command=self.showtodas)
         self.todas.place(relx=0.5, rely=0.49, anchor=tkinter.CENTER)
+        self.city=customtkinter.CTkButton(self.sidebar, font=self.font2, text='City Loc', fg_color="transparent", hover_color="#808080", corner_radius=0, width=270, height=50, command=self.showcity)
+        self.city.place(relx=0.5, rely=0.57, anchor=tkinter.CENTER)
+        self.animal=customtkinter.CTkButton(self.sidebar, font=self.font2, text='Animal Loc', fg_color="transparent", hover_color="#808080", corner_radius=0, width=270, height=50, command=self.showanimal)
+        self.animal.place(relx=0.5, rely=0.65, anchor=tkinter.CENTER)
+        self.plant=customtkinter.CTkButton(self.sidebar, font=self.font2, text='Plant Loc', fg_color="transparent", hover_color="#808080", corner_radius=0, width=270, height=50, command=self.showplant)
+        self.plant.place(relx=0.5, rely=0.73, anchor=tkinter.CENTER)
+        self.tourist=customtkinter.CTkButton(self.sidebar, font=self.font2, text='Tourist Loc', fg_color="transparent", hover_color="#808080", corner_radius=0, width=270, height=50, command=self.showtourist)
+        self.tourist.place(relx=0.5, rely=0.81, anchor=tkinter.CENTER)
         self.bus=customtkinter.CTkButton(self.sidebar, font=self.font2, text='Suggestions', fg_color="transparent", hover_color="#808080", corner_radius=0, width=270, height=50, command=self.showbus)
-        self.bus.place(relx=0.5, rely=0.57, anchor=tkinter.CENTER)
+        self.bus.place(relx=0.5, rely=0.89, anchor=tkinter.CENTER)
 
         #--------- OV Frame ----------
 
@@ -73,39 +81,60 @@ class App(customtkinter.CTk):
         self.OVlabel.place(relx=.04, rely=.04, anchor=tkinter.NW)
 
         self.OVUser=customtkinter.CTkFrame(master=self.OVFrame, width=200, height=250, corner_radius=20)
-        self.OVUser.place(relx=0.33, rely=.30, anchor=tkinter.CENTER)
+        self.OVUser.place(relx=0.15, rely=.30, anchor=tkinter.CENTER)
         self.OVUserlabel=customtkinter.CTkLabel(master=self.OVUser, font=self.font1, text='Cities', text_color='#fff')
         self.OVUserlabel.place(relx=.5, rely=.15, anchor=tkinter.N)
         self.OVUsernum=customtkinter.CTkLabel(master=self.OVUser, font=self.fontnumber, text='0', text_color='#fff')
         self.OVUsernum.place(relx=.5, rely=.65, anchor=tkinter.CENTER)
 
         self.OVRequest=customtkinter.CTkFrame(master=self.OVFrame, width=200, height=250, corner_radius=20)
-        self.OVRequest.place(relx=0.66, rely=.30, anchor=tkinter.CENTER)
+        self.OVRequest.place(relx=0.38, rely=.30, anchor=tkinter.CENTER)
         self.OVRequestlabel=customtkinter.CTkLabel(master=self.OVRequest, font=self.font1, text='Animals', text_color='#fff')
         self.OVRequestlabel.place(relx=.5, rely=.15, anchor=tkinter.N)
         self.OVReqnum=customtkinter.CTkLabel(master=self.OVRequest, font=self.fontnumber, text='0', text_color='#fff')
         self.OVReqnum.place(relx=.5, rely=.65, anchor=tkinter.CENTER)
 
         self.OVjeep=customtkinter.CTkFrame(master=self.OVFrame, width=200, height=250, corner_radius=20)
-        self.OVjeep.place(relx=0.20, rely=.75, anchor=tkinter.CENTER)
+        self.OVjeep.place(relx=0.62, rely=.30, anchor=tkinter.CENTER)
         self.OVjeeplabel=customtkinter.CTkLabel(master=self.OVjeep, font=self.font1, text='Plant', text_color='#fff')
         self.OVjeeplabel.place(relx=.5, rely=.15, anchor=tkinter.N)
         self.OVjeepnum=customtkinter.CTkLabel(master=self.OVjeep, font=self.fontnumber, text='0', text_color='#fff')
         self.OVjeepnum.place(relx=.5, rely=.65, anchor=tkinter.CENTER)
 
         self.OVtrike=customtkinter.CTkFrame(master=self.OVFrame, width=200, height=250, corner_radius=20)
-        self.OVtrike.place(relx=0.50, rely=.75, anchor=tkinter.CENTER)
+        self.OVtrike.place(relx=0.85, rely=.30, anchor=tkinter.CENTER)
         self.OVtrikelabel=customtkinter.CTkLabel(master=self.OVtrike, font=self.font1, text='Tourist', text_color='#fff')
         self.OVtrikelabel.place(relx=.5, rely=.15, anchor=tkinter.N)
         self.OVtrikenum=customtkinter.CTkLabel(master=self.OVtrike, font=self.fontnumber, text='0', text_color='#fff')
         self.OVtrikenum.place(relx=.5, rely=.65, anchor=tkinter.CENTER)
 
         self.OVbus=customtkinter.CTkFrame(master=self.OVFrame, width=200, height=250, corner_radius=20)
-        self.OVbus.place(relx=0.80, rely=.75, anchor=tkinter.CENTER)
+        self.OVbus.place(relx=0.85, rely=.75, anchor=tkinter.CENTER)
         self.OVbuslabel=customtkinter.CTkLabel(master=self.OVbus, font=self.font1, text='Suggestions', text_color='#fff')
         self.OVbuslabel.place(relx=.5, rely=.15, anchor=tkinter.N)
         self.OVbusnum=customtkinter.CTkLabel(master=self.OVbus, font=self.fontnumber, text='0', text_color='#fff')
         self.OVbusnum.place(relx=.5, rely=.65, anchor=tkinter.CENTER)
+
+        self.OVLocs=customtkinter.CTkFrame(master=self.OVFrame, width=650, height=250, corner_radius=20)
+        self.OVLocs.place(relx=0.37, rely=.75, anchor=tkinter.CENTER)
+        self.OVloclabel=customtkinter.CTkLabel(master=self.OVLocs, font=self.font1, text='Locations', text_color='#fff')
+        self.OVloclabel.place(relx=.5, rely=.05, anchor=tkinter.N)
+        self.OVloclabel=customtkinter.CTkLabel(master=self.OVLocs, font=self.font1, text='City', text_color='#fff')
+        self.OVloclabel.place(relx=.15, rely=.28, anchor=tkinter.N)
+        self.OVloclabel=customtkinter.CTkLabel(master=self.OVLocs, font=self.font1, text='Animal', text_color='#fff')
+        self.OVloclabel.place(relx=.38, rely=.28, anchor=tkinter.N)
+        self.OVloclabel=customtkinter.CTkLabel(master=self.OVLocs, font=self.font1, text='Plant', text_color='#fff')
+        self.OVloclabel.place(relx=.62, rely=.28, anchor=tkinter.N)
+        self.OVloclabel=customtkinter.CTkLabel(master=self.OVLocs, font=self.font1, text='Tourist', text_color='#fff')
+        self.OVloclabel.place(relx=.85, rely=.28, anchor=tkinter.N)
+        self.OVloccity=customtkinter.CTkLabel(master=self.OVLocs, font=self.fontnumber, text='0', text_color='#fff')
+        self.OVloccity.place(relx=.15, rely=.65, anchor=tkinter.CENTER)
+        self.OVlocanimal=customtkinter.CTkLabel(master=self.OVLocs, font=self.fontnumber, text='0', text_color='#fff')
+        self.OVlocanimal.place(relx=.38, rely=.65, anchor=tkinter.CENTER)
+        self.OVlocplant=customtkinter.CTkLabel(master=self.OVLocs, font=self.fontnumber, text='0', text_color='#fff')
+        self.OVlocplant.place(relx=.62, rely=.65, anchor=tkinter.CENTER)
+        self.OVloctourist=customtkinter.CTkLabel(master=self.OVLocs, font=self.fontnumber, text='0', text_color='#fff')
+        self.OVloctourist.place(relx=.85, rely=.65, anchor=tkinter.CENTER)
         
         #--------- Users Frame ----------
 
@@ -146,12 +175,51 @@ class App(customtkinter.CTk):
 
         #--------- Bus Pins Frame ----------
         self.busframe=customtkinter.CTkFrame(master=self.mainframe, width=1000, height=700, corner_radius=20)
-        Busvalues = [['TerminalID', 'LocationName', 'Disabled']]
-        self.bustitle= CTkTable(master=self.busframe, width=160, height=10, values=Busvalues)
-        self.bustitle.place(relx=.3375, rely=.13, anchor=tkinter.CENTER)
+        Busvalues = [['SuggestID', 'Category', 'Name', 'SciName', 'Description', 'Link', 'xPos', 'yPos']]
+        self.bustitle= CTkTable(master=self.busframe, width=73, height=10, values=Busvalues)
+        self.bustitle.place(relx=.090, rely=.13, anchor=tkinter.W)
         self.busscroll= customtkinter.CTkScrollableFrame(self.busframe, width=810, height=500)
         self.busscroll.place(relx=.505, rely=.15, anchor=tkinter.N)
         self.bustable=CTkTable(master=self.busscroll, width=200, height=10, values=[[1,2,3,4,5]], command=self.bustableclick)
+
+        #--------- CityLOC Pins Frame ----------
+        self.cityframe=customtkinter.CTkFrame(master=self.mainframe, width=1000, height=700, corner_radius=20)
+        cityvalues = [['CityID', 'xPos', 'yPos', 'Disabled']]
+        self.citytitle= CTkTable(master=self.cityframe, width=135, height=10, values=cityvalues)
+        self.citytitle.place(relx=.090, rely=.13, anchor=tkinter.W)
+        self.cityscroll= customtkinter.CTkScrollableFrame(self.cityframe, width=810, height=500)
+        self.cityscroll.place(relx=.505, rely=.15, anchor=tkinter.N)
+        self.citytable=CTkTable(master=self.cityscroll, width=200, height=10, values=[[1,2,3,4,5]], command=self.citytableclick)
+
+        #--------- Animal Pins Frame ----------
+
+        self.animalframe=customtkinter.CTkFrame(master=self.mainframe, width=1000, height=700, corner_radius=20)
+        animalvalues = [['AnimalID','CityID', 'xPos', 'yPos', 'Disabled']]
+        self.animaltitle= CTkTable(master=self.animalframe, width=115, height=10, values=animalvalues)
+        self.animaltitle.place(relx=.090, rely=.13, anchor=tkinter.W)
+        self.animalscroll= customtkinter.CTkScrollableFrame(self.animalframe, width=810, height=500)
+        self.animalscroll.place(relx=.505, rely=.15, anchor=tkinter.N)
+        self.animaltable=CTkTable(master=self.animalscroll, width=200, height=10, values=[[1,2,3,4,5]], command=self.animaltableclick)
+
+        #--------- Plant Pins Frame ----------
+
+        self.plantframe=customtkinter.CTkFrame(master=self.mainframe, width=1000, height=700, corner_radius=20)
+        plantvalues = [['PlantID','CityID', 'xPos', 'yPos', 'Disabled']]
+        self.planttitle= CTkTable(master=self.plantframe, width=115, height=10, values=plantvalues)
+        self.planttitle.place(relx=.090, rely=.13, anchor=tkinter.W)
+        self.plantscroll= customtkinter.CTkScrollableFrame(self.plantframe, width=810, height=500)
+        self.plantscroll.place(relx=.505, rely=.15, anchor=tkinter.N)
+        self.planttable=CTkTable(master=self.plantscroll, width=200, height=10, values=[[1,2,3,4,5]], command=self.planttableclick)
+
+        #--------- Tourist Pins Frame ----------
+
+        self.touristframe=customtkinter.CTkFrame(master=self.mainframe, width=1000, height=700, corner_radius=20)
+        touristvalues = [['TouristID','CityID', 'xPos', 'yPos', 'Disabled']]
+        self.touristtitle= CTkTable(master=self.touristframe, width=115, height=10, values=touristvalues)
+        self.touristtitle.place(relx=.090, rely=.13, anchor=tkinter.W)
+        self.touristscroll= customtkinter.CTkScrollableFrame(self.touristframe, width=810, height=500)
+        self.touristscroll.place(relx=.505, rely=.15, anchor=tkinter.N)
+        self.touristtable=CTkTable(master=self.touristscroll, width=200, height=10, values=[[1,2,3,4,5]])
 
         self.overview.configure(state='disabled')
         self.users.configure(state='disabled')
@@ -159,6 +227,10 @@ class App(customtkinter.CTk):
         self.routes.configure(state='disabled')
         self.todas.configure(state='disabled')
         self.bus.configure(state='disabled')
+        self.city.configure(state='disabled')
+        self.animal.configure(state='disabled')
+        self.plant.configure(state='disabled')
+        self.tourist.configure(state='disabled')
 
         self.showoverview()
     
@@ -178,7 +250,15 @@ class App(customtkinter.CTk):
         self.OVtrikenum.configure(text=str(self.c.fetchall()[0][0]))
         self.c.execute("SELECT COUNT(*) FROM Suggest")
         self.OVbusnum.configure(text=str(self.c.fetchall()[0][0]))
-
+        self.c.execute("SELECT COUNT(*) FROM Cities_Loc")
+        self.OVloccity.configure(text=str(self.c.fetchall()[0][0]))
+        self.c.execute("SELECT COUNT(*) FROM Animals_Loc")
+        self.OVlocanimal.configure(text=str(self.c.fetchall()[0][0]))
+        self.c.execute("SELECT COUNT(*) FROM Plants_Loc")
+        self.OVlocplant.configure(text=str(self.c.fetchall()[0][0]))
+        self.c.execute("SELECT COUNT(*) FROM Tourist_Loc")
+        self.OVloctourist.configure(text=str(self.c.fetchall()[0][0]))
+        
     def unshowoverview(self):
         self.OVFrame.place_forget()
         self.overview.configure(state='normal', fg_color='transparent',)
@@ -456,7 +536,7 @@ class App(customtkinter.CTk):
             pass
         pass
 
-    #-------------- Bus -------------------
+    #-------------- Bus ------------------- SUGGESTIONS
 
     def showbus(self):
         self.unshowall()
@@ -467,51 +547,70 @@ class App(customtkinter.CTk):
 
     def bustableclick(self, args):
         id = int(self.bustable.get_row(row=args["row"])[0])
-        name = self.bustable.get_row(row=args["row"])[1]
+        name = self.bustable.get_row(row=args["row"])[2]
         if args["value"] == "INSPECT":
-            self.c.execute("SELECT Point_X, Point_Y FROM TERMINAL WHERE TemiID=?", (id,))
-            point = self.c.fetchall()
+            xPos = self.bustable.get_row(row=args["row"])[6]
+            yPos = self.bustable.get_row(row=args["row"])[7]
+            point = ((xPos, yPos),)
             InspectWindow = ColtInspect(point, name)
             InspectWindow.after(100, InspectWindow.lift)
             InspectWindow.wait_window()
         elif args["value"] == "DELETE":
-            msg = CTkMessagebox(title="Delete?", message=f"Delete Point: {name},\nRNum = {id} ?", icon="question", option_1="No", option_3="Yes")
+            msg = CTkMessagebox(title="Delete?", message=f"Delete Suggestion: {name},\nID = {id} ?", icon="question", option_1="No", option_3="Yes")
             response = msg.get()
             if response=="Yes":
-                self.c.execute("DELETE from TERMINAL WHERE TemiID=?", (id,)) 
+                self.c.execute("DELETE from Suggest WHERE SuggestID=?", (id,)) 
                 self.con.commit() 
                 CTkMessagebox(title="DELETED!", message="Successfully Deleted")
+                self.bustable.destroy()
+                self.refreshbus()
         elif args["column"] == 0:
             CTkMessagebox(title="Error", message="Altering IDs are not allowed", icon="cancel")
-        else:
-            text = "Enter New Location Name"
-            title = "Location Name Change"
-            if args["column"] == 2:
-                text = "Alter: 1 = True, 0 = False"
-                title = "Give Administrator"
-            tochange = args["value"]
-            dialog = ColtInputDialog(text=text, title=title, placeholder_text=tochange) #Prompt user for change
-            output = dialog.get_input()
-            if output and output != tochange:
-                if args["column"] == 1:
-                    self.c.execute("SELECT * FROM TERMINAL WHERE locName=?", (output,))
-                    username_table = self.c.fetchall()
-                    if username_table == []:
-                        self.c.execute("UPDATE TERMINAL SET locName = ? WHERE TemiID=?", (output, id)) #Change Query
-                        self.con.commit()
-                        CTkMessagebox(title="COMMITED!", message="Successfully Changed!")
-                    else:
-                        CTkMessagebox(title="Error", message="Location Name Already Taken", icon="cancel")
-                else:
-                    output = int(output)
-                    if output == 1 or output == 0:
-                        self.c.execute("UPDATE TERMINAL SET Disabled = ? WHERE TemiID=?", (output, id)) #Change Query
-                        self.con.commit()
-                        CTkMessagebox(title="COMMITED!", message="Successfully Changed!")
-                    else:
-                        CTkMessagebox(title="Error", message="Please input 1 or 0", icon="cancel")
-        self.bustable.destroy()
-        self.refreshbus()
+        elif args["value"] == "ACCEPT":
+            text = "Enter New ID:"
+            title = "ID Prompt"
+            dialog = ColtInputDialog(text=text, title=title) #Prompt user for change
+            newID = dialog.get_input()
+            colt = self.bustable.get_row(row=args["row"])[1]
+            option = {
+                    'City': 'Cities_Loc',
+                    'Animal': 'Animals_Loc',
+                    'Plant' : 'Plants_Loc',
+                    'Tourist': 'Tourist_Loc'
+                }
+            category = option.get(colt)
+            if category == 'Cities_Loc':
+                msg = CTkMessagebox(title="ACCEPT?", message=f"Accept ID: {newID}?", icon="question", option_1="No", option_3="Yes")
+                response = msg.get()
+                if response =="Yes":
+                    xPos = self.bustable.get_row(row=args["row"])[6]
+                    yPos = self.bustable.get_row(row=args["row"])[7]
+                    tosql = (newID, xPos, yPos, 0)
+                    self.c.execute("INSERT INTO Cities_Loc VALUES (?,?,?,?)", tosql)
+                    self.con.commit()
+                    self.c.execute("DELETE FROM Suggest WHERE SuggestID = ?", (id,))
+                    self.con.commit()
+                    self.bustable.destroy()
+                    self.refreshbus()
+            else:
+                text = "Enter CityID:"
+                title = "CityID Prompt"
+                dialog2 = ColtInputDialog(text=text, title=title) #Prompt user for change
+                newCityID = dialog2.get_input()
+                msg = CTkMessagebox(title="ACCEPT?", message=f"Accept ID: {newID}, \nCityID = {newCityID} ?", icon="question", option_1="No", option_3="Yes")
+                response = msg.get()
+                if response=="Yes":
+                    colt = self.bustable.get_row(row=args["row"])[1]
+                    category = option.get(colt)
+                    xPos = self.bustable.get_row(row=args["row"])[6]
+                    yPos = self.bustable.get_row(row=args["row"])[7]
+                    tosql = (newID, newCityID, xPos, yPos, 0)
+                    self.c.execute("INSERT INTO {} VALUES (?,?,?,?,?)".format(category), tosql)
+                    self.con.commit()
+                    self.c.execute("DELETE FROM Suggest WHERE SuggestID = ?", (id,))
+                    self.con.commit()
+                    self.bustable.destroy()
+                    self.refreshbus()
         pass
 
     def unshowbus(self):
@@ -522,16 +621,326 @@ class App(customtkinter.CTk):
 
     def refreshbus(self):
         updated_table = list()
-        self.c.execute("SELECT * FROM TERMINAL")
+        self.c.execute("SELECT * FROM Suggest")
         table = self.c.fetchall()
         for items in table:
-            updated_table.append((items[0],items[3],items[4],"INSPECT", "DELETE"))
+            updated_table.append((items[0],items[1],items[2],items[3],items[4],items[5],items[6],items[7],"INSPECT", "ACCEPT", "DELETE"))
         try:
             self.bustable=CTkTable(master=self.busscroll, width=200, height=10, values=updated_table, command=self.bustableclick)
             self.bustable.pack()
         except:
             pass
         pass
+
+    #------------- LOCATIONS ------------------
+    #------------- City ------------------
+
+    def showcity(self):
+        self.unshowall()
+        self.cityframe.place(relx=0.6, rely=.5, anchor=tkinter.CENTER)
+        self.city.configure(state='disabled', fg_color='#808080', text_color_disabled='#ffffff')
+        self.refreshcity()
+        pass
+
+    def citytableclick(self, args):
+        id = self.citytable.get_row(row=args["row"])[0]
+        if args["value"] == "INSPECT":
+            xPos = self.citytable.get_row(row=args["row"])[1]
+            yPos = self.citytable.get_row(row=args["row"])[2]
+            point = ((xPos, yPos),)
+            InspectWindow = ColtInspect(point, id)
+            InspectWindow.after(100, InspectWindow.lift)
+            InspectWindow.wait_window()
+        elif args["column"] == 0:  # Checks if the column is equal to 0 meaning it's the PlantID
+            CTkMessagebox(title="Error", message="Altering ID is not allowed", icon="cancel")  # Alert User
+        elif args["value"] == "DELETE":
+            msg = CTkMessagebox(title="Delete?", message=f"Delete id: {id} ?", icon="question",
+                                option_1="No", option_3="Yes")  # Asks for confirmation
+            response = msg.get()  # Waits and grabs information
+            if response == "Yes":  # Self explanatory
+                self.c.execute("DELETE from Cities_Loc WHERE CityID=?", (id,))  # Delete query
+                self.con.commit()  # Commit and save changes
+                CTkMessagebox(title="DELETED!", message="Successfully Deleted")  # Alert User
+                self.citytable.destroy()
+                self.refreshcity()
+        else:
+            text = "Alter: "
+            title = "Change "
+            if args["column"] == 3:
+                text = "Alter: 1 = True, 0 = False"
+                title = "Disable?"
+            typ = None
+            tochange = args["value"]
+            dialog = ColtInputDialog(text=text, title=title, placeholder_text=tochange)  # Prompt user for change
+            option = {
+                1: "xPos",
+                2: "yPos",
+                3: "Disabled",
+            }
+            if not typ:
+                typ = option.get(args["column"])
+            output = dialog.get_input()
+            if output and output != tochange:
+                self.c.execute("UPDATE Cities_Loc Set {} = ? WHERE CityID = ?".format(typ), (output, id))
+                self.con.commit()
+                self.citytable.destroy()
+                self.refreshcity()
+        pass
+
+    def unshowcity(self):
+        self.citytable.destroy()
+        self.cityframe.place_forget()
+        self.city.configure(state='normal', fg_color='transparent',)
+        pass
+
+    def refreshcity(self):
+        updated_table = list()
+        self.c.execute("SELECT * FROM Cities_Loc")
+        table = self.c.fetchall()
+        for items in table:
+            updated_table.append((items[0],items[1],items[2],items[3],"INSPECT", "DELETE"))
+        try:
+            self.citytable=CTkTable(master=self.cityscroll, width=200, height=10, values=updated_table, command=self.citytableclick)
+            self.citytable.pack()
+        except:
+            pass
+        pass
+
+    #------------- Animal ------------------
+
+    def showanimal(self):
+        self.unshowall()
+        self.animalframe.place(relx=0.6, rely=.5, anchor=tkinter.CENTER)
+        self.animal.configure(state='disabled', fg_color='#808080', text_color_disabled='#ffffff')
+        self.refreshanimal()
+        pass
+
+    def animaltableclick(self, args):
+        id = self.animaltable.get_row(row=args["row"])[0]
+        if args["value"] == "INSPECT":
+            xPos = self.animaltable.get_row(row=args["row"])[2]
+            yPos = self.animaltable.get_row(row=args["row"])[3]
+            point = ((xPos, yPos),)
+            InspectWindow = ColtInspect(point, id)
+            InspectWindow.after(100, InspectWindow.lift)
+            InspectWindow.wait_window()
+        elif args["column"] == 0:  # Checks if the column is equal to 0 meaning it's the PlantID
+            CTkMessagebox(title="Error", message="Altering ID is not allowed", icon="cancel")  # Alert User
+        elif args["value"] == "DELETE":
+            msg = CTkMessagebox(title="Delete?", message=f"Delete id: {id} ?", icon="question",
+                                option_1="No", option_3="Yes")  # Asks for confirmation
+            response = msg.get()  # Waits and grabs information
+            if response == "Yes":  # Self explanatory
+                xPos = self.animaltable.get_row(row=args["row"])[2]
+                yPos = self.animaltable.get_row(row=args["row"])[3]
+                self.c.execute("DELETE from Animals_Loc WHERE AnimalID = ? AND xPos = ? AND yPos = ?", (id,xPos,yPos))  # Delete query
+                self.con.commit()  # Commit and save changes
+                CTkMessagebox(title="DELETED!", message="Successfully Deleted")  # Alert User
+                self.animaltable.destroy()
+                self.refreshanimal()
+        else:
+            text = "Alter: "
+            title = "Change "
+            if args["column"] == 4:
+                text = "Alter: 1 = True, 0 = False"
+                title = "Disable?"
+            typ = None
+            tochange = args["value"]
+            dialog = ColtInputDialog(text=text, title=title, placeholder_text=tochange)  # Prompt user for change
+            option = {
+                1: "CityID",
+                2: "xPos",
+                3: "yPos",
+                4: "Disabled"
+            }
+            if not typ:
+                typ = option.get(args["column"])
+            output = dialog.get_input()
+            xPos = self.animaltable.get_row(row=args["row"])[2]
+            yPos = self.animaltable.get_row(row=args["row"])[3]
+            if output and output != tochange:
+                self.c.execute("UPDATE Animals_Loc Set {} = ? WHERE AnimalID = ? AND xPos = ? AND yPos = ?".format(typ), (output, id, xPos, yPos))
+                self.con.commit()
+                self.animaltable.destroy()
+                self.refreshanimal()
+        pass
+
+    def unshowanimal(self):
+        self.animaltable.destroy()
+        self.animalframe.place_forget()
+        self.animal.configure(state='normal', fg_color='transparent',)
+        pass
+
+    def refreshanimal(self):
+        updated_table = list()
+        self.c.execute("SELECT * FROM Animals_loc LIMIT 50")
+        table = self.c.fetchall()
+        for items in table:
+            updated_table.append((items[0],items[1],items[2],items[3],items[4],"INSPECT", "DELETE"))
+        try:
+            self.animaltable=CTkTable(master=self.animalscroll, width=200, height=10, values=updated_table, command=self.animaltableclick)
+            self.animaltable.pack()
+        except:
+            pass
+        pass
+    
+    #------------- Plant ------------------
+
+    def showplant(self):
+        self.unshowall()
+        self.plantframe.place(relx=0.6, rely=.5, anchor=tkinter.CENTER)
+        self.plant.configure(state='disabled', fg_color='#808080', text_color_disabled='#ffffff')
+        self.refreshplant()
+        pass
+
+    def planttableclick(self, args):
+        id = self.planttable.get_row(row=args["row"])[0]
+        if args["value"] == "INSPECT":
+            xPos = self.planttable.get_row(row=args["row"])[2]
+            yPos = self.planttable.get_row(row=args["row"])[3]
+            point = ((xPos, yPos),)
+            InspectWindow = ColtInspect(point, id)
+            InspectWindow.after(100, InspectWindow.lift)
+            InspectWindow.wait_window()
+        elif args["column"] == 0:  # Checks if the column is equal to 0 meaning it's the PlantID
+            CTkMessagebox(title="Error", message="Altering ID is not allowed", icon="cancel")  # Alert User
+        elif args["value"] == "DELETE":
+            msg = CTkMessagebox(title="Delete?", message=f"Delete id: {id} ?", icon="question",
+                                option_1="No", option_3="Yes")  # Asks for confirmation
+            response = msg.get()  # Waits and grabs information
+            if response == "Yes":  # Self explanatory
+                xPos = self.planttable.get_row(row=args["row"])[2]
+                yPos = self.planttable.get_row(row=args["row"])[3]
+                self.c.execute("DELETE from Plants_loc WHERE PlantID = ? AND xPos = ? AND yPos = ?", (id,))  # Delete query
+                self.con.commit()  # Commit and save changes
+                CTkMessagebox(title="DELETED!", message="Successfully Deleted")  # Alert User
+                self.planttable.destroy()
+                self.refreshplant()
+        else:
+            text = "Alter: "
+            title = "Change "
+            if args["column"] == 4:
+                text = "Alter: 1 = True, 0 = False"
+                title = "Disable?"
+            typ = None
+            tochange = args["value"]
+            dialog = ColtInputDialog(text=text, title=title, placeholder_text=tochange)  # Prompt user for change
+            option = {
+                1: "CityID",
+                2: "xPos",
+                3: "yPos",
+                4: "Disabled"
+            }
+            if not typ:
+                typ = option.get(args["column"])
+            output = dialog.get_input()
+            xPos = self.planttable.get_row(row=args["row"])[2]
+            yPos = self.planttable.get_row(row=args["row"])[3]
+            if output and output != tochange:
+                self.c.execute("UPDATE Plants_Loc Set {} = ? WHERE PlantID = ? AND xPos = ? AND yPos = ?".format(typ), (output, id, xPos, yPos))
+                self.con.commit()
+                self.planttable.destroy()
+                self.refreshplant()
+        pass
+
+    def unshowplant(self):
+        self.planttable.destroy()
+        self.plantframe.place_forget()
+        self.plant.configure(state='normal', fg_color='transparent',)
+        pass
+
+    def refreshplant(self):
+        updated_table = list()
+        self.c.execute("SELECT * FROM Plants_Loc LIMIT 50")
+        table = self.c.fetchall()
+        for items in table:
+            updated_table.append((items[0],items[1],items[2],items[3],items[4],"INSPECT", "DELETE"))
+        try:
+            self.planttable=CTkTable(master=self.plantscroll, width=200, height=10, values=updated_table, command=self.planttableclick)
+            self.planttable.pack()
+        except:
+            pass
+        pass
+
+    #------------- Tourist ------------------
+
+    def showtourist(self):
+        self.unshowall()
+        self.touristframe.place(relx=0.6, rely=.5, anchor=tkinter.CENTER)
+        self.tourist.configure(state='disabled', fg_color='#808080', text_color_disabled='#ffffff')
+        self.refreshtourist()
+        pass
+
+    def touristtableclick(self, args):
+        id = self.touristtable.get_row(row=args["row"])[0]
+        if args["value"] == "INSPECT":
+            xPos = self.touristtable.get_row(row=args["row"])[2]
+            yPos = self.touristtable.get_row(row=args["row"])[3]
+            point = ((xPos, yPos),)
+            InspectWindow = ColtInspect(point, id)
+            InspectWindow.after(100, InspectWindow.lift)
+            InspectWindow.wait_window()
+        elif args["column"] == 0:  # Checks if the column is equal to 0 meaning it's the PlantID
+            CTkMessagebox(title="Error", message="Altering ID is not allowed", icon="cancel")  # Alert User
+        elif args["value"] == "DELETE":
+            msg = CTkMessagebox(title="Delete?", message=f"Delete id: {id} ?", icon="question",
+                                option_1="No", option_3="Yes")  # Asks for confirmation
+            response = msg.get()  # Waits and grabs information
+            if response == "Yes":  # Self explanatory
+                xPos = self.touristtable.get_row(row=args["row"])[2]
+                yPos = self.touristtable.get_row(row=args["row"])[3]
+                self.c.execute("DELETE from Tourist_Loc WHERE TouristID = ? AND xPos = ? AND yPos = ?", (id,))  # Delete query
+                self.con.commit()  # Commit and save changes
+                CTkMessagebox(title="DELETED!", message="Successfully Deleted")  # Alert User
+                self.touristtable.destroy()
+                self.refreshtourist()
+        else:
+            text = "Alter: "
+            title = "Change "
+            if args["column"] == 4:
+                text = "Alter: 1 = True, 0 = False"
+                title = "Disable?"
+            typ = None
+            tochange = args["value"]
+            dialog = ColtInputDialog(text=text, title=title, placeholder_text=tochange)  # Prompt user for change
+            option = {
+                1: "CityID",
+                2: "xPos",
+                3: "yPos",
+                4: "Disabled"
+            }
+            if not typ:
+                typ = option.get(args["column"])
+            output = dialog.get_input()
+            xPos = self.touristtable.get_row(row=args["row"])[2]
+            yPos = self.touristtable.get_row(row=args["row"])[3]
+            if output and output != tochange:
+                self.c.execute("UPDATE Tourist_Loc Set {} = ? WHERE TouristID = ? AND xPos = ? AND yPos = ?".format(typ), (output, id, xPos, yPos))
+                self.con.commit()
+                self.touristtable.destroy()
+                self.refreshtourist()
+        pass
+
+    def unshowtourist(self):
+        self.touristtable.destroy()
+        self.touristframe.place_forget()
+        self.tourist.configure(state='normal', fg_color='transparent',)
+        pass
+
+    def refreshtourist(self):
+        updated_table = list()
+        self.c.execute("SELECT * FROM Tourist_Loc LIMIT 50")
+        table = self.c.fetchall()
+        for items in table:
+            updated_table.append((items[0],items[1],items[2],items[3],items[4],"INSPECT", "DELETE"))
+        try:
+            self.touristtable=CTkTable(master=self.touristscroll, width=200, height=10, values=updated_table, command=self.touristtableclick)
+            self.touristtable.pack()
+        except:
+            pass
+        pass
+    
+    
 
     #------------- Misc ------------------
 
@@ -542,6 +951,10 @@ class App(customtkinter.CTk):
         self.unshowroutes()
         self.unshowtodas()
         self.unshowbus()
+        self.unshowcity()
+        self.unshowanimal()
+        self.unshowplant()
+        self.unshowtourist()
         pass
 
 class ColtInspect(customtkinter.CTkToplevel):

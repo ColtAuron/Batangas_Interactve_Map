@@ -1609,9 +1609,8 @@ tourist_loc = [
 # c.execute("Select * From Animals_Loc, Animal WHERE Animals_Loc.AnimalID = Animal.AnimalID")
 # print(c.fetchall())
 
-c.execute("Select * From Tourist_Loc")
+c.execute("SELECT * FROM Animals_loc WHERE AnimalID = 'AN01'")
 print(c.fetchall())
-
 
 print('Command executed successfully!!!')
 
