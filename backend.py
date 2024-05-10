@@ -222,7 +222,7 @@ class App(customtkinter.CTk):
             for item in Animals.all:
                 self.animalMarkers.append(
                     self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.animal_active,
-                                               icon=self.animalimg, icon_anchor="s", text_color="#d1ae69"))
+                                               icon=self.animalimg, icon_anchor="s", text_color="#bc47e7"))
                 self.animalInfo.append([item.sciName, item.desc, item.img, item.city])
         else:
             for animal in self.animalMarkers:
@@ -242,7 +242,7 @@ class App(customtkinter.CTk):
             for item in Plants.all:
                 self.plantMarkers.append(
                     self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.plant_active,
-                                               icon_anchor="s", icon=self.plantimg, text_color="#7cd169"))
+                                               icon_anchor="s", icon=self.plantimg, text_color="#9fa26a"))
                 self.plantInfo.append([item.sciName, item.desc, item.img, item.city])
         else:
             for plant in self.plantMarkers:
