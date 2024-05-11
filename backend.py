@@ -416,9 +416,19 @@ class App(customtkinter.CTk):
         
         animal_window = customtkinter.CTkToplevel(self)
         animal_window.title("Animals")
-        animal_window.geometry("1000x200+0x0")
         animal_window.resizable(False, False)
         animal_window.attributes("-topmost", True)
+        
+        screen_width = animal_window.winfo_screenwidth()
+        screen_height = animal_window.winfo_screenheight()
+        x = (screen_width - 1200) / 2
+        y = (screen_height - 200) / 2
+        animal_window.geometry(f"1200x200+{int(x)}+{int(y)}")
+        
+        #img = Image.open(img)
+        #img_tk = ImageTk.PhotoImage(img)
+        #img_label = customtkinter.CTkLabel(animal_window, image=img_tk)
+        #img_label.grid(row=0, column=0, padx=10, pady=10)
         
         info_text = f"Scientific Name: {sciName}\n\nDescription: {desc}\n\nImage: {img}\n\nCity: {city}"
         label = customtkinter.CTkLabel(animal_window, text=info_text)
@@ -433,9 +443,19 @@ class App(customtkinter.CTk):
         
         plant_window = customtkinter.CTkToplevel(self)
         plant_window.title("Plants")
-        plant_window.geometry("1000x200+0x0")
         plant_window.resizable(False, False)
         plant_window.attributes("-topmost", True)
+        
+        screen_width = plant_window.winfo_screenwidth()
+        screen_height = plant_window.winfo_screenheight()
+        x = (screen_width - 1000) / 2
+        y = (screen_height - 200) / 2
+        plant_window.geometry(f"1000x200+{int(x)}+{int(y)}")
+        
+        #img = Image.open(img)
+        #img_tk = ImageTk.PhotoImage(img)
+        #img_label = customtkinter.CTkLabel(plant_window, image=img_tk)
+        #img_label.grid(row=0, column=0, padx=10, pady=10)
         
         info_text = f"Scientific Name: {sciName}\n\nDescription: {desc}\n\nImage: {img}\n\nCity: {city}"
         label = customtkinter.CTkLabel(plant_window, text=info_text)
@@ -450,9 +470,19 @@ class App(customtkinter.CTk):
         
         tourist_window = customtkinter.CTkToplevel(self)
         tourist_window.title("Tourist")
-        tourist_window.geometry("1500x200+0x0")
-        tourist_window.resizable(False, False)
+        tourist_window.resizable(True, False)
         tourist_window.attributes("-topmost", True)
+        
+        screen_width = tourist_window.winfo_screenwidth()
+        screen_height = tourist_window.winfo_screenheight()
+        x = (screen_width - 1500) / 2
+        y = (screen_height - 200) / 2
+        tourist_window.geometry(f"1500x200+{int(x)}+{int(y)}")
+        
+        #img = Image.open(img)
+        #img_tk = ImageTk.PhotoImage(img)
+        #img_label = customtkinter.CTkLabel(tourist_window, image=img_tk)
+        #img_label.grid(row=0, column=0, padx=10, pady=10)
         
         info_text = f"Link: {link}\n\nDescription: {desc}\n\nImage: {img}\n\nCity: {city}"
         label = customtkinter.CTkLabel(tourist_window, text=info_text)
@@ -469,9 +499,19 @@ class App(customtkinter.CTk):
         
         city_window = customtkinter.CTkToplevel(self)
         city_window.title("Cities")
-        city_window.geometry("1500x200+0x0")
         city_window.resizable(False, True)
         city_window.attributes("-topmost", True)
+        
+        screen_width = city_window.winfo_screenwidth()
+        screen_height = city_window.winfo_screenheight()
+        x = (screen_width - 1500) / 2
+        y = (screen_height - 200) / 2
+        city_window.geometry(f"1500x200+{int(x)}+{int(y)}")
+        
+        #img = Image.open(img)
+        #img_tk = ImageTk.PhotoImage(img)
+        #img_label = customtkinter.CTkLabel(city_window, image=img_tk)
+        #img_label.grid(row=0, column=0, padx=10, pady=10)
 
         info_text = f"District: {district}\n\nPopulation: {population}\n\nArea: {width}\n\nDescription: {description}\n\nImage: {image}\n\nLink: {link}"
         label = customtkinter.CTkLabel(city_window, text=info_text)
