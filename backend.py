@@ -235,15 +235,24 @@ class App(customtkinter.CTk):
     def load_plant_markers(self):
         if self.plantMarkers == []:
             self.c.execute(
-                "Select Plant.Name, sciName, Plant.Description, Plant.Image, City.Name, xPos, yPos, Disabled From Plants_Loc, Plant, City WHERE Plants_Loc.PlantID = Plant.PlantID AND Plants_Loc.CityID = City.CityID")
+                "SELECT Plant.Name, sciName, Plant.Description, Plant.Image, City.Name, xPos, yPos, Disabled FROM Plants_Loc, Plant, City WHERE Plants_Loc.PlantID = Plant.PlantID AND Plants_Loc.CityID = City.CityID"
+            )
             frSql = self.c.fetchall()
             for items in frSql:
-                if (items[7] == 0):
+                if items[7] == 0:
                     Plants(items[0], items[1], items[2], items[5], items[6], items[3], items[4])
             for item in Plants.all:
                 self.plantMarkers.append(
-                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.plant_active,
-                                               icon_anchor="s", icon=self.plantimg, text_color="#9fa26a"))
+                    self.map_widget.set_marker(
+                        item.xPos,
+                        item.yPos,
+                        item.Name,
+                        command=self.plant_active,
+                        icon_anchor="s",
+                        icon=self.plantimg,
+                        text_color="#9fa26a"
+                    )
+                )
                 self.plantInfo.append([item.sciName, item.desc, item.img, item.city])
         else:
             for plant in self.plantMarkers:
@@ -255,16 +264,29 @@ class App(customtkinter.CTk):
     def load_tourist_markers(self):
         if self.touristMarkers == []:
             self.c.execute(
-                "Select Tourist.Name, Tourist.Link, Tourist.Description, Tourist.Image, City.Name, xPos, yPos, Disabled From Tourist_Loc, Tourist, City WHERE Tourist_Loc.TouristID = Tourist.TouristID AND Tourist_Loc.CityID = City.CityID")
+                "SELECT Tourist.Name, Tourist.Link, Tourist.Description, Tourist.Image, City.Name, xPos, yPos, Disabled FROM Tourist_Loc, Tourist, City WHERE Tourist_Loc.TouristID = Tourist.TouristID AND Tourist_Loc.CityID = City.CityID"
+            )
             frSql = self.c.fetchall()
             for items in frSql:
-                if (items[7] == 0):
-                    TouristDes(items[0], items[1], items[2], items[5], items[6], items[3], items[4])
+                if items[7] == 0:
+                    TouristDes(
+                        items[0], items[1], items[2], items[5], items[6], items[3], items[4]
+                    )
             for item in TouristDes.all:
                 self.touristMarkers.append(
-                    self.map_widget.set_marker(item.xPos, item.yPos, item.Name, command=self.tourist_active,
-                                               icon_anchor="s", icon=self.T_img, text_color="#d16a6a"))
-                self.touristInfo.append([item.link, item.desc, item.img, item.city])
+                    self.map_widget.set_marker(
+                        item.xPos,
+                        item.yPos,
+                        item.Name,
+                        command=self.tourist_active,
+                        icon_anchor="s",
+                        icon=self.T_img,
+                        text_color="#d16a6a",
+                    )
+                )
+                self.touristInfo.append(
+                    [item.Name, item.link, item.desc, item.img, item.city]
+                )
         else:
             for tourist in self.touristMarkers:
                 self.map_widget.delete(tourist)
@@ -436,24 +458,24 @@ class App(customtkinter.CTk):
             imagedisplay = Image.open(default_img_path)
 
         img_tk = CTkImage(imagedisplay, size=(500, 400))
-        img_label = customtkinter.CTkLabel(animal_window, image=img_tk, width=1200, height=500, text="", bg_color='#828C51')
+        img_label = customtkinter.CTkLabel(animal_window, image=img_tk, text="", bg_color='#828C51')
         img_label.configure(justify=CENTER)
         img_label.pack()
 
-        info_text = f"Scientific Name: {sciName}\n\nDescription: {desc}\n\nCity: {city}"
+        info_text = f"\n{sciName}\nCity: {city}\n\nDescription: {desc}\n"
         label = customtkinter.CTkLabel(animal_window, text=info_text, wraplength=500)
         label.configure(justify=CENTER, padx=1, pady=1)
         label.pack()
-        
+
         window_logo_path = os.path.join(BASE_DIR, "icons", "window_logo.ico")
         animal_window.iconbitmap(window_logo_path)
 
-
     def plant_active(self, marker):
-        sciName = self.plantInfo[self.plantMarkers.index(marker)][0]
-        desc = self.plantInfo[self.plantMarkers.index(marker)][1]
-        imgdb = self.plantInfo[self.plantMarkers.index(marker)][2]
-        city = self.plantInfo[self.plantMarkers.index(marker)][3]
+        index = self.plantMarkers.index(marker)
+        sciName = self.plantInfo[index][0]
+        desc = self.plantInfo[index][1]
+        imgdb = self.plantInfo[index][2]
+        city = self.plantInfo[index][3]
 
         plant_window = customtkinter.CTkToplevel(self)
         plant_window.title("Plants")
@@ -477,11 +499,11 @@ class App(customtkinter.CTk):
             imagedisplay = Image.open(default_img_path)
 
         img_tk = CTkImage(imagedisplay, size=(500, 400))
-        img_label = customtkinter.CTkLabel(plant_window, image=img_tk, width=1200, height=500, text="", bg_color='#828C51')
+        img_label = customtkinter.CTkLabel(plant_window, image=img_tk, text="", bg_color='#828C51')
         img_label.configure(justify=CENTER)
         img_label.pack()
 
-        info_text = f"Scientific Name: {sciName}\n\nDescription: {desc}\n\nCity: {city}"
+        info_text = f"\n\n{sciName}\n\nCity: {city}\nDescription: {desc}\n"
         label = customtkinter.CTkLabel(plant_window, text=info_text, wraplength=470)
         label.configure(justify=CENTER, padx=1, pady=1)
         label.pack()
@@ -489,12 +511,13 @@ class App(customtkinter.CTk):
         window_logo_path = os.path.join(BASE_DIR, "icons", "window_logo.ico")
         plant_window.iconbitmap(window_logo_path)
 
-
     def tourist_active(self, marker):
-        link = self.touristInfo[self.touristMarkers.index(marker)][0]
-        desc = self.touristInfo[self.touristMarkers.index(marker)][1]
-        imgdb = self.touristInfo[self.touristMarkers.index(marker)][2]
-        city = self.touristInfo[self.touristMarkers.index(marker)][3]
+        index = self.touristMarkers.index(marker)
+        link = self.touristInfo[index][1]
+        desc = self.touristInfo[index][2]
+        imgdb = self.touristInfo[index][3]
+        city = self.touristInfo[index][4]
+        name = self.touristInfo[index][0]
 
         tourist_window = customtkinter.CTkToplevel(self)
         tourist_window.title("Tourist")
@@ -510,7 +533,7 @@ class App(customtkinter.CTk):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         img_path = os.path.join(BASE_DIR, "imagesdb", imgdb)
 
-            #check if image exist
+        # check if image exists
         try:
             imagedisplay = Image.open(img_path)
         except FileNotFoundError:
@@ -518,18 +541,19 @@ class App(customtkinter.CTk):
             imagedisplay = Image.open(default_img_path)
 
         img_tk = CTkImage(imagedisplay, size=(500, 400))
-        img_label = customtkinter.CTkLabel(tourist_window, image=img_tk, width=1200, height=500, text="", bg_color='#828C51')
+        img_label = customtkinter.CTkLabel(
+            tourist_window, image=img_tk, text="", bg_color="#828C51"
+        )
         img_label.configure(justify=CENTER)
         img_label.pack()
 
-        info_text = f"Link: {link}\n\nDescription: {desc}\n\nCity: {city}"
+        info_text = f"\n{name}\nCity: {city}\n\nDescription: {desc}\n\nLink: {link}"
         label = customtkinter.CTkLabel(tourist_window, text=info_text, wraplength=470)
         label.configure(justify=CENTER, padx=1, pady=1)
         label.pack()
-        
+
         window_logo_path = os.path.join(BASE_DIR, "icons", "window_logo.ico")
         tourist_window.iconbitmap(window_logo_path)
-
 
     def cities_active(self, marker):
         city_name = self.cityInfo[self.cityMarkers.index(marker)][0]
