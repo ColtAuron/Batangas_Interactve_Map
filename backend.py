@@ -422,18 +422,19 @@ class App(customtkinter.CTk):
         screen_width = animal_window.winfo_screenwidth()
         screen_height = animal_window.winfo_screenheight()
         x = (screen_width - 1200) / 2
-        y = (screen_height - 200) / 2
-        animal_window.geometry(f"1200x200+{int(x)}+{int(y)}")
+        y = (screen_height - 800) / 2
+        animal_window.geometry(f"1200x800+{int(x)}+{int(y)}")
         
         img = Image.open(img)
-        img_tk = ImageTk.PhotoImage(img)
-        img_label = customtkinter.CTkLabel(animal_window, image=img_tk)
-        img_label.grid(row=0, column=0, padx=10, pady=10)
+        img_tk = CTkImage(img, size=(700,500))
+        img_label = customtkinter.CTkLabel(animal_window, image=img_tk, width = 1200, height = 500, text="")
+        img_label.configure(justify=CENTER)
+        img_label.grid(row=0, column=0, padx=10, pady=10) 
         
         info_text = f"Scientific Name: {sciName}\n\nDescription: {desc}\n\nCity: {city}"
         label = customtkinter.CTkLabel(animal_window, text=info_text)
         label.configure(justify=CENTER, padx=1, pady=1)
-        label.pack()
+        label.grid(row=1, column=0, padx=10, pady=10)
 
     def plant_active(self, marker):
         sciName = self.plantInfo[self.plantMarkers.index(marker)][0]
@@ -448,19 +449,20 @@ class App(customtkinter.CTk):
         
         screen_width = plant_window.winfo_screenwidth()
         screen_height = plant_window.winfo_screenheight()
-        x = (screen_width - 1000) / 2
-        y = (screen_height - 200) / 2
-        plant_window.geometry(f"1000x200+{int(x)}+{int(y)}")
+        x = (screen_width - 1500) / 2
+        y = (screen_height - 1000) / 2
+        plant_window.geometry(f"1500x1000+{int(x)}+{int(y)}")
         
         img = Image.open(img)
-        img_tk = ImageTk.PhotoImage(img)
-        img_label = customtkinter.CTkLabel(plant_window, image=img_tk)
-        img_label.grid(row=0, column=0, padx=10, pady=10)
+        img_tk = CTkImage(img, size=(900,700))
+        img_label = customtkinter.CTkLabel(plant_window, image=img_tk, width = 1200, height = 500, text="")
+        img_label.configure(justify=CENTER)
+        img_label.grid(row=0, column=0, padx=10, pady=10) 
         
         info_text = f"Scientific Name: {sciName}\n\nDescription: {desc}\n\nImage: {img}\n\nCity: {city}"
         label = customtkinter.CTkLabel(plant_window, text=info_text)
         label.configure(justify=CENTER, padx=1, pady=1)
-        label.pack()
+        label.grid(row=1, column=0, padx=10, pady=10)
 
     def tourist_active(self, marker):
         link = self.touristInfo[self.touristMarkers.index(marker)][0]
@@ -476,18 +478,19 @@ class App(customtkinter.CTk):
         screen_width = tourist_window.winfo_screenwidth()
         screen_height = tourist_window.winfo_screenheight()
         x = (screen_width - 1500) / 2
-        y = (screen_height - 200) / 2
-        tourist_window.geometry(f"1500x200+{int(x)}+{int(y)}")
+        y = (screen_height - 850) / 2
+        tourist_window.geometry(f"1500x850+{int(x)}+{int(y)}")
         
         img = Image.open(img)
-        img_tk = ImageTk.PhotoImage(img)
-        img_label = customtkinter.CTkLabel(tourist_window, image=img_tk)
+        img_tk = CTkImage(img, size=(900,700))
+        img_label = customtkinter.CTkLabel(tourist_window, image=img_tk, width = 1200, height = 500, text="")
+        img_label.configure(justify=CENTER)
         img_label.grid(row=0, column=0, padx=10, pady=10)
         
         info_text = f"Link: {link}\n\nDescription: {desc}\n\nImage: {img}\n\nCity: {city}"
         label = customtkinter.CTkLabel(tourist_window, text=info_text)
         label.configure(justify=CENTER, padx=1, pady=1)
-        label.pack()
+        label.grid(row=1, column=0, padx=10, pady=10)
 
     def cities_active(self, marker):
         district = self.cityInfo[self.cityMarkers.index(marker)][0]
@@ -508,14 +511,11 @@ class App(customtkinter.CTk):
         y = (screen_height - 1000) / 2
         city_window.geometry(f"1500x1000+{int(x)}+{int(y)}")
         
-        
         img = Image.open(img)
-        img = img.resize((1000, 900))  # Adjust the size as needed
-        img_tk = CTkImage(img, size=(700,500))  # Convert the resized PIL Image directly to CTkImage
-        img_label = customtkinter.CTkLabel(city_window, image=img_tk, width = 1200, height = 500)
+        img_tk = CTkImage(img, size=(900,700))
+        img_label = customtkinter.CTkLabel(city_window, image=img_tk, width = 1200, height = 500, text="")
         img_label.configure(justify=CENTER)
         img_label.grid(row=0, column=0, padx=10, pady=10) 
-
 
         info_text = f"District: {district}\n\nPopulation: {population}\n\nArea: {width}\n\nDescription: {description}\n\nLink: {link}"
         label = customtkinter.CTkLabel(city_window, text=info_text)
