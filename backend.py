@@ -421,9 +421,9 @@ class App(customtkinter.CTk):
 
         screen_width = animal_window.winfo_screenwidth()
         screen_height = animal_window.winfo_screenheight()
-        x = (screen_width - 1200) / 2
-        y = (screen_height - 800) / 2
-        animal_window.geometry(f"1200x800+{int(x)}+{int(y)}")
+        x = (screen_width - 500) / 2
+        y = (screen_height - 650) / 2
+        animal_window.geometry(f"500x650+{int(x)}+{int(y)}")
 
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         img_path = os.path.join(BASE_DIR, "imagesdb", imgdb)
@@ -438,12 +438,16 @@ class App(customtkinter.CTk):
         img_tk = CTkImage(imagedisplay, size=(500, 400))
         img_label = customtkinter.CTkLabel(animal_window, image=img_tk, width=1200, height=500, text="", bg_color='#828C51')
         img_label.configure(justify=CENTER)
-        img_label.grid(row=0, column=0, padx=10, pady=10)
+        img_label.pack()
 
         info_text = f"Scientific Name: {sciName}\n\nDescription: {desc}\n\nCity: {city}"
-        label = customtkinter.CTkLabel(animal_window, text=info_text)
+        label = customtkinter.CTkLabel(animal_window, text=info_text, wraplength=500)
         label.configure(justify=CENTER, padx=1, pady=1)
-        label.grid(row=1, column=0, padx=10, pady=10)
+        label.pack()
+        
+        window_logo_path = os.path.join(BASE_DIR, "icons", "window_logo.ico")
+        animal_window.iconbitmap(window_logo_path)
+
 
     def plant_active(self, marker):
         sciName = self.plantInfo[self.plantMarkers.index(marker)][0]
@@ -458,9 +462,9 @@ class App(customtkinter.CTk):
 
         screen_width = plant_window.winfo_screenwidth()
         screen_height = plant_window.winfo_screenheight()
-        x = (screen_width - 1500) / 2
-        y = (screen_height - 1000) / 2
-        plant_window.geometry(f"1500x1000+{int(x)}+{int(y)}")
+        x = (screen_width - 500) / 2
+        y = (screen_height - 650) / 2
+        plant_window.geometry(f"500x650+{int(x)}+{int(y)}")
 
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         img_path = os.path.join(BASE_DIR, "imagesdb", imgdb)
@@ -475,12 +479,16 @@ class App(customtkinter.CTk):
         img_tk = CTkImage(imagedisplay, size=(500, 400))
         img_label = customtkinter.CTkLabel(plant_window, image=img_tk, width=1200, height=500, text="", bg_color='#828C51')
         img_label.configure(justify=CENTER)
-        img_label.grid(row=0, column=0, padx=10, pady=10)
+        img_label.pack()
 
         info_text = f"Scientific Name: {sciName}\n\nDescription: {desc}\n\nCity: {city}"
-        label = customtkinter.CTkLabel(plant_window, text=info_text)
+        label = customtkinter.CTkLabel(plant_window, text=info_text, wraplength=470)
         label.configure(justify=CENTER, padx=1, pady=1)
-        label.grid(row=1, column=0, padx=10, pady=10)
+        label.pack()
+        
+        window_logo_path = os.path.join(BASE_DIR, "icons", "window_logo.ico")
+        plant_window.iconbitmap(window_logo_path)
+
 
     def tourist_active(self, marker):
         link = self.touristInfo[self.touristMarkers.index(marker)][0]
@@ -495,9 +503,9 @@ class App(customtkinter.CTk):
 
         screen_width = tourist_window.winfo_screenwidth()
         screen_height = tourist_window.winfo_screenheight()
-        x = (screen_width - 1500) / 2
-        y = (screen_height - 850) / 2
-        tourist_window.geometry(f"1500x850+{int(x)}+{int(y)}")
+        x = (screen_width - 500) / 2
+        y = (screen_height - 650) / 2
+        tourist_window.geometry(f"500x650+{int(x)}+{int(y)}")
 
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         img_path = os.path.join(BASE_DIR, "imagesdb", imgdb)
@@ -512,12 +520,16 @@ class App(customtkinter.CTk):
         img_tk = CTkImage(imagedisplay, size=(500, 400))
         img_label = customtkinter.CTkLabel(tourist_window, image=img_tk, width=1200, height=500, text="", bg_color='#828C51')
         img_label.configure(justify=CENTER)
-        img_label.grid(row=0, column=0, padx=10, pady=10)
+        img_label.pack()
 
         info_text = f"Link: {link}\n\nDescription: {desc}\n\nCity: {city}"
-        label = customtkinter.CTkLabel(tourist_window, text=info_text)
+        label = customtkinter.CTkLabel(tourist_window, text=info_text, wraplength=470)
         label.configure(justify=CENTER, padx=1, pady=1)
-        label.grid(row=1, column=0, padx=10, pady=10)
+        label.pack()
+        
+        window_logo_path = os.path.join(BASE_DIR, "icons", "window_logo.ico")
+        tourist_window.iconbitmap(window_logo_path)
+
 
     def cities_active(self, marker):
         city_name = self.cityInfo[self.cityMarkers.index(marker)][0]
@@ -527,6 +539,7 @@ class App(customtkinter.CTk):
         description = self.cityInfo[self.cityMarkers.index(marker)][4]
         imgdb = self.cityInfo[self.cityMarkers.index(marker)][5]
         link = self.cityInfo[self.cityMarkers.index(marker)][6]
+        #print(imgdb)
 
         city_window = customtkinter.CTkToplevel(self)
         city_window.title("Cities")
@@ -560,7 +573,8 @@ class App(customtkinter.CTk):
         label.pack()
 
         window_logo_path = os.path.join(BASE_DIR, "icons", "window_logo.ico")
-        self.iconbitmap(window_logo_path)
+        city_window.iconbitmap(window_logo_path)
+        
 
     def start(self):
         self.mainloop()
