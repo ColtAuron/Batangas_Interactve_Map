@@ -280,7 +280,7 @@ class App(customtkinter.CTk):
             for items in frSql:
                 if(items[9] == 0):
                     self.cityMarkers.append(self.map_widget.set_marker(items[7],items[8],items[0], command = self.cities_active, icon_anchor = "s", icon = self.M_img, text_color = "#6987d1"))
-                    self.cityInfo.append([items[1],items[2],items[3],items[4],items[5],items[6]])
+                    self.cityInfo.append([items[0],items[1],items[2],items[3],items[4],items[5],items[6]])
         else:
             for item in self.cityMarkers:
                 self.map_widget.delete(item)
@@ -411,26 +411,35 @@ class App(customtkinter.CTk):
     def animal_active(self, marker):
         sciName = self.animalInfo[self.animalMarkers.index(marker)][0]
         desc = self.animalInfo[self.animalMarkers.index(marker)][1]
-        img = self.animalInfo[self.animalMarkers.index(marker)][2]
+        imgdb = self.animalInfo[self.animalMarkers.index(marker)][2]
         city = self.animalInfo[self.animalMarkers.index(marker)][3]
-        
+
         animal_window = customtkinter.CTkToplevel(self)
         animal_window.title("Animals")
         animal_window.resizable(False, False)
         animal_window.attributes("-topmost", True)
-        
+
         screen_width = animal_window.winfo_screenwidth()
         screen_height = animal_window.winfo_screenheight()
         x = (screen_width - 1200) / 2
         y = (screen_height - 800) / 2
         animal_window.geometry(f"1200x800+{int(x)}+{int(y)}")
-        
-        img = Image.open(img)
-        img_tk = CTkImage(img, size=(700,500))
-        img_label = customtkinter.CTkLabel(animal_window, image=img_tk, width = 1200, height = 500, text="")
+
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        img_path = os.path.join(BASE_DIR, "imagesdb", imgdb)
+
+        # check if image exist
+        try:
+            imagedisplay = Image.open(img_path)
+        except FileNotFoundError:
+            default_img_path = os.path.join(BASE_DIR, "icons", "animal.png")
+            imagedisplay = Image.open(default_img_path)
+
+        img_tk = CTkImage(imagedisplay, size=(500, 400))
+        img_label = customtkinter.CTkLabel(animal_window, image=img_tk, width=1200, height=500, text="", bg_color='#828C51')
         img_label.configure(justify=CENTER)
-        img_label.grid(row=0, column=0, padx=10, pady=10) 
-        
+        img_label.grid(row=0, column=0, padx=10, pady=10)
+
         info_text = f"Scientific Name: {sciName}\n\nDescription: {desc}\n\nCity: {city}"
         label = customtkinter.CTkLabel(animal_window, text=info_text)
         label.configure(justify=CENTER, padx=1, pady=1)
@@ -439,27 +448,36 @@ class App(customtkinter.CTk):
     def plant_active(self, marker):
         sciName = self.plantInfo[self.plantMarkers.index(marker)][0]
         desc = self.plantInfo[self.plantMarkers.index(marker)][1]
-        img = self.plantInfo[self.plantMarkers.index(marker)][2]
+        imgdb = self.plantInfo[self.plantMarkers.index(marker)][2]
         city = self.plantInfo[self.plantMarkers.index(marker)][3]
-        
+
         plant_window = customtkinter.CTkToplevel(self)
         plant_window.title("Plants")
         plant_window.resizable(False, False)
         plant_window.attributes("-topmost", True)
-        
+
         screen_width = plant_window.winfo_screenwidth()
         screen_height = plant_window.winfo_screenheight()
         x = (screen_width - 1500) / 2
         y = (screen_height - 1000) / 2
         plant_window.geometry(f"1500x1000+{int(x)}+{int(y)}")
-        
-        img = Image.open(img)
-        img_tk = CTkImage(img, size=(900,700))
-        img_label = customtkinter.CTkLabel(plant_window, image=img_tk, width = 1200, height = 500, text="")
+
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        img_path = os.path.join(BASE_DIR, "imagesdb", imgdb)
+
+        # check if image exist
+        try:
+            imagedisplay = Image.open(img_path)
+        except FileNotFoundError:
+            default_img_path = os.path.join(BASE_DIR, "icons", "plant.png")
+            imagedisplay = Image.open(default_img_path)
+
+        img_tk = CTkImage(imagedisplay, size=(500, 400))
+        img_label = customtkinter.CTkLabel(plant_window, image=img_tk, width=1200, height=500, text="", bg_color='#828C51')
         img_label.configure(justify=CENTER)
-        img_label.grid(row=0, column=0, padx=10, pady=10) 
-        
-        info_text = f"Scientific Name: {sciName}\n\nDescription: {desc}\n\nImage: {img}\n\nCity: {city}"
+        img_label.grid(row=0, column=0, padx=10, pady=10)
+
+        info_text = f"Scientific Name: {sciName}\n\nDescription: {desc}\n\nCity: {city}"
         label = customtkinter.CTkLabel(plant_window, text=info_text)
         label.configure(justify=CENTER, padx=1, pady=1)
         label.grid(row=1, column=0, padx=10, pady=10)
@@ -467,80 +485,87 @@ class App(customtkinter.CTk):
     def tourist_active(self, marker):
         link = self.touristInfo[self.touristMarkers.index(marker)][0]
         desc = self.touristInfo[self.touristMarkers.index(marker)][1]
-        img = self.touristInfo[self.touristMarkers.index(marker)][2]
+        imgdb = self.touristInfo[self.touristMarkers.index(marker)][2]
         city = self.touristInfo[self.touristMarkers.index(marker)][3]
-        
+
         tourist_window = customtkinter.CTkToplevel(self)
         tourist_window.title("Tourist")
         tourist_window.resizable(True, False)
         tourist_window.attributes("-topmost", True)
-        
+
         screen_width = tourist_window.winfo_screenwidth()
         screen_height = tourist_window.winfo_screenheight()
         x = (screen_width - 1500) / 2
         y = (screen_height - 850) / 2
         tourist_window.geometry(f"1500x850+{int(x)}+{int(y)}")
-        
-        img = Image.open(img)
-        img_tk = CTkImage(img, size=(900,700))
-        img_label = customtkinter.CTkLabel(tourist_window, image=img_tk, width = 1200, height = 500, text="")
+
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        img_path = os.path.join(BASE_DIR, "imagesdb", imgdb)
+
+            #check if image exist
+        try:
+            imagedisplay = Image.open(img_path)
+        except FileNotFoundError:
+            default_img_path = os.path.join(BASE_DIR, "icons", "tourist.png")
+            imagedisplay = Image.open(default_img_path)
+
+        img_tk = CTkImage(imagedisplay, size=(500, 400))
+        img_label = customtkinter.CTkLabel(tourist_window, image=img_tk, width=1200, height=500, text="", bg_color='#828C51')
         img_label.configure(justify=CENTER)
         img_label.grid(row=0, column=0, padx=10, pady=10)
-        
-        info_text = f"Link: {link}\n\nDescription: {desc}\n\nImage: {img}\n\nCity: {city}"
+
+        info_text = f"Link: {link}\n\nDescription: {desc}\n\nCity: {city}"
         label = customtkinter.CTkLabel(tourist_window, text=info_text)
         label.configure(justify=CENTER, padx=1, pady=1)
         label.grid(row=1, column=0, padx=10, pady=10)
 
     def cities_active(self, marker):
-        district = self.cityInfo[self.cityMarkers.index(marker)][0]
-        population = self.cityInfo[self.cityMarkers.index(marker)][1]
-        width = self.cityInfo[self.cityMarkers.index(marker)][2]
-        description = self.cityInfo[self.cityMarkers.index(marker)][3]
-        img = self.cityInfo[self.cityMarkers.index(marker)][4]
-        link = self.cityInfo[self.cityMarkers.index(marker)][5]
-        
+        city_name = self.cityInfo[self.cityMarkers.index(marker)][0]
+        district = self.cityInfo[self.cityMarkers.index(marker)][1]
+        population = self.cityInfo[self.cityMarkers.index(marker)][2]
+        width = self.cityInfo[self.cityMarkers.index(marker)][3]
+        description = self.cityInfo[self.cityMarkers.index(marker)][4]
+        imgdb = self.cityInfo[self.cityMarkers.index(marker)][5]
+        link = self.cityInfo[self.cityMarkers.index(marker)][6]
+
         city_window = customtkinter.CTkToplevel(self)
         city_window.title("Cities")
-        city_window.resizable(False, True)
+        city_window.resizable(False, False)
         city_window.attributes("-topmost", True)
-        
+
         screen_width = city_window.winfo_screenwidth()
         screen_height = city_window.winfo_screenheight()
-        x = (screen_width - 1500) / 2
-        y = (screen_height - 1000) / 2
-        city_window.geometry(f"1500x1000+{int(x)}+{int(y)}")
-        
-        img = Image.open(img)
-        img_tk = CTkImage(img, size=(900,700))
-        img_label = customtkinter.CTkLabel(city_window, image=img_tk, width = 1200, height = 500, text="")
+        x = (screen_width - 500) / 2
+        y = (screen_height - 650) / 2
+        city_window.geometry(f"500x650+{int(x)}+{int(y)}")
+
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        img_path = os.path.join(BASE_DIR, "imagesdb", imgdb)
+
+            #check if image exist
+        try:
+            imagedisplay = Image.open(img_path)
+        except FileNotFoundError:
+            default_img_path = os.path.join(BASE_DIR, "icons", "city.png")
+            imagedisplay = Image.open(default_img_path)
+
+        img_tk = CTkImage(imagedisplay, size=(500, 400))
+        img_label = customtkinter.CTkLabel(city_window, image=img_tk, text="", bg_color='#828C51')
         img_label.configure(justify=CENTER)
-        img_label.grid(row=0, column=0, padx=10, pady=10) 
+        img_label.pack()
 
-        info_text = f"District: {district}\n\nPopulation: {population}\n\nArea: {width}\n\nDescription: {description}\n\nLink: {link}"
-        label = customtkinter.CTkLabel(city_window, text=info_text)
+        info_text = f"\n{city_name}\n\nDescription:\n{description}\n\nDistrict: {district}\nPopulation: {population}\nArea: {width}\n\nLink: {link}"
+        label = customtkinter.CTkLabel(city_window, text=info_text, wraplength=500)
         label.configure(justify=CENTER, padx=1, pady=1)
-        label.grid(row=1, column=0, padx=10, pady=10)
-        
+        label.pack()
 
-        #img = Image.open(img)
-        #img = img.resize((600, 450))
-        #img_tk = ImageTk.PhotoImage(img)
-        #canvas = CTkCanvas(city_window, width=800, height=700)
-        #canvas.grid(row=0, column=0, padx=10, pady=10)
-        #canvas.create_image(0, 0, anchor="nw", image=img_tk)
-
-        #info_text = f"District: {district}\n\nPopulation: {population}\n\nArea: {width}\n\nDescription: {description}\n\nLink: {link}"
-        #label = customtkinter.CTkLabel(city_window, text=info_text)
-        #label.configure(justify=CENTER, padx=1, pady=1)
-        #label.grid(row=1, column=0, padx=10, pady=10)
-
+        window_logo_path = os.path.join(BASE_DIR, "icons", "window_logo.ico")
+        self.iconbitmap(window_logo_path)
 
     def start(self):
         self.mainloop()
 
 
-# Remove this if Implement to Front
 if __name__ == "__main__":
     app = App()
     app.resizable(False, False)
